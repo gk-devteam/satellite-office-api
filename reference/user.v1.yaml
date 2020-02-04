@@ -896,8 +896,10 @@ paths:
                           parking: '駐車場有り　1,500円（税込み）　先着順'
                           url: 'https://sample.com'
                           google_map_url: 'https://www.google.co.jp/maps/'
-                        name: 会議室A
-                        price: 200
+                        facility:
+                          id: 11
+                          name: '会議室A'
+                          price: 300
                         start_time: '10:00'
                         end_time: '13:00'
                         is_extend: true
