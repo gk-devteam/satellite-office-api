@@ -2,7 +2,7 @@
   "name": "satellite-api",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/fw-mizuno/satellite-office-user-api.git",
+  "repository": "https://github.com/gk-devteam/satellite-office-api.git",
   "author": "MasashiMizuno <masajene8@gmail.com>",
   "license": "MIT",
   "private": true,
