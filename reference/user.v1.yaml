@@ -149,8 +149,6 @@ paths:
                 $ref: ../models/error.v1.yaml
       operationId: post-reset_password
       description: パスワードリセットを行う
-      produces:
-        - application/json; charset=utf-8
       requestBody:
         content:
           application/json:
