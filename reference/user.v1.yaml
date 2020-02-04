@@ -316,7 +316,7 @@ paths:
                         tel: 03-0000-1111
                         access: ＪＲ線品川駅（高輪口）より徒歩２分
                         parking: '駐車場有り　1,500円（税込み）　先着順'
-                        business_hour: 10:00~22:00
+                        business_hour: '10:00~22:00'
                         url: 'https://sample.com'
                         google_map_url: 'https://www.google.co.jp/maps/'
                         facilities:
@@ -1179,6 +1179,44 @@ paths:
         in: path
         required: true
         description: ホテルID
+  /users/confirm:
+    post:
+      summary: ユーザー認証
+      operationId: post-users-confirm
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      description: |-
+        ユーザー認証API
+        （/users/registerで送信されるメールの記載される認証コードとメールアドレスをPOSTする）
+      tags:
+        - ユーザー認証
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                verify_code:
+                  type: string
+              required:
+                - email
+                - verify_code
+        description: ''
 components:
   schemas: {}
   securitySchemes:
