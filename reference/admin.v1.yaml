@@ -215,6 +215,13 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
       operationId: get-manage-hotels-edit
       description: |-
         ホテル情報編集API
@@ -364,6 +371,13 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
       operationId: get-hotel-edit
       description: |-
         ホテル情報編集API
@@ -670,6 +684,13 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
       operationId: post-hotel-facilities-add
       requestBody:
         content:
@@ -839,6 +860,13 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
       operationId: post-hotel-facilities-id-open_days
       security:
         - bearerAuth: []
@@ -1092,6 +1120,13 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
       operationId: post-reservations-check_out
       requestBody:
         content:
@@ -1121,6 +1156,13 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
       operationId: post-reservations-cancel
       security:
         - bearerAuth: []
@@ -1233,6 +1275,13 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
         '400':
           description: Bad Request
           content:
@@ -1348,6 +1397,13 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
       operationId: get-company-edit
       description: |-
         企業情報編集API
@@ -1517,6 +1573,13 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
       tags:
         - ユーザー
       security:
@@ -1537,6 +1600,13 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
       operationId: post-users-status
       description: |-
         ユーザーステータス編集API
@@ -1563,6 +1633,13 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
       operationId: post-users
       description: ユーザー登録API
       security:
@@ -1656,6 +1733,13 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
       operationId: get-manage-companies-edit
       description: |-
         企業情報編集API
