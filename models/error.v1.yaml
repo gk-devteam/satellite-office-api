@@ -1,0 +1,12 @@
+title: Error
+type: object
+properties:
+  error:
+    type: string
+    description: エラーコード
+  error_description:
+    type: string
+    description: エラーメッセージ
+required:
+  - error
+description: error response

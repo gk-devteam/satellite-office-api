@@ -1,0 +1,27 @@
+title: FacilityModel
+type: object
+properties:
+  id:
+    type: string
+    description: ホテルID
+  name:
+    type: string
+    description: ホテル名
+  address:
+    type: string
+    description: 住所
+  tel:
+    type: string
+    description: 電話番号
+  access:
+    type: string
+    description: 交通アクセス
+  parking:
+    type: string
+    description: 駐車場情報
+  url:
+    type: string
+    description: ホテルURL
+  google_map_url:
+    type: string
+    description: GoogleマップURL
