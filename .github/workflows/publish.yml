@@ -23,6 +23,8 @@ jobs:
     - name: publish
       run: |
         yarn
-        stoplight publish --token QmfWOUgwjdlKLlqTqw --url https://stoplight.io/api
+        pwd
+        ls -la
+#        stoplight publish --token QmfWOUgwjdlKLlqTqw --url https://stoplight.io/api
       env:
         CI: true
