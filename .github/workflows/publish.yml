@@ -20,9 +20,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install, publish
+    - name: publish
       run: |
-        npm install
-#        stoplight publish --token 2XyfAMrDJHEknBn898 --url https://stoplight.io/api
+        yarn
+#         stoplight publish --token QmfWOUgwjdlKLlqTqw --url https://stoplight.io/api
       env:
         CI: true

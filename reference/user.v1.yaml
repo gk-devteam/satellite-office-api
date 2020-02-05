@@ -809,7 +809,7 @@ paths:
     parameters: []
   /reservations:
     get:
-      summary: 予約一覧
+      summary: 予約一覧_
       tags:
         - 予約
       responses:
@@ -898,7 +898,7 @@ paths:
                           google_map_url: 'https://www.google.co.jp/maps/'
                         facility:
                           id: 11
-                          name: '会議室A'
+                          name: 会議室A
                           price: 300
                         start_time: '10:00'
                         end_time: '13:00'
