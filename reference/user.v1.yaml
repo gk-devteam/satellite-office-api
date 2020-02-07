@@ -1271,6 +1271,48 @@ paths:
                 - email
                 - verify_code
         description: ''
+  /users/resend_confirm_code:
+    post:
+      summary: ユーザー認証コードを再発行する
+      operationId: post-users-resend-confirm-code
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      description: |-
+        ユーザー認証コードを再発行するAPI
+        （/users/registerで登録したメールアドレスをPOSTする）
+      tags:
+        - ユーザー認証
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
+        description: ''
 components:
   schemas: {}
   securitySchemes:
