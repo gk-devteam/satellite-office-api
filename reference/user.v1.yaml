@@ -132,7 +132,6 @@ paths:
                   type: string
                   description: 新パスワード
               required:
-                - old_password
                 - new_password
         description: ''
       tags:
