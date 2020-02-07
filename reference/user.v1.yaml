@@ -1237,9 +1237,13 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - success
                 properties:
                   success:
                     type: boolean
+                  tmp_token:
+                    type: string
         '400':
           description: Bad Request
           content:
