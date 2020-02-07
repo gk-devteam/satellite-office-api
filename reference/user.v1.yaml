@@ -106,6 +106,12 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
         '500':
           description: Internal Server Error
           content:
@@ -122,9 +128,6 @@ paths:
             schema:
               type: object
               properties:
-                old_password:
-                  type: string
-                  description: 旧パスワード
                 new_password:
                   type: string
                   description: 新パスワード
