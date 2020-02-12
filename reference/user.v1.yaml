@@ -1158,9 +1158,6 @@ paths:
                         end_time:
                           type: string
                           description: 予約終了時間
-                        is_extend:
-                          type: boolean
-                          description: 延長可能かどうか
                         is_cancel:
                           type: boolean
                           description: キャンセル可能かどうか
@@ -1174,15 +1171,12 @@ paths:
                       required:
                         - id
                         - date
+                        - create_date
                         - hotel
-                        - name
-                        - price
                         - start_time
-                        - is_extend
+                        - end_time
                         - is_cancel
                         - check_status
-                        - end_time
-                        - create_date
                 required:
                   - reservations
               examples:
@@ -1206,7 +1200,6 @@ paths:
                           price: 300
                         start_time: '10:00'
                         end_time: '13:00'
-                        is_extend: true
                         is_cancel: false
                         is_check_in: true
                         check_status: 1
