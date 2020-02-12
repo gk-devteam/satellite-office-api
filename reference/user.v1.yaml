@@ -110,7 +110,7 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-      operationId: post-users-register
+      operationId: post-users-update
       description: ユーザー登録API
       requestBody:
         content:
@@ -1379,7 +1379,7 @@ paths:
           name: range
       description: 実績一覧API
   
-  components:
+components:
   schemas: {}
   securitySchemes:
     bearerAuth:
