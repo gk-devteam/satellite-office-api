@@ -13,6 +13,168 @@ servers:
   - url: 'https://{本番ドメイン}/api/v1/user'
     description: Production
 paths:
+  /users/register:
+    post:
+      summary: ユーザー登録
+      tags:
+        - ユーザー認証
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: post-users-register
+      description: ユーザー登録API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company_id:
+                  type: number
+                  description: 企業ID
+                first_name:
+                  type: string
+                  description: 名
+                last_name:
+                  type: string
+                  description: 姓
+                first_name_kana:
+                  type: string
+                  description: 名　カナ
+                last_name_kana:
+                  type: string
+                  description: 姓　カナ
+                email:
+                  type: string
+                  description: メールアドレス
+                password:
+                  type: string
+                  description: パスワード
+                group_name:
+                  type: string
+                  description: グループ名
+                employee_id:
+                  type: string
+                  description: 社員ID
+              required:
+                - company_id
+                - first_name
+                - last_name
+                - first_name_kana
+                - last_name_kana
+                - email
+                - password
+  /users/confirm:
+    post:
+      summary: ユーザー認証
+      operationId: post-users-confirm
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                properties:
+                  success:
+                    type: boolean
+                  tmp_token:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      description: |-
+        ユーザー認証API
+        （/users/registerで送信されるメールの記載される認証コードとメールアドレスをPOSTする）
+      tags:
+        - ユーザー認証
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                verify_code:
+                  type: string
+              required:
+                - email
+                - verify_code
+        description: ''
+  /users/resend_confirm_code:
+    post:
+      summary: ユーザー認証コードを再発行する
+      operationId: post-users-resend-confirm-code
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      description: |-
+        ユーザー認証コードを再発行するAPI
+        （/users/registerで登録したメールアドレスをPOSTする）
+      tags:
+        - ユーザー認証
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
+        description: ''
+
   /login:
     post:
       summary: ログイン
@@ -87,6 +249,45 @@ paths:
         description: ''
       tags:
         - ユーザー認証
+  /reset_password:
+    post:
+      summary: パスワードリセット
+      tags:
+        - ユーザー認証
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: post-reset_password
+      description: パスワードリセットを行う
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
   /change_password:
     post:
       summary: パスワード変更
@@ -132,50 +333,11 @@ paths:
                   type: string
                   description: 新パスワード
               required:
-                - old_password
                 - new_password
         description: ''
       tags:
         - ユーザー認証
-  /reset_password:
-    post:
-      summary: パスワードリセット
-      tags:
-        - ユーザー認証
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      operationId: post-reset_password
-      description: パスワードリセットを行う
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-              required:
-                - email
+  
   /areas:
     get:
       summary: エリア一覧取得
@@ -226,6 +388,7 @@ paths:
         - ホテル関連
       security:
         - bearerAuth: []
+  
   /hotels:
     get:
       summary: ホテル一覧
@@ -461,6 +624,90 @@ paths:
           description: ホテルハッシュ値
           required: true
       description: QRコードからホテル情報取得API
+  '/hotels/{id}/facilities':
+    get:
+      summary: 施設一覧
+      tags:
+        - ホテル関連
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  facilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          description: 施設ID
+                        name:
+                          type: string
+                          description: 施設名
+                        price:
+                          type: string
+                          description: 利用単価
+                        capacity:
+                          type: number
+                          description: 座席数
+                        availability_count:
+                          type: number
+                          description: 残席数
+                        sold_out:
+                          type: boolean
+                          description: 満席かどうか
+                        image_url:
+                          type: string
+                          description: 画像URL
+                      required:
+                        - id
+                        - name
+                        - price
+                        - capacity
+                        - availability_count
+                        - sold_out
+                required:
+                  - facilities
+              examples:
+                example:
+                  value:
+                    facilities:
+                      - id: 1
+                        name: 会議室A
+                        price: 200
+                        capacity: 20
+                        availability_count: 10
+                        sold_out: false
+                        image_url: 'http://placehold.it/300x300'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: get-hotel-facilities
+      security:
+        - bearerAuth: []
+      parameters: []
+      description: 施設一覧API
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ホテルID
+  
   '/facility/availabilities/{id}':
     parameters:
       - schema:
@@ -587,6 +834,7 @@ paths:
           name: date
           required: true
           description: 日付
+  
   /reservations/register:
     post:
       summary: 予約登録
@@ -1030,252 +1278,8 @@ paths:
             3: １年
           name: range
       description: 実績一覧API
-  /users/register:
-    post:
-      summary: ユーザー登録
-      tags:
-        - ユーザー認証
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      operationId: post-users-register
-      description: ユーザー登録API
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                company_id:
-                  type: number
-                  description: 企業ID
-                first_name:
-                  type: string
-                  description: 名
-                last_name:
-                  type: string
-                  description: 姓
-                first_name_kana:
-                  type: string
-                  description: 名　カナ
-                last_name_kana:
-                  type: string
-                  description: 姓　カナ
-                email:
-                  type: string
-                  description: メールアドレス
-                password:
-                  type: string
-                  description: パスワード
-                group_name:
-                  type: string
-                  description: グループ名
-                employee_id:
-                  type: string
-                  description: 社員ID
-              required:
-                - company_id
-                - first_name
-                - last_name
-                - first_name_kana
-                - last_name_kana
-                - email
-                - password
-  /reservations/extend_check: {}
-  '/hotels/{id}/facilities':
-    get:
-      summary: 施設一覧
-      tags:
-        - ホテル関連
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  facilities:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: number
-                          description: 施設ID
-                        name:
-                          type: string
-                          description: 施設名
-                        price:
-                          type: string
-                          description: 利用単価
-                        capacity:
-                          type: number
-                          description: 座席数
-                        availability_count:
-                          type: number
-                          description: 残席数
-                        sold_out:
-                          type: boolean
-                          description: 満席かどうか
-                        image_url:
-                          type: string
-                          description: 画像URL
-                      required:
-                        - id
-                        - name
-                        - price
-                        - capacity
-                        - availability_count
-                        - sold_out
-                required:
-                  - facilities
-              examples:
-                example:
-                  value:
-                    facilities:
-                      - id: 1
-                        name: 会議室A
-                        price: 200
-                        capacity: 20
-                        availability_count: 10
-                        sold_out: false
-                        image_url: 'http://placehold.it/300x300'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      operationId: get-hotel-facilities
-      security:
-        - bearerAuth: []
-      parameters: []
-      description: 施設一覧API
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ホテルID
-  /users/confirm:
-    post:
-      summary: ユーザー認証
-      operationId: post-users-confirm
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - success
-                properties:
-                  success:
-                    type: boolean
-                  tmp_token:
-                    type: string
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      description: |-
-        ユーザー認証API
-        （/users/registerで送信されるメールの記載される認証コードとメールアドレスをPOSTする）
-      tags:
-        - ユーザー認証
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                verify_code:
-                  type: string
-              required:
-                - email
-                - verify_code
-        description: ''
-  /users/resend_confirm_code:
-    post:
-      summary: ユーザー認証コードを再発行する
-      operationId: post-users-resend-confirm-code
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      description: |-
-        ユーザー認証コードを再発行するAPI
-        （/users/registerで登録したメールアドレスをPOSTする）
-      tags:
-        - ユーザー認証
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-              required:
-                - email
-        description: ''
-components:
+  
+  components:
   schemas: {}
   securitySchemes:
     bearerAuth:
