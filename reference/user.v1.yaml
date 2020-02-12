@@ -7,12 +7,15 @@ info:
   description: |-
     User向けAPI
     認証はCognitoが発行したJWT Tokenを利用する
+servers:
+  - url: 'https://satellite-office-app.herokuapp.com'
+    description: Mock
+  - url: 'https://{本番ドメイン}/user/api/v1'
+    description: Production
 paths:
-  /histories:
+  /areas:
     get:
-      summary: 実績一覧
-      tags:
-        - 実績
+      summary: エリア一覧取得
       responses:
         '200':
           description: OK
@@ -20,113 +23,28 @@ paths:
             application/json:
               schema:
                 type: object
+                description: エリア一覧
                 properties:
-                  histories:
+                  areas:
                     type: array
-                    description: 実績一覧
+                    description: エリアリスト
                     items:
                       type: object
                       properties:
                         id:
-                          type: number
-                          description: 予約ID
-                        date:
                           type: string
-                          description: 利用日
-                        create_date:
-                          type: string
-                          description: 予約日
-                        hotel:
-                          $ref: ../models/hotelmodel.v1.yaml
+                          description: エリアID
                         name:
                           type: string
-                          description: 施設名
-                        price:
-                          type: string
-                          description: 単価
-                        start_time:
-                          type: string
-                          description: 予約開始時間
-                        end_time:
-                          type: string
-                          description: 予約終了時間
-                        check_out_time:
-                          type: string
-                          description: チェックアウト時間
-                        check_in_time:
-                          type: string
-                          description: チェックイン時間
-                      required:
-                        - id
-                        - date
-                        - hotel
-                        - name
-                        - price
-                        - start_time
-                        - end_time
-                        - is_extend
-                        - is_cancel
-                        - check_status
-                        - create_date
-                required:
-                  - histories
+                          description: エリア名
               examples:
                 example:
                   value:
-                    histories:
+                    areas:
                       - id: 1
-                        date: 2019/12/12
-                        create_date: 2019/12/10
-                        hotel:
-                          id: 1
-                          name: ホテルA
-                          address: 東京都品川区xxxx
-                          tel: 03-0000-1111
-                          access: ＪＲ線品川駅（高輪口）より徒歩２分
-                          parking: '駐車場有り　1,500円（税込み）　先着順'
-                          url: 'https://sample.com'
-                          google_map_url: 'https://www.google.co.jp/maps/'
-                        name: 会議室A
-                        price: 200
-                        start_time: '10:00'
-                        end_time: '13:00'
-                        check_in_time: '10:00'
-                        check_out_time: '13:00'
-      operationId: get-histories
-      security:
-        - bearerAuth: []
-      parameters:
-        - schema:
-            type: number
-          in: query
-          description: |-
-            範囲
-            0: 1か月
-            1: 3か月
-            2: ６か月
-            3: １年
-          name: range
-      description: 実績一覧API
-  /reservations/extend_check:
-    post:
-      summary: 延長可能かどうか
-      tags:
-        - 予約
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  can_extend:
-                    type: boolean
-                    description: 延長可能かどうか
-              examples:
-                example:
-                  value:
-                    can_extend: true
+                        name: 品川
+                      - id: 2
+                        name: 渋谷
         '400':
           description: Bad Request
           content:
@@ -139,141 +57,18 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-      operationId: post-reservations-extend-check
-      description: 延長可否確認API
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                reserve_id:
-                  type: number
-                end_time:
-                  type: string
-  /reservations:
-    get:
-      summary: 予約一覧_
+      operationId: get-areas
+      description: エリア一覧を取得する
       tags:
-        - 予約
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  reservations:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          description: 予約ID
-                          type: number
-                        date:
-                          type: string
-                          description: 利用予定日
-                        create_date:
-                          type: string
-                          description: 予約日
-                        hotel:
-                          $ref: ../models/hotelmodel.v1.yaml
-                        facility:
-                          type: object
-                          properties:
-                            id:
-                              type: number
-                              description: 施設ID
-                            name:
-                              type: string
-                              description: 施設名
-                            price:
-                              type: string
-                              description: 単価
-                        start_time:
-                          type: string
-                          description: 予約開始時間
-                        end_time:
-                          type: string
-                          description: 予約終了時間
-                        is_extend:
-                          type: boolean
-                          description: 延長可能かどうか
-                        is_cancel:
-                          type: boolean
-                          description: キャンセル可能かどうか
-                        check_status:
-                          type: number
-                          description: |-
-                            チェックインアウト状態
-                            0: 未チェックイン
-                            1: チェックイン済み
-                            2: チェックアウト済み
-                      required:
-                        - id
-                        - date
-                        - hotel
-                        - name
-                        - price
-                        - start_time
-                        - is_extend
-                        - is_cancel
-                        - check_status
-                        - end_time
-                        - create_date
-                required:
-                  - reservations
-              examples:
-                example:
-                  value:
-                    reservations:
-                      - id: 1
-                        date: 2019/12/12
-                        hotel:
-                          id: 1
-                          name: ホテルA
-                          address: 東京都品川区xxxx
-                          tel: 03-0000-1111
-                          access: ＪＲ線品川駅（高輪口）より徒歩２分
-                          parking: '駐車場有り　1,500円（税込み）　先着順'
-                          url: 'https://sample.com'
-                          google_map_url: 'https://www.google.co.jp/maps/'
-                        facility:
-                          id: 11
-                          name: 会議室A
-                          price: 300
-                        start_time: '10:00'
-                        end_time: '13:00'
-                        is_extend: true
-                        is_cancel: false
-                        is_check_in: true
-                        check_status: 1
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      operationId: get-reservations
-      description: 予約一覧API
+        - ホテル関連
       security:
         - bearerAuth: []
-      parameters: []
-  /reservations/check_out:
+
+  /users/register:
     post:
-      summary: チェックアウト
+      summary: ユーザー登録
       tags:
-        - 予約
+        - ユーザー認証
       responses:
         '200':
           description: OK
@@ -296,31 +91,54 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-      operationId: post-reservations-check_out
-      description: チェックアウトAPI
-      security:
-        - bearerAuth: []
+      operationId: post-users-register
+      description: ユーザー登録API
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                reserve_id:
+                company_id:
+                  type: number
+                  description: 企業ID
+                first_name:
                   type: string
-                  description: 予約ID
-                date:
+                  description: 名
+                last_name:
                   type: string
-                  description: 'チェックアウト日時 YYYY/MM/DD HH:mm'
+                  description: 姓
+                first_name_kana:
+                  type: string
+                  description: 名　カナ
+                last_name_kana:
+                  type: string
+                  description: 姓　カナ
+                email:
+                  type: string
+                  description: メールアドレス
+                password:
+                  type: string
+                  description: パスワード
+                group_name:
+                  type: string
+                  description: グループ名
+                employee_id:
+                  type: string
+                  description: 社員ID
               required:
-                - reserve_id
-                - date
-    parameters: []
-  /reservations/check_in:
+                - company_id
+                - first_name
+                - last_name
+                - first_name_kana
+                - last_name_kana
+                - email
+                - password
+  /users/update:
     post:
-      summary: チェックイン
+      summary: ユーザー情報変更
       tags:
-        - 予約
+        - ユーザー認証
       responses:
         '200':
           description: OK
@@ -343,39 +161,104 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-      operationId: post-reservations-check_in
-      description: チェックインAPI
-      security:
-        - bearerAuth: []
+      operationId: post-users-update
+      description: ユーザー情報変更API
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                reserve_id:
+                user_id:
+                  type: number
+                  description: ユーザーID
+                first_name:
                   type: string
-                  description: 予約ID
-                date:
+                  description: 名
+                last_name:
                   type: string
-                  description: 'チェックイン日時 YYYY/MM/DD HH:mm'
+                  description: 姓
+                first_name_kana:
+                  type: string
+                  description: 名　カナ
+                last_name_kana:
+                  type: string
+                  description: 姓　カナ
+                login_id:
+                  type: string
+                  description: ログイン用ののメールアドレス（Cognitoのメールアドレス）
+                email:
+                  type: string
+                  description: 連絡用のメールアドレス
+                group_name:
+                  type: string
+                  description: グループ名
+                employee_id:
+                  type: string
+                  description: 社員ID
               required:
-                - reserve_id
-                - date
-    parameters: []
-  '/reservations/cancel/{id}':
-    parameters:
-      - schema:
-          type: number
-        name: id
-        in: path
-        required: true
-        description: 予約ID
-    delete:
-      summary: 予約取り消し
+                - user_id
+                - first_name
+                - last_name
+                - first_name_kana
+                - last_name_kana
+                - login_id
+                - email
+                - group_name
+                - employee_id
+  /users/confirm:
+    post:
+      summary: ユーザー認証
+      operationId: post-users-confirm
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                properties:
+                  success:
+                    type: boolean
+                  tmp_token:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      description: |-
+        ユーザー認証API
+        （/users/registerで送信されるメールの記載される認証コードとメールアドレスをPOSTする）
       tags:
-        - 予約
-      operationId: delete-reservations-cancel-id
+        - ユーザー認証
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                verify_code:
+                  type: string
+              required:
+                - email
+                - verify_code
+        description: ''
+  /users/resend_confirm_code:
+    post:
+      summary: ユーザー認証コードを再発行する
+      operationId: post-users-resend-confirm-code
       responses:
         '200':
           description: OK
@@ -398,14 +281,26 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-      description: 予約取り消しAPI
-      security:
-        - bearerAuth: []
-  /reservations/extend:
-    post:
-      summary: 延長登録
+      description: |-
+        ユーザー認証コードを再発行するAPI
+        （/users/registerで登録したメールアドレスをPOSTする）
       tags:
-        - 予約
+        - ユーザー認証
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
+        description: ''
+
+  /login:
+    post:
+      summary: ログイン
       responses:
         '200':
           description: OK
@@ -414,12 +309,37 @@ paths:
               schema:
                 type: object
                 properties:
-                  reserve_id:
+                  user_id:
                     type: number
+                    description: ログインしたユーザーのID
+                    example: 100
+                  user_name:
+                    type: string
+                    description: ユーザー名
+                    example: 鈴木太郎
+                  token:
+                    type: string
+                    description: アクセストークン
+                    format: string
+                    example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Aij4w
+                  is_unauth_user:
+                    type: boolean
+                    description: |-
+                      初回ログインユーザーかどうか
+                      初回だった場合はパスワード変更させる
+                    example: true
+                required:
+                  - user_id
+                  - user_name
+                  - token
+                  - is_unauth_user
               examples:
-                example:
+                Example:
                   value:
-                    reserve_id: 1
+                    user_id: 1
+                    user_name: 太郎
+                    token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Ai
+                    is_unauth_user: true
         '400':
           description: Bad Request
           content:
@@ -432,8 +352,98 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-      operationId: post-reservations-extend
-      description: 予約延長API
+      operationId: post-login
+      description: Cognitoを利用した認証を行う
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 登録メールアドレス
+                password:
+                  type: string
+                  description: ログインパスワード
+              required:
+                - email
+                - password
+        description: ''
+      tags:
+        - ユーザー認証
+  /reset_password:
+    post:
+      summary: パスワードリセット
+      tags:
+        - ユーザー認証
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: post-reset_password
+      description: パスワードリセットを行う
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+                - email
+  /change_password:
+    post:
+      summary: パスワード変更
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: post-change_password
+      description: パスワード変更を行う。初回パスワード設定も
       security:
         - bearerAuth: []
       requestBody:
@@ -442,322 +452,15 @@ paths:
             schema:
               type: object
               properties:
-                reserve_id:
-                  type: number
-                end_time:
+                new_password:
                   type: string
-  /reservations/register:
-    post:
-      summary: 予約登録
+                  description: 新パスワード
+              required:
+                - new_password
+        description: ''
       tags:
-        - 予約
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  reserve_id:
-                    type: number
-              examples:
-                example:
-                  value:
-                    reserve_id: 1
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      operationId: post-reservations-register
-      description: 予約登録API
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                facility_id:
-                  type: number
-                date:
-                  type: string
-                start_time:
-                  type: string
-                end_time:
-                  type: string
-                count:
-                  type: number
-  '/facility/{id}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: 施設ID
-    get:
-      summary: 施設利用可能情報API
-      tags:
-        - ホテル関連
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: 施設名
-                  price:
-                    type: number
-                    description: 単価
-                  capacity:
-                    type: number
-                    description: 座席数
-                  equipment:
-                    type: string
-                    description: 設備
-                  image_url:
-                    type: string
-                    description: 画像URL
-                  hotel:
-                    $ref: ../models/hotelmodel.v1.yaml
-                  time_table:
-                    type: array
-                    description: 時間ごとの状況
-                    items:
-                      type: object
-                      properties:
-                        time:
-                          type: string
-                          description: 時間
-                        availability_count:
-                          type: number
-                          description: 残席数
-                        status:
-                          type: number
-                          description: |-
-                            予約ステータス
-                            0: 予約不可
-                            1: 予約可
-                            2: 空き十分
-                      required:
-                        - time
-                        - availability_count
-                        - status
-                required:
-                  - time_table
-                  - name
-                  - hotel
-              examples:
-                example:
-                  value:
-                    name: 会議室A
-                    price: 200
-                    capacity: 20
-                    equipment: 'インターネット接続無料（有線・無線） / コンセント / プリンター '
-                    image_url: 'http://placehold.it/300x300'
-                    hotel:
-                      id: 100
-                      name: ホテルA
-                      address: 東京都品川区xxxx
-                      tel: 03-0000-1111
-                      access: ＪＲ線品川駅（高輪口）より徒歩２分
-                      parking: '駐車場有り　1,500円（税込み）　先着順'
-                      url: 'https://sample.com'
-                      google_map_url: 'https://www.google.co.jp/maps/'
-                    time_table:
-                      - time: '10:30'
-                        availability_count: 0
-                        status: 0
-                      - time: '10:45'
-                        availability_count: 3
-                        status: 1
-                      - time: '11:00'
-                        availability_count: 10
-                        status: 2
-                      - time: '11:15'
-                        availability_count: 3
-                        status: 1
-                      - time: '11:30'
-                        availability_count: 3
-                        status: 1
-                      - time: '11:45'
-                        availability_count: 3
-                        status: 1
-                      - time: '12:00'
-                        availability_count: 3
-                        status: 1
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      operationId: get-facility-availabilities-id
-      description: 施設利用可能情報API
-      security:
-        - bearerAuth: []
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: date
-          required: true
-          description: 日付
-  '/hotels/{id}/facilities':
-    get:
-      summary: 施設一覧
-      tags:
-        - ホテル関連
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  facilities:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: number
-                          description: 施設ID
-                        name:
-                          type: string
-                          description: 施設名
-                        location:
-                          type: string
-                          description: 館内場所
-                      required:
-                        - id
-                        - name
-                        - location
-                required:
-                  - facilities
-              examples:
-                example:
-                  value:
-                    facilities:
-                      - id: 1
-                        name: 会議室A
-                        location: 2F
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      operationId: get-hotel-facilities
-      security:
-        - bearerAuth: []
-      parameters: []
-      description: 施設一覧API
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ホテルID
-  /hotels/qr:
-    get:
-      summary: QRコードからホテル情報取得
-      tags:
-        - ホテル関連
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    description: ホテルID
-                  name:
-                    type: string
-                    description: ホテル名
-                  address:
-                    type: string
-                    description: 住所
-                  tel:
-                    type: string
-                    description: 電話番号
-                  access:
-                    type: string
-                    description: 交通アクセス
-                  parking:
-                    type: string
-                    description: 駐車場情報
-                  url:
-                    type: string
-                    description: ホテルURL
-                  google_map_url:
-                    type: string
-                    description: GoogleマップURL
-              examples:
-                example:
-                  value:
-                    id: 1
-                    name: ホテルA
-                    address: 東京都品川区xxxx
-                    tel: 03-0000-1111
-                    access: ＪＲ線品川駅（高輪口）より徒歩２分
-                    parking: '駐車場有り　1,500円（税込み）　先着順'
-                    url: 'https://sample.com'
-                    google_map_url: 'https://www.google.co.jp/maps/'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      operationId: get-hotel-qr
-      security:
-        - bearerAuth: []
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: hash
-          description: ホテルハッシュ値
-          required: true
-      description: QRコードからホテル情報取得API
+        - ユーザー認証
+
   /hotels:
     get:
       summary: ホテル一覧
@@ -858,7 +561,7 @@ paths:
                   value:
                     result_count: 3
                     search_condition: 2019/12/31  東京都　品川駅　周辺
-                    date: 2019/12/12
+                    date: 20191212
                     results:
                       - id: 1
                         name: ホテルA
@@ -876,8 +579,8 @@ paths:
                             capacity: 20
                             availability_count: 10
                             sold_out: false
-                            start_time: '10:00'
-                            end_time: '13:00'
+                            start_time: '1000'
+                            end_time: '1300'
                             image_url: 'http://placehold.it/300x300'
         '400':
           description: Bad Request
@@ -899,7 +602,7 @@ paths:
             type: string
           in: query
           name: date
-          description: 日付(yyyy/mm/dd)
+          description: 日付(yyyymmdd)
           required: true
         - schema:
             type: string
@@ -922,9 +625,11 @@ paths:
           name: keyword
           description: キーワード
       description: ホテル一覧API
-  /areas:
+  /hotels/qr:
     get:
-      summary: エリア一覧取得
+      summary: QRコードからホテル情報取得
+      tags:
+        - ホテル関連
       responses:
         '200':
           description: OK
@@ -932,28 +637,109 @@ paths:
             application/json:
               schema:
                 type: object
-                description: エリア一覧
                 properties:
-                  areas:
+                  id:
+                    type: string
+                    description: ホテルID
+                  name:
+                    type: string
+                    description: ホテル名
+                  address:
+                    type: string
+                    description: 住所
+                  tel:
+                    type: string
+                    description: 電話番号
+                  access:
+                    type: string
+                    description: 交通アクセス
+                  parking:
+                    type: string
+                    description: 駐車場情報
+                  url:
+                    type: string
+                    description: ホテルURL
+                  google_map_url:
+                    type: string
+                    description: GoogleマップURL
+              examples:
+                example:
+                  value:
+                    id: 1
+                    name: ホテルA
+                    address: 東京都品川区xxxx
+                    tel: 03-0000-1111
+                    access: ＪＲ線品川駅（高輪口）より徒歩２分
+                    parking: '駐車場有り　1,500円（税込み）　先着順'
+                    url: 'https://sample.com'
+                    google_map_url: 'https://www.google.co.jp/maps/'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: get-hotel-qr
+      security:
+        - bearerAuth: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: hash
+          description: ホテルハッシュ値
+          required: true
+      description: QRコードからホテル情報取得API
+  '/hotels/{id}/facilities':
+    get:
+      summary: 施設一覧
+      tags:
+        - ホテル関連
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  facilities:
                     type: array
-                    description: エリアリスト
                     items:
                       type: object
                       properties:
                         id:
-                          type: string
-                          description: エリアID
+                          type: number
+                          description: 施設ID
                         name:
                           type: string
-                          description: エリア名
+                          description: 施設名
+                        location:
+                          type: string
+                          description: 館内場所
+                      required:
+                        - id
+                        - name
+                        - location
+                required:
+                  - facilities
               examples:
                 example:
                   value:
-                    areas:
+                    facilities:
                       - id: 1
-                        name: 品川
-                      - id: 2
-                        name: 渋谷
+                        name: 会議室A
+                        price: 200
+                        capacity: 20
+                        availability_count: 10
+                        sold_out: false
+                        image_url: 'http://placehold.it/300x300'
         '400':
           description: Bad Request
           content:
@@ -966,15 +752,30 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-      operationId: get-areas
-      description: エリア一覧を取得する
+      operationId: get-hotel-facilities
+      security:
+        - bearerAuth: []
+      parameters: []
+      description: 施設一覧API
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ホテルID
+  '/facility/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 施設ID
+    get:
+      summary: 施設利用可能情報API
       tags:
         - ホテル関連
-      security:
-        - bearerAuth: []
-  /change_password:
-    post:
-      summary: パスワード変更
       responses:
         '200':
           description: OK
@@ -983,125 +784,89 @@ paths:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      operationId: post-change_password
-      description: パスワード変更を行う。初回パスワード設定も
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                new_password:
-                  type: string
-                  description: 新パスワード
-              required:
-                - new_password
-        description: ''
-      tags:
-        - ユーザー認証
-  /reset_password:
-    post:
-      summary: パスワードリセット
-      tags:
-        - ユーザー認証
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      operationId: post-reset_password
-      description: パスワードリセットを行う
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-              required:
-                - email
-  /login:
-    post:
-      summary: ログイン
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  user_id:
+                  name:
+                    type: string
+                    description: 施設名
+                  price:
                     type: number
-                    description: ログインしたユーザーのID
-                    example: 100
-                  user_name:
+                    description: 単価
+                  capacity:
+                    type: number
+                    description: 座席数
+                  equipment:
                     type: string
-                    description: ユーザー名
-                    example: 鈴木太郎
-                  token:
+                    description: 設備
+                  image_url:
                     type: string
-                    description: アクセストークン
-                    format: string
-                    example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Aij4w
-                  is_unauth_user:
-                    type: boolean
-                    description: |-
-                      初回ログインユーザーかどうか
-                      初回だった場合はパスワード変更させる
-                    example: true
+                    description: 画像URL
+                  hotel:
+                    $ref: ../models/hotelmodel.v1.yaml
+                  time_table:
+                    type: array
+                    description: 時間ごとの状況
+                    items:
+                      type: object
+                      properties:
+                        time:
+                          type: string
+                          description: 時間
+                        availability_count:
+                          type: number
+                          description: 残席数
+                        status:
+                          type: number
+                          description: |-
+                            予約ステータス
+                            0: 予約不可
+                            1: 予約可
+                            2: 空き十分
+                      required:
+                        - time
+                        - availability_count
+                        - status
                 required:
-                  - user_id
-                  - user_name
-                  - token
-                  - is_unauth_user
+                  - time_table
+                  - name
+                  - hotel
               examples:
-                Example:
+                example:
                   value:
-                    user_id: 1
-                    user_name: 太郎
-                    token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Ai
-                    is_unauth_user: true
+                    name: 会議室A
+                    price: 200
+                    capacity: 20
+                    equipment: 'インターネット接続無料（有線・無線） / コンセント / プリンター '
+                    image_url: 'http://placehold.it/300x300'
+                    hotel:
+                      id: 100
+                      name: ホテルA
+                      address: 東京都品川区xxxx
+                      tel: 03-0000-1111
+                      access: ＪＲ線品川駅（高輪口）より徒歩２分
+                      parking: '駐車場有り　1,500円（税込み）　先着順'
+                      url: 'https://sample.com'
+                      google_map_url: 'https://www.google.co.jp/maps/'
+                    time_table:
+                      - time: '1030'
+                        availability_count: 0
+                        status: 0
+                      - time: '1045'
+                        availability_count: 3
+                        status: 1
+                      - time: '1100'
+                        availability_count: 10
+                        status: 2
+                      - time: '1115'
+                        availability_count: 3
+                        status: 1
+                      - time: '1130'
+                        availability_count: 3
+                        status: 1
+                      - time: '1145'
+                        availability_count: 3
+                        status: 1
+                      - time: '1200'
+                        availability_count: 3
+                        status: 1
         '400':
           description: Bad Request
           content:
@@ -1114,30 +879,23 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-      operationId: post-login
-      description: Cognitoを利用した認証を行う
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  description: 登録メールアドレス
-                password:
-                  type: string
-                  description: ログインパスワード
-              required:
-                - email
-                - password
-        description: ''
+      operationId: get-facility-availabilities-id
+      description: 施設利用可能情報API
+      security:
+        - bearerAuth: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: date
+          required: true
+          description: 日付
+
+  /reservations:
+    get:
+      summary: 予約一覧_
       tags:
-        - ユーザー認証
-  /users/resend_confirm_code:
-    post:
-      summary: ユーザー認証コードを再発行する
-      operationId: post-users-resend-confirm-code
+        - 予約
       responses:
         '200':
           description: OK
@@ -1146,54 +904,85 @@ paths:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      description: |-
-        ユーザー認証コードを再発行するAPI
-        （/users/registerで登録したメールアドレスをPOSTする）
-      tags:
-        - ユーザー認証
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-              required:
-                - email
-        description: ''
-  /users/confirm:
-    post:
-      summary: ユーザー認証
-      operationId: post-users-confirm
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
+                  reservations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          description: 予約ID
+                          type: number
+                        date:
+                          type: string
+                          description: 利用予定日
+                        create_date:
+                          type: string
+                          description: 予約日
+                        hotel:
+                          $ref: ../models/hotelmodel.v1.yaml
+                        facility:
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                              description: 施設ID
+                            name:
+                              type: string
+                              description: 施設名
+                            price:
+                              type: string
+                              description: 単価
+                        start_time:
+                          type: string
+                          description: 予約開始時間
+                        end_time:
+                          type: string
+                          description: 予約終了時間
+                        is_cancel:
+                          type: boolean
+                          description: キャンセル可能かどうか
+                        check_status:
+                          type: number
+                          description: |-
+                            チェックインアウト状態
+                            0: 未チェックイン
+                            1: チェックイン済み
+                            2: チェックアウト済み
+                      required:
+                        - id
+                        - date
+                        - create_date
+                        - hotel
+                        - start_time
+                        - end_time
+                        - is_cancel
+                        - check_status
                 required:
-                  - success
-                properties:
-                  success:
-                    type: boolean
-                  tmp_token:
-                    type: string
+                  - reservations
+              examples:
+                example:
+                  value:
+                    reservations:
+                      - id: 1
+                        date: 20191212
+                        hotel:
+                          id: 1
+                          name: ホテルA
+                          address: 東京都品川区xxxx
+                          tel: 03-0000-1111
+                          access: ＪＲ線品川駅（高輪口）より徒歩２分
+                          parking: '駐車場有り　1,500円（税込み）　先着順'
+                          url: 'https://sample.com'
+                          google_map_url: 'https://www.google.co.jp/maps/'
+                        facility:
+                          id: 11
+                          name: 会議室A
+                          price: 300
+                        start_time: '1000'
+                        end_time: '1300'
+                        is_cancel: false
+                        is_check_in: true
+                        check_status: 1
         '400':
           description: Bad Request
           content:
@@ -1206,30 +995,112 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-      description: |-
-        ユーザー認証API
-        （/users/registerで送信されるメールの記載される認証コードとメールアドレスをPOSTする）
+      operationId: get-reservations
+      description: 予約一覧API
+      security:
+        - bearerAuth: []
+      parameters: []
+  /reservations/register:
+    post:
+      summary: 予約登録
       tags:
-        - ユーザー認証
+        - 予約
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reserve_id:
+                    type: number
+              examples:
+                example:
+                  value:
+                    reserve_id: 1
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: post-reservations-register
+      description: 予約登録API
+      security:
+        - bearerAuth: []
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                email:
+                facility_id:
+                  type: number
+                date:
                   type: string
-                verify_code:
+                start_time:
                   type: string
-              required:
-                - email
-                - verify_code
-        description: ''
-  /users/update:
+                end_time:
+                  type: string
+                count:
+                  type: number
+  /reservations/extend:
     post:
-      summary: ユーザー登録
+      summary: 延長登録
       tags:
-        - ユーザー認証
+        - 予約
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reserve_id:
+                    type: number
+              examples:
+                example:
+                  value:
+                    reserve_id: 1
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: post-reservations-extend
+      description: 予約延長API
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reserve_id:
+                  type: number
+                end_time:
+                  type: string
+  /reservations/check_in:
+    post:
+      summary: チェックイン
+      tags:
+        - 予約
       responses:
         '200':
           description: OK
@@ -1252,56 +1123,31 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-      operationId: post-users-update
-      description: ユーザー登録API
+      operationId: post-reservations-check_in
+      description: チェックインAPI
+      security:
+        - bearerAuth: []
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                user_id:
-                  type: number
-                  description: ユーザーID
-                first_name:
+                reserve_id:
                   type: string
-                  description: 名
-                last_name:
+                  description: 予約ID
+                date:
                   type: string
-                  description: 姓
-                first_name_kana:
-                  type: string
-                  description: 名　カナ
-                last_name_kana:
-                  type: string
-                  description: 姓　カナ
-                login_id:
-                  type: string
-                  description: ログイン用ののメールアドレス（Cognitoのメールアドレス）
-                email:
-                  type: string
-                  description: 連絡用のメールアドレス
-                group_name:
-                  type: string
-                  description: グループ名
-                employee_id:
-                  type: string
-                  description: 社員ID
+                  description: 'チェックイン日時 YYYYMMDDHHmm'
               required:
-                - user_id
-                - first_name
-                - last_name
-                - first_name_kana
-                - last_name_kana
-                - login_id
-                - email
-                - group_name
-                - employee_id
-  /users/register:
+                - reserve_id
+                - date
+    parameters: []
+  /reservations/check_out:
     post:
-      summary: ユーザー登録
+      summary: チェックアウト
       tags:
-        - ユーザー認証
+        - 予約
       responses:
         '200':
           description: OK
@@ -1324,49 +1170,171 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-      operationId: post-users-register
-      description: ユーザー登録API
+      operationId: post-reservations-check_out
+      description: チェックアウトAPI
+      security:
+        - bearerAuth: []
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                company_id:
-                  type: number
-                  description: 企業ID
-                first_name:
+                reserve_id:
                   type: string
-                  description: 名
-                last_name:
+                  description: 予約ID
+                date:
                   type: string
-                  description: 姓
-                first_name_kana:
-                  type: string
-                  description: 名　カナ
-                last_name_kana:
-                  type: string
-                  description: 姓　カナ
-                email:
-                  type: string
-                  description: メールアドレス
-                password:
-                  type: string
-                  description: パスワード
-                group_name:
-                  type: string
-                  description: グループ名
-                employee_id:
-                  type: string
-                  description: 社員ID
+                  description: 'チェックアウト日時 YYYYMMDDHHmm'
               required:
-                - company_id
-                - first_name
-                - last_name
-                - first_name_kana
-                - last_name_kana
-                - email
-                - password
+                - reserve_id
+                - date
+    parameters: []
+  '/reservations/cancel/{id}':
+    parameters:
+      - schema:
+          type: number
+        name: id
+        in: path
+        required: true
+        description: 予約ID
+    delete:
+      summary: 予約取り消し
+      tags:
+        - 予約
+      operationId: delete-reservations-cancel-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      description: 予約取り消しAPI
+      security:
+        - bearerAuth: []
+
+  /histories:
+    get:
+      summary: 実績一覧
+      tags:
+        - 実績
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  histories:
+                    type: array
+                    description: 実績一覧
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          description: 予約ID
+                        date:
+                          type: string
+                          description: 利用日
+                        create_date:
+                          type: string
+                          description: 予約日
+                        hotel:
+                          $ref: ../models/hotelmodel.v1.yaml
+                        name:
+                          type: string
+                          description: 施設名
+                        price:
+                          type: string
+                          description: 単価
+                        start_time:
+                          type: string
+                          description: 予約開始時間
+                        end_time:
+                          type: string
+                          description: 予約終了時間
+                        check_out_time:
+                          type: string
+                          description: チェックアウト時間
+                        check_in_time:
+                          type: string
+                          description: チェックイン時間
+                      required:
+                        - id
+                        - date
+                        - hotel
+                        - name
+                        - price
+                        - start_time
+                        - end_time
+                        - is_extend
+                        - is_cancel
+                        - check_status
+                        - create_date
+                required:
+                  - histories
+              examples:
+                example:
+                  value:
+                    histories:
+                      - id: 1
+                        date: 20191212
+                        create_date: 20191210
+                        hotel:
+                          id: 1
+                          name: ホテルA
+                          address: 東京都品川区xxxx
+                          tel: 03-0000-1111
+                          access: ＪＲ線品川駅（高輪口）より徒歩２分
+                          parking: '駐車場有り　1,500円（税込み）　先着順'
+                          url: 'https://sample.com'
+                          google_map_url: 'https://www.google.co.jp/maps/'
+                        name: 会議室A
+                        price: 200
+                        start_time: '1000'
+                        end_time: '1300'
+                        check_in_time: '1000'
+                        check_out_time: '1300'
+      operationId: get-histories
+      security:
+        - bearerAuth: []
+      parameters:
+        - schema:
+            type: number
+          in: query
+          description: |-
+            範囲
+            0: 1か月
+            1: 3か月
+            2: ６か月
+            3: １年
+          name: range
+      description: 実績一覧API
+components:
+  schemas: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: Bearer
+      description: ''
 tags:
   - name: ユーザー認証
     description: ユーザーログインに関わるAPI
@@ -1376,15 +1344,3 @@ tags:
     description: 予約
   - name: 実績
     description: 実績
-servers:
-  - url: 'https://satellite-office-app.herokuapp.com'
-    description: Mock
-  - url: 'https://{本番ドメイン}/user/api/v1'
-    description: Production
-components:
-  schemas: {}
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: Bearer
-      description: ''
