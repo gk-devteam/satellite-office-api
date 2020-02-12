@@ -10,7 +10,7 @@ info:
 servers:
   - url: 'https://satellite-office-app.herokuapp.com'
     description: Mock
-  - url: 'https://{本番ドメイン}/api/v1/user'
+  - url: 'https://{本番ドメイン}/user/api/v1'
     description: Production
 paths:
   /users/register:
@@ -648,28 +648,9 @@ paths:
                         name:
                           type: string
                           description: 施設名
-                        price:
-                          type: string
-                          description: 利用単価
-                        capacity:
-                          type: number
-                          description: 座席数
-                        availability_count:
-                          type: number
-                          description: 残席数
-                        sold_out:
-                          type: boolean
-                          description: 満席かどうか
-                        image_url:
-                          type: string
-                          description: 画像URL
                       required:
                         - id
                         - name
-                        - price
-                        - capacity
-                        - availability_count
-                        - sold_out
                 required:
                   - facilities
               examples:
@@ -708,7 +689,7 @@ paths:
         required: true
         description: ホテルID
   
-  '/facility/availabilities/{id}':
+  '/facility/{id}':
     parameters:
       - schema:
           type: string
@@ -1179,6 +1160,53 @@ paths:
       security:
         - bearerAuth: []
       parameters: []
+  /reservations/extend_check:
+    post:
+      summary: 延長可能かどうか
+      tags:
+        - 予約
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  can_extend:
+                    type: boolean
+                    description: 延長可能かどうか
+              examples:
+                example:
+                  value:
+                    can_extend: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: post-reservations-extend-check
+      description: 延長可否確認API
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reserve_id:
+                  type: number
+                end_time:
+                  type: string
+  
   /histories:
     get:
       summary: 実績一覧
@@ -1259,8 +1287,8 @@ paths:
                           google_map_url: 'https://www.google.co.jp/maps/'
                         name: 会議室A
                         price: 200
-                        start_time: '1000'
-                        end_time: '1300'
+                        start_time: '10:00'
+                        end_time: '13:00'
                         check_in_time: '10:00'
                         check_out_time: '13:00'
       operationId: get-histories
