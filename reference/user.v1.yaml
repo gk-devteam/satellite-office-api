@@ -647,9 +647,13 @@ paths:
                         name:
                           type: string
                           description: 施設名
+                        location:
+                          type: string
+                          description: 館内場所
                       required:
                         - id
                         - name
+                        - location
                 required:
                   - facilities
               examples:
@@ -658,6 +662,7 @@ paths:
                     facilities:
                       - id: 1
                         name: 会議室A
+                        location: 2F
         '400':
           description: Bad Request
           content:
