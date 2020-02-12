@@ -85,7 +85,7 @@ paths:
                 - password
   /users/update:
     post:
-      summary: ユーザー登録
+      summary: ユーザー情報変更
       tags:
         - ユーザー認証
       responses:
@@ -111,7 +111,7 @@ paths:
               schema:
                 $ref: ../models/error.v1.yaml
       operationId: post-users-update
-      description: ユーザー登録API
+      description: ユーザー情報変更API
       requestBody:
         content:
           application/json:
@@ -246,7 +246,6 @@ paths:
               required:
                 - email
         description: ''
-
   /login:
     post:
       summary: ログイン
@@ -409,7 +408,6 @@ paths:
         description: ''
       tags:
         - ユーザー認証
-  
   /areas:
     get:
       summary: エリア一覧取得
@@ -460,7 +458,6 @@ paths:
         - ホテル関連
       security:
         - bearerAuth: []
-  
   /hotels:
     get:
       summary: ホテル一覧
@@ -760,7 +757,6 @@ paths:
         in: path
         required: true
         description: ホテルID
-  
   '/facility/{id}':
     parameters:
       - schema:
@@ -887,7 +883,6 @@ paths:
           name: date
           required: true
           description: 日付
-  
   /reservations/register:
     post:
       summary: 予約登録
@@ -1278,7 +1273,6 @@ paths:
                   type: number
                 end_time:
                   type: string
-  
   /histories:
     get:
       summary: 実績一覧
@@ -1378,7 +1372,6 @@ paths:
             3: １年
           name: range
       description: 実績一覧API
-  
 components:
   schemas: {}
   securitySchemes:
