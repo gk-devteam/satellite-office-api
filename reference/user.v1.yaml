@@ -558,7 +558,7 @@ paths:
                   value:
                     result_count: 3
                     search_condition: 2019/12/31  東京都　品川駅　周辺
-                    date: 2019/12/12
+                    date: 20191212
                     results:
                       - id: 1
                         name: ホテルA
@@ -576,8 +576,8 @@ paths:
                             capacity: 20
                             availability_count: 10
                             sold_out: false
-                            start_time: '10:00'
-                            end_time: '13:00'
+                            start_time: '1000'
+                            end_time: '1300'
                             image_url: 'http://placehold.it/300x300'
         '400':
           description: Bad Request
@@ -599,7 +599,7 @@ paths:
             type: string
           in: query
           name: date
-          description: 日付(yyyy/mm/dd)
+          description: 日付(yyyymmdd)
           required: true
         - schema:
             type: string
@@ -839,25 +839,25 @@ paths:
                       url: 'https://sample.com'
                       google_map_url: 'https://www.google.co.jp/maps/'
                     time_table:
-                      - time: '10:30'
+                      - time: '1030'
                         availability_count: 0
                         status: 0
-                      - time: '10:45'
+                      - time: '1045'
                         availability_count: 3
                         status: 1
-                      - time: '11:00'
+                      - time: '1100'
                         availability_count: 10
                         status: 2
-                      - time: '11:15'
+                      - time: '1115'
                         availability_count: 3
                         status: 1
-                      - time: '11:30'
+                      - time: '1130'
                         availability_count: 3
                         status: 1
-                      - time: '11:45'
+                      - time: '1145'
                         availability_count: 3
                         status: 1
-                      - time: '12:00'
+                      - time: '1200'
                         availability_count: 3
                         status: 1
         '400':
@@ -1059,7 +1059,7 @@ paths:
                   description: 予約ID
                 date:
                   type: string
-                  description: 'チェックイン日時 YYYY/MM/DD HH:mm'
+                  description: 'チェックイン日時 YYYYMMDDHHmm'
               required:
                 - reserve_id
                 - date
@@ -1106,7 +1106,7 @@ paths:
                   description: 予約ID
                 date:
                   type: string
-                  description: 'チェックアウト日時 YYYY/MM/DD HH:mm'
+                  description: 'チェックアウト日時 YYYYMMDDHHmm'
               required:
                 - reserve_id
                 - date
@@ -1184,7 +1184,7 @@ paths:
                   value:
                     reservations:
                       - id: 1
-                        date: 2019/12/12
+                        date: 20191212
                         hotel:
                           id: 1
                           name: ホテルA
@@ -1198,8 +1198,8 @@ paths:
                           id: 11
                           name: 会議室A
                           price: 300
-                        start_time: '10:00'
-                        end_time: '13:00'
+                        start_time: '1000'
+                        end_time: '1300'
                         is_cancel: false
                         is_check_in: true
                         check_status: 1
@@ -1333,8 +1333,8 @@ paths:
                   value:
                     histories:
                       - id: 1
-                        date: 2019/12/12
-                        create_date: 2019/12/10
+                        date: 20191212
+                        create_date: 20191210
                         hotel:
                           id: 1
                           name: ホテルA
@@ -1346,10 +1346,10 @@ paths:
                           google_map_url: 'https://www.google.co.jp/maps/'
                         name: 会議室A
                         price: 200
-                        start_time: '10:00'
-                        end_time: '13:00'
-                        check_in_time: '10:00'
-                        check_out_time: '13:00'
+                        start_time: '1000'
+                        end_time: '1300'
+                        check_in_time: '1000'
+                        check_out_time: '1300'
       operationId: get-histories
       security:
         - bearerAuth: []

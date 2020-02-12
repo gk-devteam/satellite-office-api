@@ -25,6 +25,6 @@ jobs:
         yarn
         pwd
         ls -la
-#        stoplight publish --token QmfWOUgwjdlKLlqTqw --url https://stoplight.io/api
+        yarn run publish
       env:
         CI: true

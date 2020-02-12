@@ -520,8 +520,8 @@ paths:
                         name: 会議室A
                         capacity: 10
                         price: 200
-                        start_time: '10:00'
-                        end_time: '20:00'
+                        start_time: '1000'
+                        end_time: '2000'
                         available_day_of_week:
                           monday: true
                           tuesday: true
@@ -653,8 +653,8 @@ paths:
                     location: 本館２階　フロント横
                     capacity: 10
                     price: 200
-                    start_time: '10:00'
-                    end_time: '20:00'
+                    start_time: '1000'
+                    end_time: '2000'
                     available_day_of_week:
                       monday: true
                       tuesday: true
@@ -830,15 +830,15 @@ paths:
                 example:
                   value:
                     open_days:
-                      - date: 2019/12/12
+                      - date: 20191212
                         price: 200
-                      - date: 2019/12/14
+                      - date: 20191214
                         price: 250
-                      - date: 2019/12/16
+                      - date: 20191216
                         price: 300
-                      - date: 2019/12/18
+                      - date: 20191218
                         price: 350
-                      - date: 2019/12/20
+                      - date: 20191220
                         price: 400
       operationId: get-hotel-facilities-id-open_days
       description: |-
@@ -978,9 +978,9 @@ paths:
                     name: 会議室A
                     capacity: 20
                     availability_count: 10
-                    date: 2019/12
+                    date: 201912
                     reservation_days:
-                      - date: 2019/12/1
+                      - date: 20191201
                         reservations:
                           - hour: '9:00'
                             hours:
@@ -1087,12 +1087,12 @@ paths:
                     name: 会議室A
                     capacity: 20
                     availability_count: 10
-                    date: 2019/12
+                    date: 201912
                     reservations:
-                      - date: 2019/12/1
+                      - date: 20191201
                         reservations:
                           - id: 1
-                            date: 2019/12/1
+                            date: 20191201
                             company_name: テスト株式会社
                             department_name: A管理会社
                             user_name: スズキイチロウ
@@ -1234,12 +1234,12 @@ paths:
                     name: 会議室A
                     capacity: 20
                     availability_count: 10
-                    date: 2019/12
+                    date: 201912
                     total_amount: 3000
                     total_time: 10時間00分
                     histories:
                       - id: 1
-                        date: 2019/12/1
+                        date: 20191201
                         company_name: テスト株式会社
                         department_name: A管理会社
                         user_name: スズキイチロウ
@@ -1886,7 +1886,7 @@ paths:
               examples:
                 example:
                   value:
-                    date: 2019/12
+                    date: 201912
                     total_billing_amount: 3000
                     hotels:
                       - id: 1
@@ -1951,7 +1951,7 @@ paths:
               examples:
                 example:
                   value:
-                    date: 2019/12
+                    date: 201912
                     total_amount: 3000
                     companies:
                       - id: 1
