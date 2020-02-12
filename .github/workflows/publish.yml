@@ -25,6 +25,7 @@ jobs:
         yarn
         pwd
         ls -la
+        ln -s /usr/bin/nodejs /usr/bin/node
         yarn run publish
       env:
         CI: true
