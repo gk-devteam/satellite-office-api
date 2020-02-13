@@ -1,10 +1,13 @@
 title: Error
 type: object
 properties:
+  statusCode:
+    type: integer
+    description: エラーコード
   error:
     type: string
-    description: エラーコード
-  error_description:
+    description: エラータイプ
+  message:
     type: string
     description: エラーメッセージ
 required:

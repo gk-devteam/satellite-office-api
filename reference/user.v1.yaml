@@ -1049,8 +1049,6 @@ paths:
                   type: string
                 end_time:
                   type: string
-                count:
-                  type: number
   /reservations/extend:
     post:
       summary: 延長登録
