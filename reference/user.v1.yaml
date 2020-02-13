@@ -114,12 +114,15 @@ paths:
                 last_name_kana:
                   type: string
                   description: 姓　カナ
-                email:
+                login_id:
                   type: string
-                  description: メールアドレス
+                  description: ログイン用ののメールアドレス（Cognitoのメールアドレス）
                 password:
                   type: string
                   description: パスワード
+                email:
+                  type: string
+                  description: 連絡用のメールアドレス
                 group_name:
                   type: string
                   description: グループ名
@@ -132,6 +135,7 @@ paths:
                 - last_name
                 - first_name_kana
                 - last_name_kana
+                - login_id
                 - email
                 - password
   /users/update:
