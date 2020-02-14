@@ -297,6 +297,59 @@ paths:
               required:
                 - email
         description: ''
+  /users/status:
+    get:
+      summary: ユーザーステータス取得API
+      tags:
+        - ユーザー認証
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    description: ユーザーID
+                  name:
+                    type: string
+                    description: ユーザー名
+                  company_name:
+                    type: string
+                    description: 会社名
+                  is_check_in:
+                    type: boolean
+                    description: チェックイン状態
+                required:
+                  - id
+                  - name
+                  - company_name
+                  - is_check_in
+              examples:
+                example:
+                  value:
+                    id: 10
+                    name: スズキ太郎
+                    company_name: 株式会社テスト
+                    is_check_in: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: get-users-status
+      description: ユーザーステータス取得API
+      security:
+        - bearerAuth: []
 
   /login:
     post:
