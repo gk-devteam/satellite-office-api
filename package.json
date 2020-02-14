@@ -9,7 +9,7 @@
   "scripts": {
     "start": "./startServer.sh",
     "serve": "prism mock ./reference/user.v1.yaml -h 0.0.0.0",
-    "publish": "stoplight publish --token QmfWOUgwjdlKLlqTqw --url https://stoplight.io/api"
+    "publish-doc": "stoplight publish --token QmfWOUgwjdlKLlqTqw --url https://stoplight.io/api"
   },
   "dependencies": {
     "@stoplight/prism-cli": "^3.2.1",
