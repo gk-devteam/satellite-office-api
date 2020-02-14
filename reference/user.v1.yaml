@@ -188,9 +188,6 @@ paths:
                 last_name_kana:
                   type: string
                   description: 姓　カナ
-                login_id:
-                  type: string
-                  description: ログイン用ののメールアドレス（Cognitoのメールアドレス）
                 email:
                   type: string
                   description: 連絡用のメールアドレス
