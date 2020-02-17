@@ -63,7 +63,6 @@ paths:
         - ホテル関連
       security:
         - bearerAuth: []
-
   /users/register:
     post:
       summary: ユーザー登録
@@ -114,21 +113,21 @@ paths:
                 last_name_kana:
                   type: string
                   description: 姓　カナ
-                login_id:
-                  type: string
-                  description: ログイン用のメールアドレス
-                password:
-                  type: string
-                  description: パスワード
                 email:
                   type: string
                   description: 連絡用のメールアドレス
+                password:
+                  type: string
+                  description: パスワード
                 group_name:
                   type: string
                   description: グループ名
                 employee_id:
                   type: string
                   description: 社員ID
+                login_id:
+                  type: string
+                  description: ログイン用のメールアドレス
               required:
                 - company_id
                 - first_name
@@ -353,7 +352,6 @@ paths:
       description: ユーザーステータス取得API
       security:
         - bearerAuth: []
-
   /login:
     post:
       summary: ログイン
@@ -516,7 +514,6 @@ paths:
         description: ''
       tags:
         - ユーザー認証
-
   /hotels:
     get:
       summary: ホテル一覧
@@ -946,7 +943,6 @@ paths:
           name: date
           required: true
           description: 日付
-
   /reservations:
     get:
       summary: 予約一覧_
@@ -1192,7 +1188,7 @@ paths:
                   description: 予約ID
                 date:
                   type: string
-                  description: 'チェックイン日時 YYYYMMDDHHmm'
+                  description: チェックイン日時 YYYYMMDDHHmm
               required:
                 - reserve_id
                 - date
@@ -1239,7 +1235,7 @@ paths:
                   description: 予約ID
                 date:
                   type: string
-                  description: 'チェックアウト日時 YYYYMMDDHHmm'
+                  description: チェックアウト日時 YYYYMMDDHHmm
               required:
                 - reserve_id
                 - date
@@ -1381,6 +1377,52 @@ paths:
             3: １年
           name: range
       description: 実績一覧API
+  '/company/{id}':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+        description: 企業ID
+    get:
+      summary: 企業詳細
+      tags:
+        - 企業
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  domain:
+                    type: string
+                required:
+                  - name
+                  - domain
+              examples:
+                example-1:
+                  value:
+                    name: 株式会社アルゴ
+                    domain: '@argo-corp.net'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: get-company-id
+      description: 企業詳細API
 components:
   schemas: {}
   securitySchemes:
