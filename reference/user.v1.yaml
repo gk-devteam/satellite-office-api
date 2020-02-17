@@ -1279,7 +1279,7 @@ paths:
       description: 予約取り消しAPI
       security:
         - bearerAuth: []
-  /reservations/histories:
+  /reservations/history:
     get:
       summary: 実績一覧
       tags:
