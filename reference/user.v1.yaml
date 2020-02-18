@@ -660,7 +660,7 @@ paths:
           name: end_time
           description: 終了時間
         - schema:
-            type: number
+            type: string
           in: query
           name: area_id
           description: エリアID
