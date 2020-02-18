@@ -41,9 +41,9 @@ paths:
                 example:
                   value:
                     areas:
-                      - id: 1
+                      - id: '1'
                         name: 品川
-                      - id: 2
+                      - id: '2'
                         name: 渋谷
         '400':
           description: Bad Request
