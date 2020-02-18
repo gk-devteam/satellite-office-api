@@ -369,15 +369,24 @@ paths:
                     type: number
                     description: ログインしたユーザーのID
                     example: 100
-                  user_name:
+                  refresh_token:
                     type: string
-                    description: ユーザー名
-                    example: 鈴木太郎
+                    description: リフレッシュトークン
+                    example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Aij4w
+                  refresh_token_expiration:
+                    type: string
+                    description: リフレッシュトークン有効期限
+                    example: "202102181500"
                   token:
                     type: string
                     description: アクセストークン
                     format: string
                     example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Aij4w
+                  token_expiration:
+                    type: string
+                    description: アクセストークン有効期限
+                    format: string
+                    example: "202002181500"
                   is_unauth_user:
                     type: boolean
                     description: |-
