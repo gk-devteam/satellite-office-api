@@ -2,8 +2,8 @@ title: FacilityModel
 type: object
 properties:
   id:
-    type: string
     description: ホテルID
+    type: number
   name:
     type: string
     description: ホテル名
