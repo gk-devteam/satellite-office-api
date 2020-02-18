@@ -209,6 +209,43 @@ paths:
                 - email
                 - group_name
                 - employee_id
+  /users/access_token:
+    get:
+      summary: ユーザー認証トークン更新
+      operationId: post-users-refresh-token
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                properties:
+                  token:
+                    type: string
+                  token_expiration:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      description: |-
+        ユーザー認証API
+        トークンの有効期限が切れたらこのAPIをコールする
+      tags:
+        - ユーザー認証
   /users/confirm:
     post:
       summary: ユーザー認証
