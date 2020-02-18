@@ -41,9 +41,9 @@ paths:
                 example:
                   value:
                     areas:
-                      - id: '1'
+                      - id: 1
                         name: 品川
-                      - id: '2'
+                      - id: 2
                         name: 渋谷
         '400':
           description: Bad Request
@@ -63,6 +63,7 @@ paths:
         - ホテル関連
       security:
         - bearerAuth: []
+
   /users/register:
     post:
       summary: ユーザー登録
@@ -101,31 +102,39 @@ paths:
                 company_id:
                   type: number
                   description: 企業ID
-                name:
+                first_name:
                   type: string
                   description: 名
-                name_kana:
+                last_name:
+                  type: string
+                  description: 姓
+                first_name_kana:
                   type: string
                   description: 名　カナ
-                email:
+                last_name_kana:
                   type: string
-                  description: 連絡用のメールアドレス
+                  description: 姓　カナ
+                login_id:
+                  type: string
+                  description: ログイン用のメールアドレス
                 password:
                   type: string
                   description: パスワード
+                email:
+                  type: string
+                  description: 連絡用のメールアドレス
                 group_name:
                   type: string
                   description: グループ名
                 employee_id:
                   type: string
                   description: 社員ID
-                login_id:
-                  type: string
-                  description: ログイン用のメールアドレス
               required:
                 - company_id
-                - name
-                - name_kana
+                - first_name
+                - last_name
+                - first_name_kana
+                - last_name_kana
                 - email
                 - password
   /users/update:
@@ -166,12 +175,21 @@ paths:
                 user_id:
                   type: number
                   description: ユーザーID
-                name:
+                first_name:
                   type: string
                   description: 名
-                name_kana:
+                last_name:
+                  type: string
+                  description: 姓
+                first_name_kana:
                   type: string
                   description: 名　カナ
+                last_name_kana:
+                  type: string
+                  description: 姓　カナ
+                login_id:
+                  type: string
+                  description: ログイン用ののメールアドレス（Cognitoのメールアドレス）
                 email:
                   type: string
                   description: 連絡用のメールアドレス
@@ -183,8 +201,11 @@ paths:
                   description: 社員ID
               required:
                 - user_id
-                - name
-                - name_kana
+                - first_name
+                - last_name
+                - first_name_kana
+                - last_name_kana
+                - login_id
                 - email
                 - group_name
                 - employee_id
@@ -332,6 +353,7 @@ paths:
       description: ユーザーステータス取得API
       security:
         - bearerAuth: []
+
   /login:
     post:
       summary: ログイン
@@ -371,22 +393,21 @@ paths:
                       初回ログインユーザーかどうか
                       初回だった場合はパスワード変更させる
                     example: true
-                  refresh_token:
-                    type: string
                 required:
                   - user_id
                   - user_name
                   - token
                   - is_unauth_user
-                  - refresh_token
               examples:
                 Example:
                   value:
                     user_id: 1
                     user_name: 太郎
-                    token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Ai
+                    refresh_token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Ai
+                    refresh_token_expiration: "202102181200"
+                    token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Ai
+                    token_expiration: "202002181600"
                     is_unauth_user: true
-                    refresh_token: '*******'
         '400':
           description: Bad Request
           content:
@@ -434,10 +455,6 @@ paths:
                 properties:
                   success:
                     type: boolean
-              examples:
-                example-1:
-                  value:
-                    success: true
         '400':
           description: Bad Request
           content:
@@ -475,10 +492,6 @@ paths:
                 properties:
                   success:
                     type: boolean
-              examples:
-                example-1:
-                  value:
-                    success: true
         '400':
           description: Bad Request
           content:
@@ -515,6 +528,7 @@ paths:
         description: ''
       tags:
         - ユーザー認証
+
   /hotels:
     get:
       summary: ホテル一覧
@@ -543,7 +557,7 @@ paths:
                       type: object
                       properties:
                         id:
-                          type: number
+                          type: string
                           description: ホテルID
                         name:
                           type: string
@@ -669,7 +683,7 @@ paths:
           name: end_time
           description: 終了時間
         - schema:
-            type: string
+            type: number
           in: query
           name: area_id
           description: エリアID
@@ -693,8 +707,8 @@ paths:
                 type: object
                 properties:
                   id:
+                    type: string
                     description: ホテルID
-                    type: number
                   name:
                     type: string
                     description: ホテル名
@@ -789,7 +803,11 @@ paths:
                     facilities:
                       - id: 1
                         name: 会議室A
-                        location: 2F
+                        price: 200
+                        capacity: 20
+                        availability_count: 10
+                        sold_out: false
+                        image_url: 'http://placehold.it/300x300'
         '400':
           description: Bad Request
           content:
@@ -817,7 +835,7 @@ paths:
   '/facility/{id}':
     parameters:
       - schema:
-          type: integer
+          type: string
         name: id
         in: path
         required: true
@@ -940,6 +958,7 @@ paths:
           name: date
           required: true
           description: 日付
+
   /reservations:
     get:
       summary: 予約一覧_
@@ -979,8 +998,8 @@ paths:
                               type: string
                               description: 施設名
                             price:
+                              type: string
                               description: 単価
-                              type: number
                         start_time:
                           type: string
                           description: 予約開始時間
@@ -1111,12 +1130,12 @@ paths:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
+                  reserve_id:
+                    type: number
               examples:
                 example:
                   value:
-                    success: true
+                    reserve_id: 1
         '400':
           description: Bad Request
           content:
@@ -1181,11 +1200,11 @@ paths:
               type: object
               properties:
                 reserve_id:
+                  type: string
                   description: 予約ID
-                  type: number
                 date:
                   type: string
-                  description: チェックイン日時 YYYYMMDDHHmm
+                  description: 'チェックイン日時 YYYYMMDDHHmm'
               required:
                 - reserve_id
                 - date
@@ -1228,11 +1247,11 @@ paths:
               type: object
               properties:
                 reserve_id:
+                  type: string
                   description: 予約ID
-                  type: number
                 date:
                   type: string
-                  description: チェックアウト日時 YYYYMMDDHHmm
+                  description: 'チェックアウト日時 YYYYMMDDHHmm'
               required:
                 - reserve_id
                 - date
@@ -1309,8 +1328,8 @@ paths:
                           type: string
                           description: 施設名
                         price:
+                          type: string
                           description: 単価
-                          type: number
                         start_time:
                           type: string
                           description: 予約開始時間
@@ -1323,21 +1342,20 @@ paths:
                         check_in_time:
                           type: string
                           description: チェックイン時間
-                        is_cancel:
-                          type: boolean
-                        check_status:
-                          type: number
                       required:
                         - id
                         - date
-                        - create_date
                         - hotel
                         - name
                         - price
                         - start_time
                         - end_time
+                        - is_extend
                         - is_cancel
                         - check_status
+                        - create_date
+                required:
+                  - histories
               examples:
                 example:
                   value:
@@ -1375,52 +1393,6 @@ paths:
             3: １年
           name: range
       description: 実績一覧API
-  '/company/{id}':
-    parameters:
-      - schema:
-          type: integer
-        name: id
-        in: path
-        required: true
-        description: 企業ID
-    get:
-      summary: 企業詳細
-      tags:
-        - 企業
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                  domain:
-                    type: string
-                required:
-                  - name
-                  - domain
-              examples:
-                example-1:
-                  value:
-                    name: 株式会社アルゴ
-                    domain: '@argo-corp.net'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      operationId: get-company-id
-      description: 企業詳細API
 components:
   schemas: {}
   securitySchemes:
