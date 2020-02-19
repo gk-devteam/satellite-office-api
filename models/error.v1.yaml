@@ -4,11 +4,10 @@ properties:
   statusCode:
     type: integer
     description: エラーコード
-  error:
-    type: string
-    description: エラータイプ
   message:
-    type: string
+    type: array
+    items:
+      type: string
     description: エラーメッセージ
 required:
   - error
