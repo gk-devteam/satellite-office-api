@@ -24,8 +24,8 @@ jobs:
       run: |
         yarn
         pwd
-        ls -la
-        sudo ln -s /usr/bin/nodejs /usr/bin/node
-        yarn publish-doc
+#        ls -la
+#        sudo ln -s /usr/bin/nodejs /usr/bin/node
+#        yarn publish-doc
       env:
         CI: true
