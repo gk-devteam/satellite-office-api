@@ -65,7 +65,67 @@ paths:
         - ホテル関連
       security:
         - bearerAuth: []
-
+  /users:
+    get:
+      summary: ユーザー情報取得API
+      tags:
+        - ユーザー認証
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    description: ユーザーID
+                  company_id:
+                    type: number
+                    description: 企業ID
+                  name:
+                    type: string
+                    description: 名前
+                  name_kana:
+                    type: string
+                    description: カナ
+                  login_id:
+                    type: string
+                    description: ログイン用のメールアドレス
+                  email:
+                    type: string
+                    description: 連絡用のメールアドレス
+                  group_name:
+                    type: string
+                    description: グループ名
+                  employee_id:
+                    type: string
+                    description: 社員ID
+                required:
+                  - id
+                  - company_id
+                  - name
+                  - name_kana
+                  - login_id
+                  - email
+                  - group_name
+                  - employee_id
+              examples:
+                example:
+                  value:
+                    id: 100
+                    company_id: 1
+                    name: 山田太郎
+                    name_kana: ヤマダタロウ
+                    login_id: test@test.com
+                    email: contact@test.com
+                    group_name: グループ名
+                    employee_id: '1111'
+      operationId: get-users
+      description: ユーザー情報取得API
+      security:
+        - bearerAuth: []
   /users/register:
     post:
       summary: ユーザー登録
@@ -392,7 +452,6 @@ paths:
       description: ユーザーステータス取得API
       security:
         - bearerAuth: []
-
   /login:
     post:
       summary: ログイン
@@ -415,7 +474,7 @@ paths:
                   refresh_token_expiration:
                     type: string
                     description: リフレッシュトークン有効期限
-                    example: "202102181500"
+                    example: '202102181500'
                   token:
                     type: string
                     description: アクセストークン
@@ -425,7 +484,7 @@ paths:
                     type: string
                     description: アクセストークン有効期限
                     format: string
-                    example: "202002181500"
+                    example: '202002181500'
                   is_unauth_user:
                     type: boolean
                     description: |-
@@ -443,9 +502,9 @@ paths:
                     user_id: 1
                     user_name: 太郎
                     refresh_token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Ai
-                    refresh_token_expiration: "202102181200"
+                    refresh_token_expiration: '202102181200'
                     token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Ai
-                    token_expiration: "202002181600"
+                    token_expiration: '202002181600'
                     is_unauth_user: true
         '400':
           description: Bad Request
@@ -567,7 +626,6 @@ paths:
         description: ''
       tags:
         - ユーザー認証
-
   /hotels:
     get:
       summary: ホテル一覧
@@ -997,7 +1055,6 @@ paths:
           name: date
           required: true
           description: 日付
-
   /reservations:
     get:
       summary: 予約一覧_
@@ -1243,7 +1300,7 @@ paths:
                   description: 予約ID
                 date:
                   type: string
-                  description: 'チェックイン日時 YYYYMMDDHHmm'
+                  description: チェックイン日時 YYYYMMDDHHmm
               required:
                 - reserve_id
                 - date
@@ -1290,7 +1347,7 @@ paths:
                   description: 予約ID
                 date:
                   type: string
-                  description: 'チェックアウト日時 YYYYMMDDHHmm'
+                  description: チェックアウト日時 YYYYMMDDHHmm
               required:
                 - reserve_id
                 - date
