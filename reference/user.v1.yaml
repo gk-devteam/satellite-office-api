@@ -10,6 +10,8 @@ info:
 servers:
   - url: 'https://satellite-office-app.herokuapp.com'
     description: Mock
+  - url: 'https://satellite-office-application.herokuapp.com/user/api/v1'
+    description: Development
   - url: 'https://{本番ドメイン}/user/api/v1'
     description: Production
 paths:
