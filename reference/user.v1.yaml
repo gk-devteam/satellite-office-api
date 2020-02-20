@@ -164,18 +164,12 @@ paths:
                 company_id:
                   type: number
                   description: 企業ID
-                first_name:
+                name:
                   type: string
-                  description: 名
-                last_name:
+                  description: 名前
+                name_kana:
                   type: string
-                  description: 姓
-                first_name_kana:
-                  type: string
-                  description: 名　カナ
-                last_name_kana:
-                  type: string
-                  description: 姓　カナ
+                  description: 名前　カナ
                 login_id:
                   type: string
                   description: ログイン用のメールアドレス
@@ -193,10 +187,8 @@ paths:
                   description: 社員ID
               required:
                 - company_id
-                - first_name
-                - last_name
-                - first_name_kana
-                - last_name_kana
+                - name
+                - name_kana
                 - email
                 - password
   /users/update:
@@ -237,18 +229,12 @@ paths:
                 user_id:
                   type: number
                   description: ユーザーID
-                first_name:
+                name:
                   type: string
-                  description: 名
-                last_name:
+                  description: 名前
+                name_kana:
                   type: string
-                  description: 姓
-                first_name_kana:
-                  type: string
-                  description: 名　カナ
-                last_name_kana:
-                  type: string
-                  description: 姓　カナ
+                  description: 名前　カナ
                 login_id:
                   type: string
                   description: ログイン用ののメールアドレス（Cognitoのメールアドレス）
