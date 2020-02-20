@@ -1099,6 +1099,9 @@ paths:
                           description: 予約終了時間
                         is_cancel:
                           type: boolean
+                          description: キャンセルされているかどうか
+                        cancelable:
+                          type: boolean
                           description: キャンセル可能かどうか
                         check_status:
                           type: number
