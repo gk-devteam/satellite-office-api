@@ -1487,6 +1487,44 @@ paths:
             3: １年
           name: range
       description: 実績一覧API
+  '/company/{companyID}':
+    parameters:
+      - schema:
+          type: integer
+        name: companyID
+        in: path
+        required: true
+        description: 企業ID
+    get:
+      summary: 企業情報取得
+      tags:
+        - 企業
+      responses: {}
+      operationId: 'get-company-:-companyID'
+      parameters: []
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 企業名
+                domain:
+                  type: string
+                  description: 企業ドメイン
+              required:
+                - name
+                - domain
+            examples:
+              Example:
+                value:
+                  name: Argo
+                  domain: argo-corp.net
+        description: ''
 components:
   schemas: {}
   securitySchemes:

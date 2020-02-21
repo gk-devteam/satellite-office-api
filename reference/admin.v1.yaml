@@ -24,11 +24,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
+                  user_id:
                     type: number
                     description: ログインしたユーザーのID
                     example: 100
-                  name:
+                  user_name:
                     type: string
                     description: ユーザー名
                     example: 鈴木太郎
@@ -37,9 +37,22 @@ paths:
                     description: アクセストークン
                     format: string
                     example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Aij4w
-                  role:
+                  user_role:
                     type: number
                     description: 'ユーザーロール 0:管理者, 1:企業, 2:ホテル '
+                  refresh_token:
+                    type: string
+                    description: リフレッシュトークン
+                    example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Aij4w
+                  refresh_token_expiration:
+                    type: string
+                    description: リフレッシュトークン有効期限
+                    example: '202102181500'
+                  token_expiration:
+                    type: string
+                    description: アクセストークン有効期限
+                    example: '202002181500'
+                    format: string
                 required:
                   - id
                   - name
@@ -77,7 +90,10 @@ paths:
                   description: 登録メールアドレス
                 password:
                   type: string
-                  description: ログインパスワード
+                  description: 新しいログインパスワード
+                tmp_password:
+                  type: string
+                  description: Cognitoからもらった仮パスワード
               required:
                 - id
                 - password
@@ -326,6 +342,9 @@ paths:
                     description: |-
                       0: 停止
                       1: 利用可能
+                  parking:
+                    type: string
+                    description: 駐車場
                 required:
                   - id
                   - name
