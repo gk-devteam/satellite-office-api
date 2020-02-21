@@ -1502,8 +1502,6 @@ paths:
       responses: {}
       operationId: 'get-company-:-companyID'
       parameters: []
-      security:
-        - bearerAuth: []
       requestBody:
         content:
           application/json:
