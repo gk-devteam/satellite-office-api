@@ -72,7 +72,7 @@ paths:
             schema:
               type: object
               properties:
-                id:
+                email:
                   type: string
                   description: 登録メールアドレス
                 password:
