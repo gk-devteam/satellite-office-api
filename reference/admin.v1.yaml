@@ -592,11 +592,11 @@ paths:
                     type: string
                     description: 館内場所
                   capacity:
-                    type: string
                     description: 席数
+                    type: integer
                   price:
-                    type: string
                     description: 単価
+                    type: integer
                   expiration_in:
                     type: string
                     description: 有効期限開始
@@ -646,7 +646,7 @@ paths:
                     description: 非開放か
                   status:
                     type: number
-                    description: '0: 停止 1: 利用可能'
+                    description: '0: 利用可能 1: 停止'
                   order_number:
                     type: number
                     description: 表示順
