@@ -423,12 +423,18 @@ paths:
                 parking:
                   type: string
                   description: 駐車場
+                base_name:
+                  type: string
+                  description: 拠点名
+                base_kana:
+                  type: string
+                  description: 拠点名カナ
               required:
-                - area_id
-                - tel
-                - address
-                - name_kana
                 - name
+                - name_kana
+                - address
+                - tel
+                - area_id
     parameters:
       - schema:
           type: string
