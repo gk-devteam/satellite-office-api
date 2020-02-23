@@ -513,7 +513,7 @@ paths:
                           description: 非開放か
                         status:
                           type: number
-                          description: '0: 停止 1: 利用可能'
+                          description: '0: 利用可能 1: 停止'
                         order_number:
                           type: number
                           description: 表示順
