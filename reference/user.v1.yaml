@@ -910,6 +910,8 @@ paths:
         - schema:
             type: string
           in: query
+          name: date
+          description: 日付(yyyymmdd)
       description: 施設一覧API
     parameters:
       - schema:
@@ -918,12 +920,6 @@ paths:
         in: path
         required: true
         description: ホテルID
-      - schema:
-          type: string
-        name: date
-        in: path
-        required: false
-        description: 日にち
   '/facility/{id}':
     parameters:
       - schema:
