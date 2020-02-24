@@ -729,10 +729,10 @@ paths:
                   type: string
                   description: 館内場所
                 capacity:
-                  type: string
+                  type: integer
                   description: 席数
                 price:
-                  type: string
+                  type: integer
                   description: 単価
                 expiration_in:
                   type: string
@@ -783,7 +783,7 @@ paths:
                   description: 非開放か
                 status:
                   type: number
-                  description: '0: 停止 1: 利用可能'
+                  description: '0: 利用可能 1: 停止'
                 order_number:
                   type: number
                   description: 表示順
