@@ -2030,6 +2030,44 @@ paths:
           in: header
       security:
         - bearerAuth: []
+  '/hotels/{id}/image':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ホテルID
+    delete:
+      summary: ホテル画像削除
+      operationId: delete-hotels-id-image
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      tags:
+        - ホテル
+      description: ホテル画像削除API
+      security:
+        - bearerAuth: []
 components:
   schemas: {}
   securitySchemes:
