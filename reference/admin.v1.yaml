@@ -1988,6 +1988,48 @@ paths:
           name: date
           description: 年月
           required: true
+  '/facilities/{id}/image':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 施設ID
+    delete:
+      summary: 施設画像削除
+      operationId: delete-facilities-id-image
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      tags:
+        - 施設
+      description: 施設画像削除API
+      parameters:
+        - schema:
+            type: string
+          in: header
+      security:
+        - bearerAuth: []
 components:
   schemas: {}
   securitySchemes:
