@@ -407,14 +407,34 @@ paths:
                   company_name:
                     type: string
                     description: 会社名
-                  is_check_in:
-                    type: boolean
-                    description: チェックイン状態
+                  checked_in:
+                    type: object
+                    description: |-
+                      チェックイン状態
+                      チェックインしていなければ、項目自体返さない
+                    properties:
+                      hotel_name:
+                        type: string
+                        description: ホテル名
+                      hotel_id:
+                        type: integer
+                        description: ホテルID
+                      facility_name:
+                        type: string
+                        description: 施設名
+                      facility_id:
+                        type: integer
+                        description: 施設ID
+                    required:
+                      - hotel_name
+                      - hotel_id
+                      - facility_name
+                      - facility_id
                 required:
                   - id
                   - name
                   - company_name
-                  - is_check_in
+                  - checked_in
               examples:
                 example:
                   value:
