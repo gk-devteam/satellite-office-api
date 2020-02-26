@@ -707,6 +707,7 @@ paths:
                 properties:
                   success:
                     type: boolean
+              examples: {}
       operationId: post-hotel-facilities-add
       requestBody:
         content:
@@ -746,32 +747,6 @@ paths:
                 end_time:
                   type: string
                   description: 終了時間
-                available_day_of_week:
-                  type: object
-                  description: 開放曜日
-                  required:
-                    - monday
-                    - tuesday
-                    - wednesday
-                    - thursday
-                    - friday
-                    - saturday
-                    - sunday
-                  properties:
-                    monday:
-                      type: boolean
-                    tuesday:
-                      type: boolean
-                    wednesday:
-                      type: boolean
-                    thursday:
-                      type: boolean
-                    friday:
-                      type: boolean
-                    saturday:
-                      type: boolean
-                    sunday:
-                      type: boolean
                 reservation_start_date:
                   type: number
                   description: 予約開始日
@@ -787,6 +762,20 @@ paths:
                 order_number:
                   type: number
                   description: 表示順
+                monday:
+                  type: boolean
+                tuesday:
+                  type: boolean
+                wednesday:
+                  type: boolean
+                thursday:
+                  type: boolean
+                friday:
+                  type: boolean
+                saturday:
+                  type: boolean
+                sunday:
+                  type: boolean
               required:
                 - id
                 - hotel_id
@@ -797,10 +786,16 @@ paths:
                 - expiration_out
                 - start_time
                 - end_time
-                - available_day_of_week
                 - reservation_start_date
                 - status
                 - order_number
+                - monday
+                - tuesday
+                - wednesday
+                - thursday
+                - friday
+                - saturday
+                - sunday
         description: ''
       security:
         - bearerAuth: []
