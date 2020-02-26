@@ -1495,38 +1495,32 @@ paths:
       summary: 企業情報取得
       tags:
         - 企業
-      responses: {}
       operationId: 'get-company-:-companyID'
       parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: 企業名
-                domain:
-                  type: string
-                  description: 企業ドメイン
-                employee_flag:
-                  type: integer
-                group_flag:
-                  type: integer
-              required:
-                - name
-                - domain
-                - employee_flag
-                - group_flag
-            examples:
-              Example:
-                value:
-                  name: Argo
-                  domain: argo-corp.net
-                  employee_flag: 1
-                  group_flag: 1
-        description: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - name
+                  - domain
+                  - employee_flag
+                  - group_flag
+                properties:
+                  name:
+                    type: string
+                    description: 企業名
+                  domain:
+                    type: string
+                    description: 企業ドメイン
+                  employee_flag:
+                    type: integer
+                  group_flag:
+                    type: integer
+      description: 企業情報取得API
 components:
   schemas: {}
   securitySchemes:
@@ -1543,3 +1537,5 @@ tags:
     description: 予約
   - name: 実績
     description: 実績
+  - name: 企業
+    description: 企業
