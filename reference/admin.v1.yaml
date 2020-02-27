@@ -179,6 +179,15 @@ paths:
                     description: |-
                       0: 停止
                       1: 利用可能
+                  base_name:
+                    type: string
+                    description: 拠点名
+                  base_kana:
+                    type: string
+                    description: 拠点名カナ
+                  zip:
+                    type: string
+                    description: 郵便番号
               examples:
                 example:
                   value:
