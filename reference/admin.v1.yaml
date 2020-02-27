@@ -105,9 +105,6 @@ paths:
                   name:
                     type: string
                     description: ホテル名
-                  name_kana:
-                    type: string
-                    description: ホテル名カナ
                   address:
                     type: string
                     description: 住所
