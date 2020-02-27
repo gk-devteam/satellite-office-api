@@ -1834,9 +1834,6 @@ paths:
                   contract_number:
                     type: string
                     description: 契約番号
-                  password:
-                    type: string
-                    description: パスワード
                   status:
                     type: number
                     description: |-
