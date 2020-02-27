@@ -978,6 +978,12 @@ paths:
                   image_url:
                     type: string
                     description: 画像URL
+                  start_time:
+                    type: string
+                    description: 開始時間
+                  end_time:
+                    type: string
+                    description: 終了時間
                   hotel:
                     $ref: ../models/hotelmodel.v1.yaml
                   time_table:
