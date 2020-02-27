@@ -332,6 +332,9 @@ paths:
                   base_kana:
                     type: string
                     description: 拠点名カナ
+                  image_url:
+                    type: string
+                    description: 画像URL
                 required:
                   - id
                   - name
@@ -650,6 +653,9 @@ paths:
                   order_number:
                     type: number
                     description: 表示順
+                  image_url:
+                    type: string
+                    description: 画像URL
                 required:
                   - id
                   - name
