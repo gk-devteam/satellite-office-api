@@ -1559,8 +1559,8 @@ paths:
                     type: string
                     description: ユーザー名
                   id:
-                    type: string
                     description: ユーザーID
+                    type: integer
               examples:
                 example:
                   value:
