@@ -1522,7 +1522,7 @@ paths:
                         status:
                           type: number
                           description: '0: 停止 1: 利用可能'
-                        mail_address:
+                        login_id:
                           type: string
                           description: メールアドレス
               examples:
@@ -1535,7 +1535,7 @@ paths:
                         employee_id: 12345
                         group_name: グループA
                         status: 1
-                        mail_address: test@sample.com
+                        login_id: test@sample.com
       operationId: get-users
       description: |-
         ユーザー一覧API
