@@ -1680,8 +1680,8 @@ paths:
                   type: string
                   description: ユーザー名
                 company_id:
-                  type: string
                   description: 企業ID
+                  type: integer
                 contact_address:
                   type: string
                   description: 連絡先
@@ -1691,6 +1691,13 @@ paths:
                 password:
                   type: string
                   description: パスワード
+              required:
+                - name_kana
+                - name
+                - company_id
+                - contact_address
+                - mail_address
+                - password
         description: ''
   /management/companies:
     get:
