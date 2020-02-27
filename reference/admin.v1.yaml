@@ -1638,7 +1638,7 @@ paths:
               properties:
                 status:
                   type: number
-                  description: 'ユーザーID 0: 停止 1: 利用可能'
+                  description: 'ユーザーID 0:利用可能  1: 停止'
               required:
                 - status
         description: ''
