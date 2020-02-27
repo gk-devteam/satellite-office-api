@@ -1907,6 +1907,9 @@ paths:
                         name:
                           type: string
                           description: ホテル名
+                        base_name:
+                          type: string
+                          description: 拠点名
               examples:
                 example:
                   value:
