@@ -723,6 +723,9 @@ paths:
                         - access
                         - parking
                         - facilities
+                  image_url:
+                    type: string
+                    description: ホテル画像URL
                 required:
                   - result_count
                   - search_condition
