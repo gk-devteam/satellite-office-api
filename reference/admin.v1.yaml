@@ -1505,8 +1505,8 @@ paths:
                       type: object
                       properties:
                         id:
-                          type: string
                           description: ユーザーID
+                          type: integer
                         name:
                           type: string
                           description: ユーザー名
