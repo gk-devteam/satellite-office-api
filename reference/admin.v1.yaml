@@ -2106,6 +2106,76 @@ paths:
       description: ホテル画像削除API
       security:
         - bearerAuth: []
+  /management/companies/add:
+    post:
+      summary: 企業登録
+      operationId: post-management-companies-add
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      tags:
+        - 企業
+      description: 企業登録API
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login_id:
+                  type: string
+                  description: ログインID
+                password:
+                  type: string
+                  description: パスワード
+                name:
+                  type: string
+                  description: 企業名
+                name_kana:
+                  type: string
+                  description: 企業名カナ
+                addrss:
+                  type: string
+                  description: 住所
+                tel:
+                  type: string
+                  description: 電話番号
+                zip:
+                  type: string
+                  description: 郵便番号
+                contract_number:
+                  type: string
+                  description: 契約番号
+              required:
+                - login_id
+                - password
+                - name
+                - name_kana
+                - addrss
+                - tel
+                - zip
+                - contract_number
 components:
   schemas: {}
   securitySchemes:
