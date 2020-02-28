@@ -1308,6 +1308,49 @@ paths:
           in: query
           name: company_id
           description: 企業ID
+  /reset_password:
+    post:
+      summary: パスワードリセット
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: post-reset_password
+      description: パスワードのリセットを行う
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: ログイン用のメールアドレス
+              required:
+                - email
+        description: ''
+      tags:
+        - 認証
   /change_password:
     post:
       summary: パスワード変更
@@ -1343,15 +1386,20 @@ paths:
             schema:
               type: object
               properties:
-                old_password:
+                email:
                   type: string
-                  description: 旧パスワード
-                new_password:
+                  description: ログイン用のメールアドレス
+                password:
                   type: string
                   description: 新パスワード
+                verify_code:
+                  type: string
+                  description: 認証コード
               required:
-                - old_password
-                - new_password
+                - email
+                - password
+                - verify_code
+
         description: ''
       tags:
         - 認証
