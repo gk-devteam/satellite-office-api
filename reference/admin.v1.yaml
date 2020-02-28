@@ -1369,8 +1369,8 @@ paths:
                 type: object
                 properties:
                   id:
-                    type: string
                     description: 企業ID
+                    type: integer
                   name:
                     type: string
                     description: 企業名
@@ -1401,6 +1401,9 @@ paths:
                   is_set_group:
                     type: boolean
                     description: グループ入力必須有無
+                  zip:
+                    type: string
+                    description: 郵便番号
               examples:
                 example:
                   value:
@@ -1472,6 +1475,9 @@ paths:
                 mail_domain:
                   type: string
                   description: メールアドレスドメイン
+                zip:
+                  type: string
+                  description: 郵便番号
     parameters:
       - schema:
           type: string
