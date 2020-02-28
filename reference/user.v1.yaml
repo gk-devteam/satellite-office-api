@@ -1319,8 +1319,8 @@ paths:
               type: object
               properties:
                 reserve_id:
-                  type: string
                   description: 予約ID
+                  type: integer
                 date:
                   type: string
                   description: チェックイン日時 YYYYMMDDHHmm
