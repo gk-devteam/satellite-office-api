@@ -1824,6 +1824,9 @@ paths:
                   description: |-
                     0: 停止
                     1: 利用可能
+                zip:
+                  type: string
+                  description: 郵便番号
     parameters:
       - schema:
           type: string
@@ -1867,6 +1870,9 @@ paths:
                     description: |-
                       0: 停止
                       1: 利用可能
+                  zip:
+                    type: string
+                    description: 郵便番号
               examples:
                 example:
                   value:
