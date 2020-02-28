@@ -1535,7 +1535,7 @@ paths:
                         status:
                           type: number
                           description: '0: 停止 1: 利用可能'
-                        login_id:
+                        mail_address:
                           type: string
                           description: メールアドレス
               examples:
