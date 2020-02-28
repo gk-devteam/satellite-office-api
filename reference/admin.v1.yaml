@@ -350,6 +350,9 @@ paths:
                   image_url:
                     type: string
                     description: 画像URL
+                  zip:
+                    type: string
+                    description: 郵便番号
                 required:
                   - id
                   - name
@@ -449,6 +452,9 @@ paths:
                 base_kana:
                   type: string
                   description: 拠点名カナ
+                zip:
+                  type: string
+                  description: 郵便番号
               required:
                 - name
                 - name_kana
@@ -457,6 +463,7 @@ paths:
                 - area_id
                 - base_name
                 - base_kana
+                - zip
     parameters:
       - schema:
           type: string
