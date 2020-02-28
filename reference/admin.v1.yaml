@@ -2066,10 +2066,6 @@ paths:
       tags:
         - 施設
       description: 施設画像削除API
-      parameters:
-        - schema:
-            type: string
-          in: header
       security:
         - bearerAuth: []
   '/hotels/{id}/image':
