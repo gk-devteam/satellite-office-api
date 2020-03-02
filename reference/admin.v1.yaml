@@ -1907,7 +1907,7 @@ paths:
                     type: number
                     description: 年月
                   total_billing_amount:
-                    type: string
+                    type: integer
                     description: 支払額合計
                   hotels:
                     type: array
