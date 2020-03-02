@@ -176,6 +176,9 @@ paths:
                   zip:
                     type: string
                     description: 郵便番号
+                  area_id:
+                    type: string
+                    description: エリアID
               examples:
                 example:
                   value:
