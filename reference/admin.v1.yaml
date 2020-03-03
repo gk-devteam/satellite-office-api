@@ -1396,12 +1396,16 @@ paths:
                   upper_price:
                     type: number
                     description: 上限単価
-                  is_employee_id:
-                    type: boolean
-                    description: 社員番号必須有無
-                  is_set_group:
-                    type: boolean
-                    description: グループ入力必須有無
+                  employee_id_type:
+                    description: |-
+                      社員番号入力タイプ
+                      0:不要、1:任意、2:必須
+                    type: integer
+                  group_type:
+                    description: |-
+                      グループ入力タイプ
+                      0:不要、1:任意、2:必須
+                    type: integer
                   zip:
                     type: string
                     description: 郵便番号
@@ -1464,12 +1468,16 @@ paths:
                 tel:
                   type: string
                   description: 電話番号
-                is_set_group:
-                  type: boolean
-                  description: グループ入力必須有無
-                is_employee_id:
-                  type: boolean
-                  description: 社員番号必須有無
+                group_type:
+                  description: |-
+                    グループ入力タイプ
+                    0:不要、1:任意、2:必須
+                  type: integer
+                employee_id_type:
+                  description: |-
+                    社員番号入力タイプ
+                    0:不要、1:任意、2:必須
+                  type: integer
                 upper_price:
                   type: number
                   description: 上限単価
