@@ -715,6 +715,12 @@ paths:
                               image_url:
                                 type: string
                                 description: 画像URL
+                        station:
+                          type: string
+                          description: 最寄り駅
+                        image_url:
+                          type: string
+                          description: ホテル画像URL
                       required:
                         - id
                         - name
@@ -723,9 +729,6 @@ paths:
                         - access
                         - parking
                         - facilities
-                  image_url:
-                    type: string
-                    description: ホテル画像URL
                 required:
                   - result_count
                   - search_condition
