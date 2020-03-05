@@ -207,6 +207,24 @@ paths:
         in: path
         required: true
         description: ホテルID
+    delete:
+      summary: ホテル情報(管理者専用)
+      operationId: delete-management-hotels-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      tags:
+        - ホテル
+      description: ホテル情報API(管理者専用)
+      security:
+        - bearerAuth: []
   '/management/hotels/{id}/edit':
     post:
       summary: ホテル情報編集(管理者専用)
@@ -712,6 +730,24 @@ paths:
       description: |-
         施設詳細API
         ホテル権限のユーザーは自身のホテル配下の施設以外は閲覧禁止
+      security:
+        - bearerAuth: []
+    delete:
+      summary: 施設削除
+      operationId: delete-facilities-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      tags:
+        - 施設
+      description: 施設削除API
       security:
         - bearerAuth: []
   /facilities/add:
@@ -1396,19 +1432,19 @@ paths:
                   upper_price:
                     type: number
                     description: 上限単価
-                  employee_id_type:
-                    description: |-
-                      社員番号入力タイプ
-                      0:不要、1:任意、2:必須
-                    type: integer
+                  zip:
+                    type: string
+                    description: 郵便番号
                   group_type:
                     description: |-
                       グループ入力タイプ
                       0:不要、1:任意、2:必須
                     type: integer
-                  zip:
-                    type: string
-                    description: 郵便番号
+                  employee_id_type:
+                    description: |-
+                      社員番号入力タイプ
+                      0:不要、1:任意、2:必須
+                    type: integer
               examples:
                 example:
                   value:
@@ -1468,16 +1504,6 @@ paths:
                 tel:
                   type: string
                   description: 電話番号
-                group_type:
-                  description: |-
-                    グループ入力タイプ
-                    0:不要、1:任意、2:必須
-                  type: integer
-                employee_id_type:
-                  description: |-
-                    社員番号入力タイプ
-                    0:不要、1:任意、2:必須
-                  type: integer
                 upper_price:
                   type: number
                   description: 上限単価
@@ -1487,6 +1513,16 @@ paths:
                 zip:
                   type: string
                   description: 郵便番号
+                employee_id_type:
+                  description: |-
+                    社員番号入力タイプ
+                    0:不要、1:任意、2:必須
+                  type: integer
+                group_type:
+                  description: |-
+                    グループ入力タイプ
+                    0:不要、1:任意、2:必須
+                  type: integer
     parameters:
       - schema:
           type: string
@@ -1899,6 +1935,24 @@ paths:
         in: path
         required: true
         description: 企業ID
+    delete:
+      summary: 企業削除(管理者専用)
+      operationId: delete-management-companies-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  success:
+                    type: boolean
+      description: 企業削除API(管理者専用)
+      security:
+        - bearerAuth: []
+      tags:
+        - 企業
   /management/histories/hotels:
     get:
       summary: 実績一覧(ホテル)
