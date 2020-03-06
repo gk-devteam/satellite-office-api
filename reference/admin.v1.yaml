@@ -24,11 +24,18 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: number
-                    description: ログインしたユーザーのID
+                  user_id:
+                    type:
+                      - number
+                      - 'null'
+                    description: ログインしたユーザーのID（ホテルの場合ホテルIDは、企業の場合企業ID、管理者の場合NULL）
                     example: 100
-                  name:
+                  admin_id:
+                    type:
+                      - number
+                    description: ユーザー管理ID（UIには未使用かも...）
+                    example: 100
+                  user_name:
                     type: string
                     description: ユーザー名
                     example: 鈴木太郎
@@ -36,15 +43,27 @@ paths:
                     type: string
                     description: アクセストークン
                     format: string
-                    example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Aij4w
-                  role:
+                  user_role:
                     type: number
                     description: 'ユーザーロール 0:管理者, 1:企業, 2:ホテル '
+                  refresh_token_expiration:
+                    type: string
+                    description: リフレッシュトークン有効期限
+                    format: string
+                  refresh_token:
+                    type: string
+                    description: リフレッシュトークン
+                    format: string
+                  token_expiration:
+                    type: string
+                    description: アクセストークン有効期限
+                    format: string
+                  admin_id:
+                    type: number
+                    description: ログインしたユーザーのID
+                    example: 100
                 required:
-                  - id
-                  - name
                   - token
-                  - role
               examples:
                 Example:
                   value:
@@ -1980,7 +1999,7 @@ paths:
             application/json:
               schema:
                 type: object
-                properties: 
+                properties:
                   success:
                     type: boolean
       description: 企業削除API(管理者専用)
