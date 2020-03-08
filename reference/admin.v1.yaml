@@ -2275,6 +2275,51 @@ paths:
                 - contract_number
                 - status
             examples: {}
+  /hotels:
+    get:
+      summary: ホテルホーム情報
+      tags:
+        - ホテル
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  facilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        facility_id:
+                          type: integer
+                        facility_name:
+                          type: string
+                        time_table:
+                          type: array
+                          description: 時間ごとの状況
+                          items:
+                            type: object
+                            properties:
+                              time:
+                                type: string
+                                description: 時間
+                              availability_count:
+                                type: number
+                                description: 残席数
+                            required:
+                              - time
+                              - availability_count
+                required:
+                  - facilities
+      operationId: get-hotel-home
+      description: |
+        ホテルホーム情報取得API
+        ホテル権限のユーザーは自身のホテル以外の参照は禁止
+      security:
+        - bearerAuth: []
 components:
   schemas: {}
   securitySchemes:

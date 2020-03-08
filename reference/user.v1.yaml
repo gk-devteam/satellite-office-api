@@ -1013,9 +1013,9 @@ paths:
                         - availability_count
                         - status
                 required:
-                  - time_table
                   - name
                   - hotel
+                  - time_table
               examples:
                 example:
                   value:
