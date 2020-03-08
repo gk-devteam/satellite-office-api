@@ -16,73 +16,6 @@ paths:
   /login:
     post:
       summary: ログイン
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  user_id:
-                    type:
-                      - number
-                      - 'null'
-                    description: ログインしたユーザーのID（ホテルの場合ホテルIDは、企業の場合企業ID、管理者の場合NULL）
-                    example: 100
-                  admin_id:
-                    type:
-                      - number
-                    description: ユーザー管理ID（UIには未使用かも...）
-                    example: 100
-                  user_name:
-                    type: string
-                    description: ユーザー名
-                    example: 鈴木太郎
-                  token:
-                    type: string
-                    description: アクセストークン
-                    format: string
-                  user_role:
-                    type: number
-                    description: 'ユーザーロール 0:管理者, 1:企業, 2:ホテル '
-                  refresh_token_expiration:
-                    type: string
-                    description: リフレッシュトークン有効期限
-                    format: string
-                  refresh_token:
-                    type: string
-                    description: リフレッシュトークン
-                    format: string
-                  token_expiration:
-                    type: string
-                    description: アクセストークン有効期限
-                    format: string
-                  admin_id:
-                    type: number
-                    description: ログインしたユーザーのID
-                    example: 100
-                required:
-                  - token
-              examples:
-                Example:
-                  value:
-                    id: 1
-                    name: ホテルA
-                    token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWxseeUsCIsImV4cCI6IjIwMTkvMDQvMDEifQ.u8TT4ySJhBiMod1rNqCxiISXwCXqddVSJE5gncSCGD7RPHigHoZiDnLfwcIIGij-ARBrswe4eluMUgaQwS7FUdN8IVwKkFUY1533TQZZYhTUzobO3q_PnDyPi8cPDmkSTJHzBhT298G7fNZENUUo8fmCjOkYC9FibTMrF6Ai
-                    role: 2
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
       operationId: post-login
       description: Cognitoを利用した認証を行う
       requestBody:
@@ -104,6 +37,57 @@ paths:
       tags:
         - 認証
         - 共通
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token_expiration:
+                    type: string
+                    description: アクセストークン有効期限
+                  refresh_token:
+                    type: string
+                    description: リフレッシュトークン
+                  refresh_token_expiration:
+                    type: string
+                    description: リフレッシュトークン有効期限
+                  user_role:
+                    type: number
+                    description: 'ユーザーロール 0:管理者, 1:企業, 2:ホテル '
+                  token:
+                    type: string
+                    description: アクセストークン
+                  user_name:
+                    type: string
+                    description: ユーザー名
+                    example: 鈴木太郎
+                  admin_id:
+                    type: number
+                    description: ユーザー管理ID（UIには未使用かも...）
+                    example: 100
+                  user_id:
+                    type:
+                      - number
+                      - 'null'
+                    description: ログインしたユーザーのID（ホテルの場合ホテルIDは、企業の場合企業ID、管理者の場合NULL）
+                    example: 100
+                required:
+                  - token
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
     parameters: []
   /access_token:
     get:
