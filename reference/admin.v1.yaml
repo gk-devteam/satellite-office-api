@@ -1130,7 +1130,7 @@ paths:
         required: true
         description: 施設ID
     get:
-      summary: 予約一覧()
+      summary: 予約明細
       tags:
         - 施設
       responses:
@@ -1209,7 +1209,7 @@ paths:
                             check_out_date: '12:00'
           description: OK
       operationId: get-hotel-facilities-id-reservations
-      description: 予約一覧取得API
+      description: 予約予約明細取得API
       security:
         - bearerAuth: []
       parameters:
