@@ -195,7 +195,7 @@ paths:
                 - company_id
                 - name
                 - name_kana
-                - email
+                - login_id
                 - password
   /users/update:
     post:
