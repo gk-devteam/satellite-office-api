@@ -65,6 +65,12 @@ paths:
         - ホテル関連
       security:
         - bearerAuth: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: area_id
+          description: エリアID
   /users:
     get:
       summary: ユーザー情報取得API
