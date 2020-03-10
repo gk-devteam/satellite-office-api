@@ -442,6 +442,53 @@ paths:
         in: path
         required: true
         description: ホテルID
+  '/hotels/{id}/status':
+    get:
+      summary: ホテル状況
+      tags:
+        - ホテル
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  in_use:
+                    type: number
+                    description: ホテルまた施設の現在チェックイン中の数
+                  capacity:
+                    type: number
+                    description: ホテルの席数または施設の席数
+                required:
+                  - in_use
+                  - capacity
+
+              examples:
+                example:
+                  value:
+                    id: 1
+
+      operationId: get-hotel-status
+      description: |
+        ホテル状況取得API
+        ホテル権限のユーザーは自身のホテル以外の参照は禁止
+      security:
+        - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ホテルID
+      - schema:
+          type: string
+        name: facility_id
+        in: query
+        description: 施設ID
+  
   '/hotels/{id}/edit':
     post:
       summary: ホテル情報編集
