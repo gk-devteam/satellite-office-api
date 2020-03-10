@@ -464,12 +464,10 @@ paths:
                 required:
                   - in_use
                   - capacity
-
               examples:
                 example:
                   value:
                     id: 1
-
       operationId: get-hotel-status
       description: |
         ホテル状況取得API
@@ -488,7 +486,6 @@ paths:
         name: facility_id
         in: query
         description: 施設ID
-  
   '/hotels/{id}/edit':
     post:
       summary: ホテル情報編集
@@ -508,11 +505,12 @@ paths:
       description: |-
         ホテル情報編集API
         ホテルユーザーは自身のホテル以外編集禁止
+        ※multipart/form-dataエンドポイントです
       security:
         - bearerAuth: []
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -552,6 +550,10 @@ paths:
                 zip:
                   type: string
                   description: 郵便番号
+                image:
+                  type: string
+                  format: binary
+                  description: バイナリ画像
               required:
                 - name
                 - name_kana
@@ -854,7 +856,7 @@ paths:
       operationId: post-hotel-facilities-add
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -919,6 +921,10 @@ paths:
                   type: boolean
                 sunday:
                   type: boolean
+                image:
+                  type: string
+                  description: バイナリ画像
+                  format: binary
               required:
                 - id
                 - hotel_id
@@ -945,6 +951,7 @@ paths:
       description: |-
         施設追加・編集API
         IDがあれば編集、なければ新規
+        ※multipart/form-dataエンドポイントです
     parameters: []
   '/facilities/{id}/open_days':
     parameters:
@@ -1256,7 +1263,7 @@ paths:
                             check_out_date: '12:00'
           description: OK
       operationId: get-hotel-facilities-id-reservations
-      description: 予約予約明細取得API
+      description: 予約明細取得API
       security:
         - bearerAuth: []
       parameters:
@@ -1264,7 +1271,13 @@ paths:
             type: string
           in: query
           name: date
-          description: 年月
+          description: 年月、dateまたはdayはどちか必須です、両方は禁止です
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: day
+          description: 年月日
           required: true
   '/reservations/check_out/{id}':
     post:
@@ -1566,7 +1579,7 @@ paths:
                   success:
                     type: boolean
       operationId: get-company-edit
-      description: |-
+      description: |
         企業情報編集API
         企業ユーザーは自身の企業以外編集禁止
       security:
@@ -1608,6 +1621,7 @@ paths:
                     グループ入力タイプ
                     0:不要、1:任意、2:必須
                   type: integer
+        description: ''
     parameters:
       - schema:
           type: string
