@@ -639,6 +639,122 @@ paths:
         required: true
         description: ホテルID
 
+  /facilities/add:
+    post:
+      summary: 施設追加・編集
+      tags:
+        - 施設
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              examples: {}
+      operationId: post-hotel-facilities-add
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: number
+                  description: |-
+                    施設ID
+                    なければ新規・あれば編集
+                hotel_id:
+                  type: number
+                  description: ホテルID
+                name:
+                  type: string
+                  description: 施設名
+                location:
+                  type: string
+                  description: 館内場所
+                capacity:
+                  type: integer
+                  description: 席数
+                price:
+                  type: integer
+                  description: 単価
+                expiration_in:
+                  type: string
+                  description: 有効期限開始
+                expiration_out:
+                  type: string
+                  description: 有効期限終了
+                start_time:
+                  type: string
+                  description: 開始時間
+                end_time:
+                  type: string
+                  description: 終了時間
+                reservation_start_date:
+                  type: number
+                  description: 予約開始日
+                equipment:
+                  type: string
+                  description: 設備
+                non_open:
+                  type: boolean
+                  description: 非開放か
+                status:
+                  type: number
+                  description: '0: 利用可能 1: 停止'
+                order_number:
+                  type: number
+                  description: 表示順
+                monday:
+                  type: boolean
+                tuesday:
+                  type: boolean
+                wednesday:
+                  type: boolean
+                thursday:
+                  type: boolean
+                friday:
+                  type: boolean
+                saturday:
+                  type: boolean
+                sunday:
+                  type: boolean
+                image:
+                  type: string
+                  description: バイナリ画像
+                  format: binary
+              required:
+                - id
+                - hotel_id
+                - name
+                - capacity
+                - price
+                - expiration_in
+                - expiration_out
+                - start_time
+                - end_time
+                - reservation_start_date
+                - status
+                - order_number
+                - monday
+                - tuesday
+                - wednesday
+                - thursday
+                - friday
+                - saturday
+                - sunday
+        description: ''
+      security:
+        - bearerAuth: []
+      description: |-
+        施設追加・編集API
+        IDがあれば編集、なければ新規
+        ※multipart/form-dataエンドポイントです
+    parameters: []
   '/facilities/{id}':
     parameters:
       - schema:
@@ -790,122 +906,6 @@ paths:
       description: 施設削除API
       security:
         - bearerAuth: []
-  /facilities/add:
-    post:
-      summary: 施設追加・編集
-      tags:
-        - 施設
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-              examples: {}
-      operationId: post-hotel-facilities-add
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: number
-                  description: |-
-                    施設ID
-                    なければ新規・あれば編集
-                hotel_id:
-                  type: number
-                  description: ホテルID
-                name:
-                  type: string
-                  description: 施設名
-                location:
-                  type: string
-                  description: 館内場所
-                capacity:
-                  type: integer
-                  description: 席数
-                price:
-                  type: integer
-                  description: 単価
-                expiration_in:
-                  type: string
-                  description: 有効期限開始
-                expiration_out:
-                  type: string
-                  description: 有効期限終了
-                start_time:
-                  type: string
-                  description: 開始時間
-                end_time:
-                  type: string
-                  description: 終了時間
-                reservation_start_date:
-                  type: number
-                  description: 予約開始日
-                equipment:
-                  type: string
-                  description: 設備
-                non_open:
-                  type: boolean
-                  description: 非開放か
-                status:
-                  type: number
-                  description: '0: 利用可能 1: 停止'
-                order_number:
-                  type: number
-                  description: 表示順
-                monday:
-                  type: boolean
-                tuesday:
-                  type: boolean
-                wednesday:
-                  type: boolean
-                thursday:
-                  type: boolean
-                friday:
-                  type: boolean
-                saturday:
-                  type: boolean
-                sunday:
-                  type: boolean
-                image:
-                  type: string
-                  description: バイナリ画像
-                  format: binary
-              required:
-                - id
-                - hotel_id
-                - name
-                - capacity
-                - price
-                - expiration_in
-                - expiration_out
-                - start_time
-                - end_time
-                - reservation_start_date
-                - status
-                - order_number
-                - monday
-                - tuesday
-                - wednesday
-                - thursday
-                - friday
-                - saturday
-                - sunday
-        description: ''
-      security:
-        - bearerAuth: []
-      description: |-
-        施設追加・編集API
-        IDがあれば編集、なければ新規
-        ※multipart/form-dataエンドポイントです
-    parameters: []
   '/facilities/{id}/open_days':
     parameters:
       - schema:
@@ -1050,6 +1050,12 @@ paths:
                   availability_count:
                     type: number
                     description: 残席数
+                  start_time:
+                    type: string
+                    description: 開始時間
+                  end_time:
+                    type: string
+                    description: 終了時間
                   date:
                     type: string
                     description: 表示年月
@@ -1061,31 +1067,21 @@ paths:
                         date:
                           type: string
                           description: 日付
-                        reservations:
+                        time_table:
                           type: array
+                          description: 時間ごとの状況
                           items:
                             type: object
                             properties:
-                              hour:
+                              time:
                                 type: string
-                                description: 時
-                              hours:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    section:
-                                      type: number
-                                      description: 1~4の時間内セクション
-                                    reservation_count:
-                                      type: number
-                                      description: 予約数
-                                  required:
-                                    - section
-                                    - reservation_count
+                                description: 時間
+                              reserved_count:
+                                type: number
+                                description: 利用席数
                             required:
-                              - hour
-                              - hours
+                              - time
+                              - reserved_count
                       required:
                         - date
                 required:
