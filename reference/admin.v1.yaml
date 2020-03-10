@@ -957,6 +957,42 @@ paths:
           name: day
           description: 年月日、dateまたはdayのどちらか一つが必須です。両方は禁止です。
           required: true
+  '/reservations/check_in/{id}':
+    post:
+      summary: チェックイン代行
+      tags:
+        - 予約
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      operationId: post-reservations-check_in
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                check_in_time:
+                  type: string
+                  description: チェックイン時刻
+        description: ''
+      security:
+        - bearerAuth: []
+      description: チェックイン代行
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 予約ID
   '/reservations/check_out/{id}':
     post:
       summary: チェックアウト代行
@@ -993,6 +1029,7 @@ paths:
         in: path
         required: true
         description: 予約ID
+  
   '/reservations/cancel/{id}':
     get:
       summary: 予約キャンセル
