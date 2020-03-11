@@ -862,7 +862,7 @@ paths:
                 equipment:
                   type: string
                   description: 設備
-                non_open:
+                open_flg:
                   type: boolean
                   description: 非開放か
                 status:
