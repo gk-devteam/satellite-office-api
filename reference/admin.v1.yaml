@@ -1176,9 +1176,6 @@ paths:
                   availability_count:
                     type: number
                     description: 残席数
-                  date:
-                    type: string
-                    description: 表示年月
                   reservations:
                     type: array
                     items:
