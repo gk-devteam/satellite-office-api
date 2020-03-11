@@ -596,9 +596,9 @@ paths:
                               type: boolean
                             sunday:
                               type: boolean
-                        non_open:
+                        open_flg:
                           type: boolean
-                          description: 非開放か
+                          description: '0:非開放、1:開放'
                         status:
                           type: number
                           description: '0: 利用可能 1: 停止'
@@ -613,7 +613,7 @@ paths:
                         - start_time
                         - end_time
                         - available_day_of_week
-                        - non_open
+                        - open_flg
                         - status
                         - order_number
               examples:
@@ -729,9 +729,9 @@ paths:
                   equipment:
                     type: string
                     description: 設備
-                  non_open:
+                  open_flg:
                     type: boolean
-                    description: 非開放か
+                    description: '0:非開放、1:開放'
                   status:
                     type: number
                     description: '0: 利用可能 1: 停止'
@@ -749,7 +749,7 @@ paths:
                   - start_time
                   - end_time
                   - available_day_of_week
-                  - non_open
+                  - open_flg
                   - status
                   - order_number
               examples:
