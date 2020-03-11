@@ -67,10 +67,10 @@ paths:
         - bearerAuth: []
       parameters:
         - schema:
-            type: string
+            type: boolean
           in: query
-          name: area_id
-          description: エリアID
+          name: all
+          description: 全エリアを返すかどうか
   /users:
     get:
       summary: ユーザー情報取得API
