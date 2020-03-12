@@ -2302,8 +2302,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  date:
+                  id:
                     type: number
+                    description: 施設ID
+                  name:
+                    type: string
+                    description: 施設名
+                  date:
+                    type: string
                     description: 年月
                   total_time:
                     type: string
@@ -2311,6 +2317,9 @@ paths:
                   total_amount:
                     type: number
                     description: 合計金額
+                  capacity:
+                    type: number
+                    description: 席数
                   histories:
                     type: array
                     items:
@@ -2331,9 +2340,6 @@ paths:
                         user_name:
                           type: string
                           description: ユーザー名
-                        facility_name:
-                          type: string
-                          description: 利用施設名
                         price:
                           type: number
                           description: 単価
@@ -2343,26 +2349,6 @@ paths:
                         billing_amount:
                           type: number
                           description: 支払額
-              examples:
-                example:
-                  value:
-                    id: 1
-                    name: 会議室A
-                    capacity: 20
-                    availability_count: 10
-                    date: 201912
-                    total_amount: 3000
-                    total_time: 10時間00分
-                    histories:
-                      - id: 1
-                        date: 20191201
-                        company_name: テスト株式会社
-                        department_name: A管理会社
-                        user_name: スズキイチロウ
-                        facility_name: 会議室
-                        price: 200
-                        usage_time: 2時間00分
-                        billing_amount: 1440
           description: OK
       operationId: get-histories
       description: 実績一覧取得API
