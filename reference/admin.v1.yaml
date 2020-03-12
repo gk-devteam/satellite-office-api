@@ -2331,9 +2331,6 @@ paths:
                         user_name:
                           type: string
                           description: ユーザー名
-                        user_group:
-                          type: string
-                          description: ユーザーグループ名
                         facility_name:
                           type: string
                           description: 利用施設名
