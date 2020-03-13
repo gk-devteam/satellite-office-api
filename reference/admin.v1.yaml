@@ -1246,7 +1246,7 @@ paths:
           name: day
           description: 年月日、dateまたはdayのどちらか一つが必須です。両方は禁止です。
           required: true
-  '/hotel/reservations/check_out/{id}':
+  '/hotels/reservations/check_out/{id}':
     post:
       summary: チェックアウト代行
       tags:
@@ -1282,7 +1282,7 @@ paths:
         in: path
         required: true
         description: 予約ID
-  '/hotel/reservations/cancel/{id}':
+  '/hotels/reservations/cancel/{id}':
     get:
       summary: 予約キャンセル
       tags:
@@ -2374,7 +2374,7 @@ paths:
     bearerAuth:
       type: http
       scheme: Bearer
-  '/hotel/reservations/check_in/{id}':
+  '/hotels/reservations/check_in/{id}':
     post:
       summary: チェックイン代行
       tags:
