@@ -1668,6 +1668,82 @@ paths:
         企業権限のユーザーは自身の企業所属ユーザー以外は閲覧禁止
       security:
         - bearerAuth: []
+  '/companies/{id}/histories':
+    get:
+      summary: 企業実績一覧
+      tags:
+        - 実績
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    description: 年月
+                  total_time:
+                    type: string
+                    description: 精算時間
+                  total_amount:
+                    type: number
+                    description: 合計金額
+                  histories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          description: 予約ID
+                        date:
+                          type: string
+                          description: 日付
+                        department_name:
+                          type: string
+                          description: 支社名
+                        employee_id:
+                          type: string
+                          description: 社員ID
+                        user_name:
+                          type: string
+                          description: ユーザー名
+                        hotel_name:
+                          type: string
+                          description: ホテル名
+                        facility_name:
+                          type: string
+                          description: 施設名
+                        price:
+                          type: number
+                          description: 単価
+                        usage_time:
+                          type: string
+                          description: 利用時間
+                        billing_amount:
+                          type: number
+                          description: 支払額
+          description: OK
+      operationId: get-company-histories
+      description: 実績一覧取得API
+      security:
+        - bearerAuth: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: date
+          description: 年月
+          required: true
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 企業ID
+
   /users/add:
     post:
       summary: ユーザー登録
@@ -2456,7 +2532,6 @@ paths:
           required: true
   
   components: null
-  schemas: {}
   securitySchemes:
     bearerAuth:
       type: http
