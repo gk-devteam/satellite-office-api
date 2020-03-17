@@ -124,150 +124,9 @@ paths:
       description: トークンの有効期限が切れたらこのAPIをコールする
       tags:
         - 認証
-  /management/hotels:
-    get:
-      summary: ホテル一覧(管理者専用)
-      tags:
-        - ホテル
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: number
-                    description: ホテルID
-                  name:
-                    type: string
-                    description: ホテル名
-                  address:
-                    type: string
-                    description: 住所
-                  tel:
-                    type: string
-                    description: 電話番号
-                  status:
-                    type: number
-                    description: |-
-                      0: 停止
-                      1: 利用可能
-      operationId: get-hotels
-      description: |
-        ホテル一覧情報取得API
-        管理者権限のみ
-      security:
-        - bearerAuth: []
-    parameters: []
-  '/management/hotels/{id}':
-    get:
-      summary: ホテル情報(管理者専用)
-      tags:
-        - ホテル
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: number
-                    description: ホテルID
-                  name:
-                    type: string
-                    description: ホテル名
-                  name_kana:
-                    type: string
-                    description: ホテル名カナ
-                  address:
-                    type: string
-                    description: 住所
-                  tel:
-                    type: string
-                    description: 電話番号
-                  contract_number:
-                    type: string
-                    description: 契約番号
-                  margin:
-                    type: number
-                    description: マージン
-                  margin_unit:
-                    type: number
-                    description: |-
-                      0: %
-                      1: 円/15分
-                  status:
-                    type: number
-                    description: |-
-                      0: 停止
-                      1: 利用可能
-                  base_name:
-                    type: string
-                    description: 拠点名
-                  base_kana:
-                    type: string
-                    description: 拠点名カナ
-                  zip:
-                    type: string
-                    description: 郵便番号
-                  area_id:
-                    type: string
-                    description: エリアID
-              examples:
-                example:
-                  value:
-                    id: 1
-                    name: ホテルA
-                    name_kane: ホテルエー
-                    address: 東京都品川区
-                    tel: 03-0000-1111
-                    contract_number: JS-H-022790086075
-                    station: 品川駅
-                    station_kana: シナガワエキ
-                    password: 12345
-                    margin: 10
-                    margin_unit: 1
-                    status: 1
-      operationId: get-manage-hotels-id
-      description: |
-        ホテル情報詳細取得API
-        管理者権限のみ
-      security:
-        - bearerAuth: []
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ホテルID
-    delete:
-      summary: ホテル情報(管理者専用)
-      operationId: delete-management-hotels-id
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-      tags:
-        - ホテル
-      description: ホテル情報API(管理者専用)
-      security:
-        - bearerAuth: []
-  '/management/hotels/{id}/edit':
+  /change_password:
     post:
-      summary: ホテル情報編集(管理者専用)
-      tags:
-        - ホテル
+      summary: パスワード変更
       responses:
         '200':
           description: OK
@@ -278,10 +137,20 @@ paths:
                 properties:
                   success:
                     type: boolean
-      operationId: get-manage-hotels-edit
-      description: |-
-        ホテル情報編集API
-        ホテルユーザーは自身のホテル以外編集禁止
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      operationId: post-change_password
+      description: パスワード変更を行う。
       security:
         - bearerAuth: []
       requestBody:
@@ -290,56 +159,64 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                old_password:
                   type: string
-                  description: ホテル名
-                name_kana:
+                  description: 旧パスワード
+                new_password:
                   type: string
-                  description: ホテル名カナ
-                address:
-                  type: string
-                  description: 住所
-                tel:
-                  type: string
-                  description: 電話番号
-                contract_number:
-                  type: string
-                  description: 契約番号
-                station:
-                  type: string
-                  description: 最寄り駅
-                station_kana:
-                  type: string
-                  description: 最寄り駅カナ
-                margin:
-                  type: number
-                  description: マージン
-                margin_unit:
-                  type: number
-                  description: |-
-                    0: %
-                    1: 円/15分
-                status:
-                  type: number
-                  description: |-
-                    0: 停止
-                    1: 利用可能
-                base_name:
-                  type: string
-                  description: 拠点名
-                base_kana:
-                  type: string
-                  description: 拠点名カナ
-                zip:
-                  type: string
-                  description: 郵便番号
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ホテルID
+                  description: 新パスワード
+              required:
+                - old_password
+                - new_password
+        description: ''
+      tags:
+        - 認証
+
+  /hotels:
+    get:
+      summary: ホテルホーム情報
+      tags:
+        - ホテル
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  facilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        facility_id:
+                          type: integer
+                        facility_name:
+                          type: string
+                        time_table:
+                          type: array
+                          description: 時間ごとの状況
+                          items:
+                            type: object
+                            properties:
+                              time:
+                                type: string
+                                description: 時間
+                              availability_count:
+                                type: number
+                                description: 残席数
+                            required:
+                              - time
+                              - availability_count
+                required:
+                  - facilities
+      operationId: get-hotel-home
+      description: |
+        ホテルホーム情報取得API
+        ホテル権限のユーザーは自身のホテル以外の参照は禁止
+      security:
+        - bearerAuth: []
   '/hotels/{id}':
     get:
       summary: ホテル情報
@@ -650,6 +527,341 @@ paths:
         in: path
         required: true
         description: ホテルID
+  '/hotels/{id}/qr':
+    get:
+      summary: ホテルQRコード発行
+      tags:
+        - ホテル
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: ホテルID
+                    format: binary
+                required:
+                  - id
+              examples:
+                example:
+                  value:
+                    id: 1
+      operationId: get-hotel-qrcode
+      description: |-
+        ホテルQRコード発行API
+        ホテル権限のユーザーは自身のホテル以外の参照は禁止
+        ※QRコード画像のバイナリを返す
+      security:
+        - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ホテルID
+  '/hotels/{id}/image':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ホテルID
+    delete:
+      summary: ホテル画像削除
+      operationId: delete-hotels-id-image
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      tags:
+        - ホテル
+      description: ホテル画像削除API
+      security:
+        - bearerAuth: []
+  '/hotels/{id}/status':
+    get:
+      summary: ホテル状況
+      tags:
+        - ホテル
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  in_use:
+                    type: number
+                    description: ホテルまた施設の現在チェックイン中の数
+                  capacity:
+                    type: number
+                    description: ホテルの席数または施設の席数
+                required:
+                  - in_use
+                  - capacity
+              examples:
+                example:
+                  value:
+                    id: 1
+      operationId: get-hotel-status
+      description: |
+        ホテル状況取得API
+        ホテル権限のユーザーは自身のホテル以外の参照は禁止
+      security:
+        - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ホテルID
+      - schema:
+          type: string
+        name: facility_id
+        in: query
+        description: 施設ID
+  
+  '/hotels/reservations/check_in/{id}':
+    post:
+      summary: チェックイン代行
+      tags:
+        - 予約
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      operationId: post-reservations-check_in
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                check_in_time:
+                  type: string
+                  description: チェックイン時刻
+        description: ''
+      security:
+        - bearerAuth: []
+      description: チェックイン代行
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 予約ID
+  '/hotels/reservations/check_out/{id}':
+    post:
+      summary: チェックアウト代行
+      tags:
+        - 予約
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      operationId: post-reservations-check_out
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                check_out_time:
+                  type: string
+                  description: チェックアウト時刻
+        description: ''
+      security:
+        - bearerAuth: []
+      description: チェックアウト代行
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 予約ID
+  '/hotels/reservations/cancel/{id}':
+    get:
+      summary: 予約キャンセル
+      tags:
+        - 予約
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      operationId: post-reservations-cancel
+      security:
+        - bearerAuth: []
+      description: 予約キャンセル
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 予約ID
+  
+  /facilities/add:
+    post:
+      summary: 施設追加・編集
+      tags:
+        - 施設
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              examples: {}
+      operationId: post-hotel-facilities-add
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: number
+                  description: |-
+                    施設ID
+                    なければ新規・あれば編集
+                hotel_id:
+                  type: number
+                  description: ホテルID
+                name:
+                  type: string
+                  description: 施設名
+                location:
+                  type: string
+                  description: 館内場所
+                capacity:
+                  type: integer
+                  description: 席数
+                price:
+                  type: integer
+                  description: 単価
+                expiration_in:
+                  type: string
+                  description: 有効期限開始
+                expiration_out:
+                  type: string
+                  description: 有効期限終了
+                start_time:
+                  type: string
+                  description: 開始時間
+                end_time:
+                  type: string
+                  description: 終了時間
+                reservation_start_date:
+                  type: number
+                  description: 予約開始日
+                equipment:
+                  type: string
+                  description: 設備
+                open_flg:
+                  type: boolean
+                  description: 非開放か
+                status:
+                  type: number
+                  description: '0: 利用可能 1: 停止'
+                order_number:
+                  type: number
+                  description: 表示順
+                monday:
+                  type: boolean
+                tuesday:
+                  type: boolean
+                wednesday:
+                  type: boolean
+                thursday:
+                  type: boolean
+                friday:
+                  type: boolean
+                saturday:
+                  type: boolean
+                sunday:
+                  type: boolean
+                image:
+                  type: string
+                  description: バイナリ画像
+                  format: binary
+              required:
+                - id
+                - hotel_id
+                - name
+                - capacity
+                - price
+                - expiration_in
+                - expiration_out
+                - start_time
+                - end_time
+                - reservation_start_date
+                - status
+                - order_number
+                - monday
+                - tuesday
+                - wednesday
+                - thursday
+                - friday
+                - saturday
+                - sunday
+        description: ''
+      security:
+        - bearerAuth: []
+      description: |-
+        施設追加・編集API
+        IDがあれば編集、なければ新規
+        ※multipart/form-dataエンドポイントです
+    parameters: []
   '/facilities/{id}':
     parameters:
       - schema:
@@ -801,122 +1013,6 @@ paths:
       description: 施設削除API
       security:
         - bearerAuth: []
-  /facilities/add:
-    post:
-      summary: 施設追加・編集
-      tags:
-        - 施設
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-              examples: {}
-      operationId: post-hotel-facilities-add
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: number
-                  description: |-
-                    施設ID
-                    なければ新規・あれば編集
-                hotel_id:
-                  type: number
-                  description: ホテルID
-                name:
-                  type: string
-                  description: 施設名
-                location:
-                  type: string
-                  description: 館内場所
-                capacity:
-                  type: integer
-                  description: 席数
-                price:
-                  type: integer
-                  description: 単価
-                expiration_in:
-                  type: string
-                  description: 有効期限開始
-                expiration_out:
-                  type: string
-                  description: 有効期限終了
-                start_time:
-                  type: string
-                  description: 開始時間
-                end_time:
-                  type: string
-                  description: 終了時間
-                reservation_start_date:
-                  type: number
-                  description: 予約開始日
-                equipment:
-                  type: string
-                  description: 設備
-                open_flg:
-                  type: boolean
-                  description: 非開放か
-                status:
-                  type: number
-                  description: '0: 利用可能 1: 停止'
-                order_number:
-                  type: number
-                  description: 表示順
-                monday:
-                  type: boolean
-                tuesday:
-                  type: boolean
-                wednesday:
-                  type: boolean
-                thursday:
-                  type: boolean
-                friday:
-                  type: boolean
-                saturday:
-                  type: boolean
-                sunday:
-                  type: boolean
-                image:
-                  type: string
-                  description: バイナリ画像
-                  format: binary
-              required:
-                - id
-                - hotel_id
-                - name
-                - capacity
-                - price
-                - expiration_in
-                - expiration_out
-                - start_time
-                - end_time
-                - reservation_start_date
-                - status
-                - order_number
-                - monday
-                - tuesday
-                - wednesday
-                - thursday
-                - friday
-                - saturday
-                - sunday
-        description: ''
-      security:
-        - bearerAuth: []
-      description: |-
-        施設追加・編集API
-        IDがあれば編集、なければ新規
-        ※multipart/form-dataエンドポイントです
-    parameters: []
   '/facilities/{id}/open_days':
     parameters:
       - schema:
@@ -1246,71 +1342,95 @@ paths:
           name: day
           description: 年月日、dateまたはdayのどちらか一つが必須です。両方は禁止です。
           required: true
-  '/hotels/reservations/check_out/{id}':
-    post:
-      summary: チェックアウト代行
-      tags:
-        - 予約
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-      operationId: post-reservations-check_out
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                check_out_time:
-                  type: string
-                  description: チェックアウト時刻
-        description: ''
-      security:
-        - bearerAuth: []
-      description: チェックアウト代行
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: 予約ID
-  '/hotels/reservations/cancel/{id}':
+  '/facilities/{id}/histories':
     get:
-      summary: 予約キャンセル
+      summary: 実績一覧
       tags:
         - 予約
       responses:
         '200':
-          description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
-      operationId: post-reservations-cancel
+                  id:
+                    type: number
+                    description: 施設ID
+                  name:
+                    type: string
+                    description: 施設名
+                  date:
+                    type: string
+                    description: 年月
+                  total_time:
+                    type: string
+                    description: 精算時間
+                  total_amount:
+                    type: number
+                    description: 合計金額
+                  capacity:
+                    type: number
+                    description: 席数
+                  histories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          description: 予約ID
+                        date:
+                          type: string
+                          description: 日付
+                        company_name:
+                          type: string
+                          description: 会社名
+                        department_name:
+                          type: string
+                          description: 支社名
+                        user_name:
+                          type: string
+                          description: ユーザー名
+                        price:
+                          type: number
+                          description: 単価
+                        usage_time:
+                          type: string
+                          description: 利用時間
+                        billing_amount:
+                          type: number
+                          description: 支払額
+          description: OK
+      operationId: get-histories
+      description: 実績一覧取得API
       security:
         - bearerAuth: []
-      description: 予約キャンセル
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: date
+          description: 年月
+          required: true
     parameters:
       - schema:
           type: string
         name: id
         in: path
         required: true
-        description: 予約ID
-  /change_password:
-    post:
-      summary: パスワード変更
+        description: 施設ID
+  '/facilities/{id}/image':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 施設ID
+    delete:
+      summary: 施設画像削除
+      operationId: delete-facilities-id-image
       responses:
         '200':
           description: OK
@@ -1333,28 +1453,12 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-      operationId: post-change_password
-      description: パスワード変更を行う。
+      tags:
+        - 施設
+      description: 施設画像削除API
       security:
         - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                old_password:
-                  type: string
-                  description: 旧パスワード
-                new_password:
-                  type: string
-                  description: 新パスワード
-              required:
-                - old_password
-                - new_password
-        description: ''
-      tags:
-        - 認証
+  
   '/companies/{id}':
     parameters:
       - schema:
@@ -1564,6 +1668,63 @@ paths:
         企業権限のユーザーは自身の企業所属ユーザー以外は閲覧禁止
       security:
         - bearerAuth: []
+  /users/add:
+    post:
+      summary: ユーザー登録
+      tags:
+        - ユーザー
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      operationId: post-users
+      description: ユーザー登録API
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                group_name:
+                  type: string
+                  description: グループ名
+                employee_id:
+                  type: string
+                  description: 社員ID
+                name_kana:
+                  type: string
+                  description: ユーザー名カナ
+                name:
+                  type: string
+                  description: ユーザー名
+                company_id:
+                  description: 企業ID
+                  type: integer
+                contact_address:
+                  type: string
+                  description: 連絡先
+                mail_address:
+                  type: string
+                  description: メールアドレス
+                password:
+                  type: string
+                  description: パスワード
+              required:
+                - name_kana
+                - name
+                - company_id
+                - contact_address
+                - mail_address
+                - password
+        description: ''
   '/users/{id}':
     get:
       summary: ユーザー詳細
@@ -1679,11 +1840,132 @@ paths:
               required:
                 - status
         description: ''
-  /users/add:
-    post:
-      summary: ユーザー登録
+  
+
+  /management/hotels:
+    get:
+      summary: ホテル一覧(管理者専用)
       tags:
-        - ユーザー
+        - ホテル
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    description: ホテルID
+                  name:
+                    type: string
+                    description: ホテル名
+                  address:
+                    type: string
+                    description: 住所
+                  tel:
+                    type: string
+                    description: 電話番号
+                  status:
+                    type: number
+                    description: |-
+                      0: 停止
+                      1: 利用可能
+      operationId: get-hotels
+      description: |
+        ホテル一覧情報取得API
+        管理者権限のみ
+      security:
+        - bearerAuth: []
+    parameters: []
+  '/management/hotels/{id}':
+    get:
+      summary: ホテル情報(管理者専用)
+      tags:
+        - ホテル
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    description: ホテルID
+                  name:
+                    type: string
+                    description: ホテル名
+                  name_kana:
+                    type: string
+                    description: ホテル名カナ
+                  address:
+                    type: string
+                    description: 住所
+                  tel:
+                    type: string
+                    description: 電話番号
+                  contract_number:
+                    type: string
+                    description: 契約番号
+                  margin:
+                    type: number
+                    description: マージン
+                  margin_unit:
+                    type: number
+                    description: |-
+                      0: %
+                      1: 円/15分
+                  status:
+                    type: number
+                    description: |-
+                      0: 停止
+                      1: 利用可能
+                  base_name:
+                    type: string
+                    description: 拠点名
+                  base_kana:
+                    type: string
+                    description: 拠点名カナ
+                  zip:
+                    type: string
+                    description: 郵便番号
+                  area_id:
+                    type: string
+                    description: エリアID
+              examples:
+                example:
+                  value:
+                    id: 1
+                    name: ホテルA
+                    name_kane: ホテルエー
+                    address: 東京都品川区
+                    tel: 03-0000-1111
+                    contract_number: JS-H-022790086075
+                    station: 品川駅
+                    station_kana: シナガワエキ
+                    password: 12345
+                    margin: 10
+                    margin_unit: 1
+                    status: 1
+      operationId: get-manage-hotels-id
+      description: |
+        ホテル情報詳細取得API
+        管理者権限のみ
+      security:
+        - bearerAuth: []
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ホテルID
+    delete:
+      summary: ホテル情報(管理者専用)
+      operationId: delete-management-hotels-id
       responses:
         '200':
           description: OK
@@ -1694,8 +1976,30 @@ paths:
                 properties:
                   success:
                     type: boolean
-      operationId: post-users
-      description: ユーザー登録API
+      tags:
+        - ホテル
+      description: ホテル情報API(管理者専用)
+      security:
+        - bearerAuth: []
+  '/management/hotels/{id}/edit':
+    post:
+      summary: ホテル情報編集(管理者専用)
+      tags:
+        - ホテル
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      operationId: get-manage-hotels-edit
+      description: |-
+        ホテル情報編集API
+        ホテルユーザーは自身のホテル以外編集禁止
       security:
         - bearerAuth: []
       requestBody:
@@ -1704,38 +2008,56 @@ paths:
             schema:
               type: object
               properties:
-                group_name:
-                  type: string
-                  description: グループ名
-                employee_id:
-                  type: string
-                  description: 社員ID
-                name_kana:
-                  type: string
-                  description: ユーザー名カナ
                 name:
                   type: string
-                  description: ユーザー名
-                company_id:
-                  description: 企業ID
-                  type: integer
-                contact_address:
+                  description: ホテル名
+                name_kana:
                   type: string
-                  description: 連絡先
-                mail_address:
+                  description: ホテル名カナ
+                address:
                   type: string
-                  description: メールアドレス
-                password:
+                  description: 住所
+                tel:
                   type: string
-                  description: パスワード
-              required:
-                - name_kana
-                - name
-                - company_id
-                - contact_address
-                - mail_address
-                - password
-        description: ''
+                  description: 電話番号
+                contract_number:
+                  type: string
+                  description: 契約番号
+                station:
+                  type: string
+                  description: 最寄り駅
+                station_kana:
+                  type: string
+                  description: 最寄り駅カナ
+                margin:
+                  type: number
+                  description: マージン
+                margin_unit:
+                  type: number
+                  description: |-
+                    0: %
+                    1: 円/15分
+                status:
+                  type: number
+                  description: |-
+                    0: 停止
+                    1: 利用可能
+                base_name:
+                  type: string
+                  description: 拠点名
+                base_kana:
+                  type: string
+                  description: 拠点名カナ
+                zip:
+                  type: string
+                  description: 郵便番号
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ホテルID
   /management/companies:
     get:
       summary: 企業一覧(管理者専用)
@@ -1786,6 +2108,81 @@ paths:
         管理者権限のみ
       security:
         - bearerAuth: []
+  /management/companies/add:
+    post:
+      summary: 企業登録
+      operationId: post-management-companies-add
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/error.v1.yaml
+      tags:
+        - 企業
+      description: 企業登録API
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login_id:
+                  type: string
+                  description: ログインID
+                password:
+                  type: string
+                  description: パスワード
+                name:
+                  type: string
+                  description: 企業名
+                name_kana:
+                  type: string
+                  description: 企業名カナ
+                addrss:
+                  type: string
+                  description: 住所
+                tel:
+                  type: string
+                  description: 電話番号
+                zip:
+                  type: string
+                  description: 郵便番号
+                contract_number:
+                  type: string
+                  description: 契約番号
+                status:
+                  type: boolean
+                  description: '0:利用可能、1:停止'
+              required:
+                - login_id
+                - password
+                - name
+                - name_kana
+                - addrss
+                - tel
+                - zip
+                - contract_number
+                - status
+            examples: {}
   '/management/companies/{id}/edit':
     post:
       summary: 企業情報編集(管理者専用)
@@ -2057,403 +2454,13 @@ paths:
           name: date
           description: 年月
           required: true
-  '/facilities/{id}/image':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: 施設ID
-    delete:
-      summary: 施設画像削除
-      operationId: delete-facilities-id-image
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      tags:
-        - 施設
-      description: 施設画像削除API
-      security:
-        - bearerAuth: []
-  '/hotels/{id}/image':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ホテルID
-    delete:
-      summary: ホテル画像削除
-      operationId: delete-hotels-id-image
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      tags:
-        - ホテル
-      description: ホテル画像削除API
-      security:
-        - bearerAuth: []
-  /management/companies/add:
-    post:
-      summary: 企業登録
-      operationId: post-management-companies-add
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: ../models/error.v1.yaml
-      tags:
-        - 企業
-      description: 企業登録API
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                login_id:
-                  type: string
-                  description: ログインID
-                password:
-                  type: string
-                  description: パスワード
-                name:
-                  type: string
-                  description: 企業名
-                name_kana:
-                  type: string
-                  description: 企業名カナ
-                addrss:
-                  type: string
-                  description: 住所
-                tel:
-                  type: string
-                  description: 電話番号
-                zip:
-                  type: string
-                  description: 郵便番号
-                contract_number:
-                  type: string
-                  description: 契約番号
-                status:
-                  type: boolean
-                  description: '0:利用可能、1:停止'
-              required:
-                - login_id
-                - password
-                - name
-                - name_kana
-                - addrss
-                - tel
-                - zip
-                - contract_number
-                - status
-            examples: {}
-  /hotels:
-    get:
-      summary: ホテルホーム情報
-      tags:
-        - ホテル
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  facilities:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        facility_id:
-                          type: integer
-                        facility_name:
-                          type: string
-                        time_table:
-                          type: array
-                          description: 時間ごとの状況
-                          items:
-                            type: object
-                            properties:
-                              time:
-                                type: string
-                                description: 時間
-                              availability_count:
-                                type: number
-                                description: 残席数
-                            required:
-                              - time
-                              - availability_count
-                required:
-                  - facilities
-      operationId: get-hotel-home
-      description: |
-        ホテルホーム情報取得API
-        ホテル権限のユーザーは自身のホテル以外の参照は禁止
-      security:
-        - bearerAuth: []
-  '/hotels/{id}/qr':
-    get:
-      summary: ホテルQRコード発行
-      tags:
-        - ホテル
-      responses:
-        '200':
-          description: OK
-          content:
-            application/octet-stream:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    description: ホテルID
-                    format: binary
-                required:
-                  - id
-              examples:
-                example:
-                  value:
-                    id: 1
-      operationId: get-hotel-qrcode
-      description: |-
-        ホテルQRコード発行API
-        ホテル権限のユーザーは自身のホテル以外の参照は禁止
-        ※QRコード画像のバイナリを返す
-      security:
-        - bearerAuth: []
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ホテルID
-  '/facilities/{id}/histories':
-    get:
-      summary: 実績一覧
-      tags:
-        - 予約
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: number
-                    description: 施設ID
-                  name:
-                    type: string
-                    description: 施設名
-                  date:
-                    type: string
-                    description: 年月
-                  total_time:
-                    type: string
-                    description: 精算時間
-                  total_amount:
-                    type: number
-                    description: 合計金額
-                  capacity:
-                    type: number
-                    description: 席数
-                  histories:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: number
-                          description: 予約ID
-                        date:
-                          type: string
-                          description: 日付
-                        company_name:
-                          type: string
-                          description: 会社名
-                        department_name:
-                          type: string
-                          description: 支社名
-                        user_name:
-                          type: string
-                          description: ユーザー名
-                        price:
-                          type: number
-                          description: 単価
-                        usage_time:
-                          type: string
-                          description: 利用時間
-                        billing_amount:
-                          type: number
-                          description: 支払額
-          description: OK
-      operationId: get-histories
-      description: 実績一覧取得API
-      security:
-        - bearerAuth: []
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: date
-          description: 年月
-          required: true
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: 施設ID
+  
   components: null
   schemas: {}
   securitySchemes:
     bearerAuth:
       type: http
       scheme: Bearer
-  '/hotels/reservations/check_in/{id}':
-    post:
-      summary: チェックイン代行
-      tags:
-        - 予約
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-      operationId: post-reservations-check_in
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                check_in_time:
-                  type: string
-                  description: チェックイン時刻
-        description: ''
-      security:
-        - bearerAuth: []
-      description: チェックイン代行
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: 予約ID
-  '/hotels/{id}/status':
-    get:
-      summary: ホテル状況
-      tags:
-        - ホテル
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  in_use:
-                    type: number
-                    description: ホテルまた施設の現在チェックイン中の数
-                  capacity:
-                    type: number
-                    description: ホテルの席数または施設の席数
-                required:
-                  - in_use
-                  - capacity
-              examples:
-                example:
-                  value:
-                    id: 1
-      operationId: get-hotel-status
-      description: |
-        ホテル状況取得API
-        ホテル権限のユーザーは自身のホテル以外の参照は禁止
-      security:
-        - bearerAuth: []
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: ホテルID
-      - schema:
-          type: string
-        name: facility_id
-        in: query
-        description: 施設ID
 tags:
   - name: 共通
     description: 共通処理
