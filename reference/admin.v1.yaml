@@ -1649,7 +1649,7 @@ paths:
                           description: '0: 利用可能 1: 停止'
                         mail_address:
                           type: string
-                          description: メールアドレス
+                          description: メールアドレス（ログインID）
               examples:
                 example:
                   value:
@@ -1667,6 +1667,12 @@ paths:
         企業権限のユーザーは自身の企業所属ユーザー以外は閲覧禁止
       security:
         - bearerAuth: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: 名前
   '/companies/{id}/histories':
     get:
       summary: 企業実績一覧
