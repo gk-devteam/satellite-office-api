@@ -171,7 +171,6 @@ paths:
         description: ''
       tags:
         - 認証
-
   /hotels:
     get:
       summary: ホテルホーム情報
@@ -646,7 +645,6 @@ paths:
         name: facility_id
         in: query
         description: 施設ID
-  
   '/hotels/reservations/check_in/{id}':
     post:
       summary: チェックイン代行
@@ -745,7 +743,6 @@ paths:
         in: path
         required: true
         description: 予約ID
-  
   /facilities/add:
     post:
       summary: 施設追加・編集
@@ -1458,7 +1455,6 @@ paths:
       description: 施設画像削除API
       security:
         - bearerAuth: []
-  
   '/companies/{id}':
     parameters:
       - schema:
@@ -1519,6 +1515,9 @@ paths:
                       社員番号入力タイプ
                       0:不要、1:任意、2:必須
                     type: integer
+                  mail_address:
+                    type: string
+                    description: メールアドレス
               examples:
                 example:
                   value:
@@ -1743,7 +1742,6 @@ paths:
         in: path
         required: true
         description: 企業ID
-
   /users/add:
     post:
       summary: ユーザー登録
@@ -1916,8 +1914,6 @@ paths:
               required:
                 - status
         description: ''
-  
-
   /management/hotels:
     get:
       summary: ホテル一覧(管理者専用)
@@ -2530,7 +2526,6 @@ paths:
           name: date
           description: 年月
           required: true
-  
   components: null
   securitySchemes:
     bearerAuth:
