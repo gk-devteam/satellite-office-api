@@ -2604,6 +2604,23 @@ paths:
           description: OK
       operationId: get-facilities-id-histories-csv
       description: 実績一覧CSVダウンロードAPI
+  '/facilities/{id}/reservations/csv':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 施設ID
+    get:
+      summary: 予約明細CSVダウンロード
+      tags:
+        - 施設
+      responses:
+        '200':
+          description: OK
+      operationId: get-facilities-id-reservations-csv
+      description: 予約明細CSVダウンロードAPI
 tags:
   - name: 共通
     description: 共通処理
