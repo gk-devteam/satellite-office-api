@@ -2563,6 +2563,30 @@ paths:
           in: query
           name: name
           description: 名前
+  '/companies/{id}/histories/csv':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 企業ID
+    get:
+      summary: 企業実績一覧CSVダウンロード
+      tags:
+        - 実績
+      responses:
+        '200':
+          description: OK
+      operationId: get-companies-id-histories-csv
+      description: 実績一覧CSVダウンロードAPI
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: date
+          required: true
+          description: 年月
 tags:
   - name: 共通
     description: 共通処理
