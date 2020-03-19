@@ -2537,6 +2537,32 @@ paths:
     bearerAuth:
       type: http
       scheme: Bearer
+  '/companies/{id}/users/csv':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 企業ID
+    get:
+      summary: ユーザー一覧CSVダウンロード
+      tags:
+        - ユーザー
+      responses:
+        '200':
+          description: OK
+          headers: {}
+      operationId: get-companies-id-users-csv
+      description: |-
+        ユーザー一覧CSVダウンロードAPI
+        企業権限のユーザーは自身の企業所属ユーザー以外は閲覧禁止
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: 名前
 tags:
   - name: 共通
     description: 共通処理
