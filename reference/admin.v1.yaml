@@ -2604,6 +2604,13 @@ paths:
           description: OK
       operationId: get-facilities-id-histories-csv
       description: 実績一覧CSVダウンロードAPI
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: date
+          description: 年月
+          required: true
   '/facilities/{id}/reservations/csv':
     parameters:
       - schema:
@@ -2621,6 +2628,43 @@ paths:
           description: OK
       operationId: get-facilities-id-reservations-csv
       description: 予約明細CSVダウンロードAPI
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: date
+          description: 年月、dateまたはdayのどちらか一つが必須です。両方は禁止です。
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: day
+          description: 年月、dateまたはdayのどちらか一つが必須です。両方は禁止です。
+          required: true
+  '/facilities/{id}/reservation_days/csv':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 施設ID
+    get:
+      summary: 予約日一覧CSVダウンロード
+      tags:
+        - 施設
+      responses:
+        '200':
+          description: OK
+      operationId: get-facilities-id-reservation_days-csv
+      description: 予約日一覧CSVダウンロードAPI
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: date
+          description: 年月
+          required: true
 tags:
   - name: 共通
     description: 共通処理
