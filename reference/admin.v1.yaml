@@ -2587,6 +2587,23 @@ paths:
           name: date
           required: true
           description: 年月
+  '/facilities/{id}/histories/csv':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 施設ID
+    get:
+      summary: 実績一覧CSVダウンロード
+      tags:
+        - 予約
+      responses:
+        '200':
+          description: OK
+      operationId: get-facilities-id-histories-csv
+      description: 実績一覧CSVダウンロードAPI
 tags:
   - name: 共通
     description: 共通処理
