@@ -2012,10 +2012,7 @@ paths:
                   description: ログインID
                 password:
                   type: string
-                  description: パスワード
-
-                
-                
+                  description: パスワード                          
   '/management/hotels/{id}':
     get:
       summary: ホテル情報(管理者専用)
@@ -2294,7 +2291,10 @@ paths:
                 name_kana:
                   type: string
                   description: 企業名カナ
-                addrss:
+                mail_domain:
+                  type: string
+                  description: メールアドレスドメイン
+                address:
                   type: string
                   description: 住所
                 tel:
@@ -2353,6 +2353,9 @@ paths:
                 name_kana:
                   type: string
                   description: 企業名カナ
+                mail_domain:
+                  type: string
+                  description: メールアドレスドメイン
                 address:
                   type: string
                   description: 住所
@@ -2399,6 +2402,9 @@ paths:
                   name_kana:
                     type: string
                     description: 企業名カナ
+                  mail_domain:
+                    type: string
+                    description: メールアドレスドメイン
                   address:
                     type: string
                     description: 住所
