@@ -1956,8 +1956,14 @@ paths:
         管理者権限のみ
       security:
         - bearerAuth: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: ホテル名orホテル名カナ
     parameters: []
-  '/management/hotels/add':
+  /management/hotels/add:
     post:
       summary: ホテル登録(管理者専用)
       tags:
@@ -1973,8 +1979,7 @@ paths:
                   success:
                     type: boolean
       operationId: post-manage-hotels
-      description: |-
-        ホテル登録API
+      description: ホテル登録API
       security:
         - bearerAuth: []
       requestBody:
@@ -2012,7 +2017,7 @@ paths:
                   description: ログインID
                 password:
                   type: string
-                  description: パスワード                          
+                  description: パスワード
   '/management/hotels/{id}':
     get:
       summary: ホテル情報(管理者専用)
