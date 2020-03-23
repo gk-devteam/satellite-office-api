@@ -1957,6 +1957,65 @@ paths:
       security:
         - bearerAuth: []
     parameters: []
+  '/management/hotels/add':
+    post:
+      summary: ホテル登録(管理者専用)
+      tags:
+        - ホテル
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      operationId: post-manage-hotels
+      description: |-
+        ホテル登録API
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ホテル名
+                name_kana:
+                  type: string
+                  description: ホテル名カナ
+                base_name:
+                  type: string
+                  description: 拠点名
+                base_kana:
+                  type: string
+                  description: 拠点名カナ
+                zip:
+                  type: string
+                  description: 郵便番号
+                address:
+                  type: string
+                  description: 住所
+                tel:
+                  type: string
+                  description: 電話番号
+                area_id:
+                  type: string
+                  description: エリアID
+                login_id:
+                  type: string
+                  description: ログインID
+                password:
+                  type: string
+                  description: パスワード
+
+                
+                
   '/management/hotels/{id}':
     get:
       summary: ホテル情報(管理者専用)
