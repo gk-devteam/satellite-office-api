@@ -2247,6 +2247,12 @@ paths:
         管理者権限のみ
       security:
         - bearerAuth: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: 企業名or企業名カナ
   /management/companies/add:
     post:
       summary: 企業登録
