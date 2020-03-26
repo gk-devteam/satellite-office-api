@@ -2320,6 +2320,15 @@ paths:
                 status:
                   type: boolean
                   description: '0:利用可能、1:停止'
+                upper_price:
+                  type: integer
+                  description: 上限単価
+                employee_id_type:
+                  type: integer
+                  description: 社員コード
+                group_type:
+                  type: integer
+                  description: クループ
               required:
                 - login_id
                 - password
@@ -2384,6 +2393,15 @@ paths:
                 zip:
                   type: string
                   description: 郵便番号
+                upper_price:
+                  type: integer
+                  description: 上限単価
+                employee_id_type:
+                  type: integer
+                  description: 社員コード
+                group_type:
+                  type: integer
+                  description: クループ
     parameters:
       - schema:
           type: string
@@ -2407,6 +2425,9 @@ paths:
                   id:
                     type: number
                     description: 企業ID
+                  login_id:
+                    type: string
+                    description: ログイン用メールアドレス
                   name:
                     type: string
                     description: 企業名
@@ -2433,6 +2454,15 @@ paths:
                   zip:
                     type: string
                     description: 郵便番号
+                  upper_price:
+                    type: integer
+                    description: 上限単価
+                  employee_id_type:
+                    type: integer
+                    description: 社員コード
+                  group_type:
+                    type: integer
+                    description: クループ
               examples:
                 example:
                   value:
