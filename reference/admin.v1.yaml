@@ -2012,6 +2012,29 @@ paths:
                 area_id:
                   type: string
                   description: エリアID
+                margin:
+                  type: number
+                  description: マージン
+                margin_unit:
+                  type: number
+                  description: |-
+                    0: %
+                    1: 円/15分
+                email:
+                  type: string
+                  description: メールアドレス
+                url:
+                  type: string
+                  description: webサイト
+                station:
+                  type: string
+                  description: 最寄り駅
+                access:
+                  type: string
+                  description: 交通アクセス
+                parking:
+                  type: string
+                  description: 駐車場 
                 login_id:
                   type: string
                   description: ログインID
@@ -2071,9 +2094,27 @@ paths:
                   zip:
                     type: string
                     description: 郵便番号
+                  email:
+                    type: string
+                    description: メールアドレス
+                  url:
+                    type: string
+                    description: webサイト
+                  pref_id:
+                    type: string
+                    description: 都道府県
                   area_id:
                     type: string
                     description: エリアID
+                  station:
+                    type: string
+                    description: 最寄りの駅
+                  access:
+                    type: string
+                    description: 交通アクセス
+                  parking:
+                    type: string
+                    description: 駐車場
               examples:
                 example:
                   value:
@@ -2136,9 +2177,7 @@ paths:
                   success:
                     type: boolean
       operationId: get-manage-hotels-edit
-      description: |-
-        ホテル情報編集API
-        ホテルユーザーは自身のホテル以外編集禁止
+      description: ホテル情報編集API
       security:
         - bearerAuth: []
       requestBody:
@@ -2153,34 +2192,6 @@ paths:
                 name_kana:
                   type: string
                   description: ホテル名カナ
-                address:
-                  type: string
-                  description: 住所
-                tel:
-                  type: string
-                  description: 電話番号
-                contract_number:
-                  type: string
-                  description: 契約番号
-                station:
-                  type: string
-                  description: 最寄り駅
-                station_kana:
-                  type: string
-                  description: 最寄り駅カナ
-                margin:
-                  type: number
-                  description: マージン
-                margin_unit:
-                  type: number
-                  description: |-
-                    0: %
-                    1: 円/15分
-                status:
-                  type: number
-                  description: |-
-                    0: 停止
-                    1: 利用可能
                 base_name:
                   type: string
                   description: 拠点名
@@ -2190,6 +2201,44 @@ paths:
                 zip:
                   type: string
                   description: 郵便番号
+                address:
+                  type: string
+                  description: 住所
+                tel:
+                  type: string
+                  description: 電話番号
+                area_id:
+                  type: string
+                  description: エリアID
+                status:
+                  type: number
+                  description: |-
+                    0: 停止
+                    1: 利用可能
+                margin:
+                  type: number
+                  description: マージン
+                margin_unit:
+                  type: number
+                  description: |-
+                    0: %
+                    1: 円/15分
+                email:
+                  type: string
+                  description: メールアドレス
+                url:
+                  type: string
+                  description: webサイト
+                station:
+                  type: string
+                  description: 最寄り駅
+                access:
+                  type: string
+                  description: 交通アクセス
+                parking:
+                  type: string
+                  description: 駐車場       
+                
     parameters:
       - schema:
           type: string
