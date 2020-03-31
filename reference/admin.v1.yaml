@@ -1495,7 +1495,7 @@ paths:
                     description: 契約番号
                   status:
                     type: number
-                    description: '0: 停止 1: 利用可能'
+                    description: '0: 利用可能 1: 停止'
                   mail_domain:
                     type: string
                     description: メールアドレスドメイン
@@ -1823,7 +1823,7 @@ paths:
                     description: メールアドレス
                   status:
                     type: number
-                    description: '0: 停止 1: 利用可能'
+                    description: '0: 利用可能 1: 停止'
                   group_name:
                     type: string
                     description: グループ名
@@ -1948,8 +1948,8 @@ paths:
                   status:
                     type: number
                     description: |-
-                      0: 停止
-                      1: 利用可能
+                      0: 利用可能
+                      1: 停止
       operationId: get-hotels
       description: |
         ホテル一覧情報取得API
@@ -2083,8 +2083,8 @@ paths:
                   status:
                     type: number
                     description: |-
-                      0: 停止
-                      1: 利用可能
+                      0: 利用可能
+                      1: 停止
                   base_name:
                     type: string
                     description: 拠点名
@@ -2213,8 +2213,8 @@ paths:
                 status:
                   type: number
                   description: |-
-                    0: 停止
-                    1: 利用可能
+                    0: 利用可能
+                    1: 停止
                 margin:
                   type: number
                   description: マージン
@@ -2279,8 +2279,8 @@ paths:
                         status:
                           type: number
                           description: |-
-                            0: 停止
-                            1: 利用可能
+                            0: 利用可能
+                            1: 停止
               examples:
                 example:
                   value:
@@ -2437,8 +2437,8 @@ paths:
                 status:
                   type: number
                   description: |-
-                    0: 停止
-                    1: 利用可能
+                    0: 利用可能
+                    1: 停止
                 zip:
                   type: string
                   description: 郵便番号
