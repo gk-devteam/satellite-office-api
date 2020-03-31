@@ -2057,6 +2057,9 @@ paths:
                   id:
                     type: number
                     description: ホテルID
+                  login_id:
+                    type: number
+                    description: ホテルID
                   name:
                     type: string
                     description: ホテル名
@@ -2115,6 +2118,14 @@ paths:
                   parking:
                     type: string
                     description: 駐車場
+                  status:
+                    type: string
+                    description: |-
+                      0: 利用可能
+                      1: 停止
+                  contract_number:
+                    type: string
+                    description: 契約番号
               examples:
                 example:
                   value:
@@ -2498,8 +2509,8 @@ paths:
                   status:
                     type: number
                     description: |-
-                      0: 停止
-                      1: 利用可能
+                      0: 利用可能
+                      1: 停止
                   zip:
                     type: string
                     description: 郵便番号
