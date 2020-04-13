@@ -1650,6 +1650,9 @@ paths:
                         mail_address:
                           type: string
                           description: メールアドレス（ログインID）
+                        authenticated:
+                          type: boolean
+                          description: ユーザーが認証のプロセス終わったかどうか
               examples:
                 example:
                   value:
@@ -2118,14 +2121,6 @@ paths:
                   parking:
                     type: string
                     description: 駐車場
-                  status:
-                    type: string
-                    description: |-
-                      0: 利用可能
-                      1: 停止
-                  contract_number:
-                    type: string
-                    description: 契約番号
               examples:
                 example:
                   value:
