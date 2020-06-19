@@ -2034,7 +2034,7 @@ paths:
                   description: 交通アクセス
                 parking:
                   type: string
-                  description: 駐車場 
+                  description: 駐車場
                 login_id:
                   type: string
                   description: ログインID
@@ -2237,8 +2237,7 @@ paths:
                   description: 交通アクセス
                 parking:
                   type: string
-                  description: 駐車場       
-                
+                  description: 駐車場
     parameters:
       - schema:
           type: string
@@ -2820,6 +2819,41 @@ paths:
           name: date
           description: 年月
           required: true
+  /management/histories/hotels/csv:
+    get:
+      summary: 実績CSVダウンロード(ホテル)
+      tags:
+        - 実績
+      responses:
+        '200':
+          description: OK
+          headers: {}
+      operationId: get-management-histories-hotels-csv
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: date
+          required: true
+          description: 年月
+      description: 実績CSVダウンロード(ホテル)API
+  /management/histories/companies/csv:
+    get:
+      summary: 実績CSVダウンロード(企業)
+      tags:
+        - 実績
+      responses:
+        '200':
+          description: OK
+      operationId: get-management-histories-companies-csv
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: date
+          description: 年月
+          required: true
+      description: 実績CSVダウンロード(企業)API
 tags:
   - name: 共通
     description: 共通処理
