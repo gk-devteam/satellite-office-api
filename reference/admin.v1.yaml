@@ -440,6 +440,9 @@ paths:
                         price:
                           type: string
                           description: 単価
+                        all_day_price:
+                          type: string
+                          description: 終日単価
                         start_time:
                           type: string
                           description: 開始時間
@@ -485,7 +488,6 @@ paths:
                         - id
                         - name
                         - capacity
-                        - price
                         - start_time
                         - end_time
                         - available_day_of_week
@@ -500,6 +502,7 @@ paths:
                         name: 会議室A
                         capacity: 10
                         price: 200
+                        all_day_price: 2000
                         start_time: '1000'
                         end_time: '2000'
                         available_day_of_week:
@@ -777,6 +780,9 @@ paths:
                 name:
                   type: string
                   description: 施設名
+                type:
+                  type: number
+                  description: 部屋タイプ 0:オープンスペース 0:個室 
                 location:
                   type: string
                   description: 館内場所
@@ -786,6 +792,9 @@ paths:
                 price:
                   type: integer
                   description: 単価
+                all_day_price:
+                  type: integer
+                  description: 終日単価
                 expiration_in:
                   type: string
                   description: 有効期限開始
@@ -836,7 +845,6 @@ paths:
                 - hotel_id
                 - name
                 - capacity
-                - price
                 - expiration_in
                 - expiration_out
                 - start_time
@@ -885,6 +893,9 @@ paths:
                   name:
                     type: string
                     description: 施設名
+                  type:
+                    type: number
+                    description: 部屋タイプ 0:オープンスペース 0:個室 
                   location:
                     type: string
                     description: 館内場所
@@ -892,6 +903,9 @@ paths:
                     description: 席数
                     type: integer
                   price:
+                    description: 単価
+                    type: integer
+                  all_day_price:
                     description: 単価
                     type: integer
                   expiration_in:
@@ -953,8 +967,8 @@ paths:
                 required:
                   - id
                   - name
+                  - type
                   - capacity
-                  - price
                   - start_time
                   - end_time
                   - available_day_of_week
@@ -966,9 +980,11 @@ paths:
                   value:
                     id: 1
                     name: 会議室A
+                    type: 1
                     location: 本館２階　フロント横
                     capacity: 10
                     price: 200
+                    all_day_price: 2000
                     start_time: '1000'
                     end_time: '2000'
                     available_day_of_week:
@@ -1123,6 +1139,32 @@ paths:
                       - price
               required:
                 - open_days
+  '/facilities/{id}/open_days/{date}':
+    delete:
+      summary: 開放日削除
+      tags:
+        - 施設
+      responses:
+        '200':
+          description: OK
+      operationId: delete-hotel-facilities-id-open_days
+      description: |-
+        開放日削除API
+      security:
+        - bearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 施設ID
+      - schema:
+          type: string
+        name: date
+        in: path
+        required: true
+        description: 開放日(YYYYMMdd)
   '/facilities/{id}/reservation_days':
     parameters:
       - schema:
@@ -1502,6 +1544,9 @@ paths:
                   upper_price:
                     type: number
                     description: 上限単価
+                  all_day_upper_price:
+                    type: number
+                    description: 終日上限単価
                   zip:
                     type: string
                     description: 郵便番号
@@ -1532,6 +1577,7 @@ paths:
                     is_set_group: true
                     mail_domain: sample.com
                     upper_price: 1000
+                    all_day_upper_price: 1000
       operationId: get-company-id
       description: |-
         施設詳細API
@@ -1580,6 +1626,9 @@ paths:
                 upper_price:
                   type: number
                   description: 上限単価
+                all_day_upper_price:
+                  type: number
+                  description: 終日上限単価
                 mail_domain:
                   type: string
                   description: メールアドレスドメイン
@@ -1726,6 +1775,9 @@ paths:
                         price:
                           type: number
                           description: 単価
+                        all_day_price:
+                          type: number
+                          description: 終日単価
                         usage_time:
                           type: string
                           description: 利用時間
@@ -2377,6 +2429,9 @@ paths:
                 upper_price:
                   type: integer
                   description: 上限単価
+                all_day_apper_price:
+                  type: integer
+                  description: 終日上限単価
                 employee_id_type:
                   type: integer
                   description: 社員コード
@@ -2450,6 +2505,9 @@ paths:
                 upper_price:
                   type: integer
                   description: 上限単価
+                all_day_upper_price:
+                  type: integer
+                  description: 終日上限単価
                 employee_id_type:
                   type: integer
                   description: 社員コード
@@ -2511,6 +2569,9 @@ paths:
                   upper_price:
                     type: integer
                     description: 上限単価
+                  all_day_upper_price:
+                    type: integer
+                    description: 終日上限単価
                   employee_id_type:
                     type: integer
                     description: 社員コード
