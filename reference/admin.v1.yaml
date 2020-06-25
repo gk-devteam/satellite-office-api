@@ -2432,7 +2432,7 @@ paths:
                 upper_price:
                   type: integer
                   description: 上限単価
-                all_day_apper_price:
+                all_day_upper_price:
                   type: integer
                   description: 終日上限単価
                 employee_id_type:
@@ -2446,7 +2446,6 @@ paths:
                 - password
                 - name
                 - name_kana
-                - addrss
                 - tel
                 - zip
                 - contract_number
