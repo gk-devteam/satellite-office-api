@@ -1018,10 +1018,19 @@ paths:
                         - time
                         - availability_count
                         - status
+                  all_day_price:
+                    type: number
+                    description: 終日料金
+                  type:
+                    type: number
+                    description: |-
+                      部屋タイプ
+                      0=オープンスペース、1=個室
                 required:
                   - name
                   - hotel
                   - time_table
+                  - type
               examples:
                 example:
                   value:
