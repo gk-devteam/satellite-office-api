@@ -484,6 +484,9 @@ paths:
                         order_number:
                           type: number
                           description: 表示順
+                        type:
+                          type: number
+                          description: 部屋タイプ
                       required:
                         - id
                         - name
@@ -494,6 +497,7 @@ paths:
                         - open_flg
                         - status
                         - order_number
+                        - type
               examples:
                 example:
                   value:
@@ -782,7 +786,7 @@ paths:
                   description: 施設名
                 type:
                   type: number
-                  description: 部屋タイプ 0:オープンスペース 0:個室 
+                  description: '部屋タイプ 0:オープンスペース 0:個室'
                 location:
                   type: string
                   description: 館内場所
@@ -895,7 +899,7 @@ paths:
                     description: 施設名
                   type:
                     type: number
-                    description: 部屋タイプ 0:オープンスペース 0:個室 
+                    description: '部屋タイプ 0:オープンスペース 0:個室'
                   location:
                     type: string
                     description: 館内場所
@@ -1148,23 +1152,22 @@ paths:
         '200':
           description: OK
       operationId: delete-hotel-facilities-id-open_days
-      description: |-
-        開放日削除API
+      description: 開放日削除API
       security:
         - bearerAuth: []
       parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: 施設ID
-      - schema:
-          type: string
-        name: date
-        in: path
-        required: true
-        description: 開放日(YYYYMMdd)
+        - schema:
+            type: string
+          name: id
+          in: path
+          required: true
+          description: 施設ID
+        - schema:
+            type: string
+          name: date
+          in: path
+          required: true
+          description: 開放日(YYYYMMdd)
   '/facilities/{id}/reservation_days':
     parameters:
       - schema:
