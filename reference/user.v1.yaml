@@ -727,6 +727,9 @@ paths:
                         image_url:
                           type: string
                           description: ホテル画像URL
+                        type:
+                          type: integer
+                          description: 部屋タイプ：0=オープンスペース、1=個室
                       required:
                         - id
                         - name
@@ -807,6 +810,11 @@ paths:
           in: query
           name: keyword
           description: キーワード
+        - schema:
+            type: number
+          in: query
+          name: type
+          description: 部屋タイプ：0=オープンスペース、1=個室
       description: ホテル一覧API
   /hotels/qr:
     get:
