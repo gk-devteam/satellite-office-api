@@ -1443,6 +1443,9 @@ paths:
                         billing_amount:
                           type: number
                           description: 支払額
+                        all_day_price:
+                          type: number
+                          description: 終日料金
           description: OK
       operationId: get-histories
       description: 実績一覧取得API
