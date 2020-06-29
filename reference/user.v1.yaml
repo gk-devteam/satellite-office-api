@@ -721,15 +721,15 @@ paths:
                               image_url:
                                 type: string
                                 description: 画像URL
+                              type:
+                                type: integer
+                                description: 部屋タイプ：0=オープンスペース、1=個室
                         station:
                           type: string
                           description: 最寄り駅
                         image_url:
                           type: string
                           description: ホテル画像URL
-                        type:
-                          type: integer
-                          description: 部屋タイプ：0=オープンスペース、1=個室
                       required:
                         - id
                         - name
