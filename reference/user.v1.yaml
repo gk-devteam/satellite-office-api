@@ -814,7 +814,7 @@ paths:
             type: number
           in: query
           name: type
-          description: 部屋タイプ：0=オープンスペース、1=個室
+          description: 部屋タイプ：0=オープンスペース、1=個室、　３＝すべて
       description: ホテル一覧API
   /hotels/qr:
     get:
