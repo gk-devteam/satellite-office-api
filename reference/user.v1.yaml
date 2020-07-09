@@ -914,10 +914,14 @@ paths:
                         location:
                           type: string
                           description: 館内場所
+                        type:
+                          type: integer
+                          description: 部屋タイプ：0=オープンスペース、1=個室
                       required:
                         - id
                         - name
                         - location
+                        - type
                 required:
                   - facilities
               examples:
