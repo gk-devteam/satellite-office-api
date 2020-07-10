@@ -1146,6 +1146,9 @@ paths:
                             price:
                               type: string
                               description: 単価
+                            type:
+                              type: integer
+                              description: 部屋タイプ：0=オープンスペース、1=個室
                         start_time:
                           type: string
                           description: 予約開始時間
@@ -1195,6 +1198,7 @@ paths:
                           id: 11
                           name: 会議室A
                           price: 300
+                          type: 1
                         start_time: '1000'
                         end_time: '1300'
                         is_cancel: false
