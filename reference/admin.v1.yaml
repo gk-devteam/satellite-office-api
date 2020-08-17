@@ -285,6 +285,9 @@ paths:
                   pref_id:
                     type: string
                     description: 県ID
+                  notice_mail:
+                    type: string
+                    description: 通知先メールアドレス
                 required:
                   - id
                   - name
@@ -394,6 +397,9 @@ paths:
                   type: string
                   format: binary
                   description: バイナリ画像
+                notice_mail:
+                  type: string
+                  description: 通知先メールアドレス
               required:
                 - name
                 - name_kana
@@ -2102,6 +2108,9 @@ paths:
                 password:
                   type: string
                   description: パスワード
+                notice_mail:
+                  type: string
+                  description: 通知先メールアドレス
   '/management/hotels/{id}':
     get:
       summary: ホテル情報(管理者専用)
@@ -2179,6 +2188,9 @@ paths:
                   parking:
                     type: string
                     description: 駐車場
+                  notice_mail:
+                    type: string
+                    description: 通知先メールアドレス
               examples:
                 example:
                   value:
@@ -2302,6 +2314,9 @@ paths:
                 parking:
                   type: string
                   description: 駐車場
+                notice_mail:
+                  type: string
+                  description: 通知先メールアドレス
     parameters:
       - schema:
           type: string
