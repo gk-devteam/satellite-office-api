@@ -288,6 +288,8 @@ paths:
                   notice_mail:
                     type: string
                     description: 通知先メールアドレス
+                  login_id:
+                    type: string
                 required:
                   - id
                   - name
@@ -406,8 +408,6 @@ paths:
                 - address
                 - tel
                 - area_id
-                - base_name
-                - base_kana
                 - zip
     parameters:
       - schema:
@@ -435,20 +435,20 @@ paths:
                       type: object
                       properties:
                         id:
-                          type: string
                           description: 施設ID
+                          type: integer
                         name:
                           type: string
                           description: 施設名
                         capacity:
-                          type: string
                           description: 席数
+                          type: integer
                         price:
-                          type: string
                           description: 単価
+                          type: integer
                         all_day_price:
-                          type: string
                           description: 終日単価
+                          type: integer
                         start_time:
                           type: string
                           description: 開始時間
@@ -547,21 +547,12 @@ paths:
       responses:
         '200':
           description: OK
+          headers: {}
           content:
-            application/octet-stream:
+            image/svg+xml:
               schema:
                 type: object
-                properties:
-                  id:
-                    type: string
-                    description: ホテルID
-                    format: binary
-                required:
-                  - id
-              examples:
-                example:
-                  value:
-                    id: 1
+                properties: {}
       operationId: get-hotel-qrcode
       description: |-
         ホテルQRコード発行API
@@ -646,6 +637,12 @@ paths:
         ホテル権限のユーザーは自身のホテル以外の参照は禁止
       security:
         - bearerAuth: []
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: facility_id
+          description: 施設ID
     parameters:
       - schema:
           type: string
@@ -731,10 +728,16 @@ paths:
         required: true
         description: 予約ID
   '/hotels/reservations/cancel/{id}':
-    get:
-      summary: 予約キャンセル
-      tags:
-        - 予約
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 予約ID
+    delete:
+      summary: ''
+      operationId: delete-hotels-reservations-cancel-id
       responses:
         '200':
           description: OK
@@ -745,17 +748,9 @@ paths:
                 properties:
                   success:
                     type: boolean
-      operationId: post-reservations-cancel
-      security:
-        - bearerAuth: []
       description: 予約キャンセル
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: 予約ID
+      tags:
+        - 予約
   /facilities/add:
     post:
       summary: 施設追加・編集
@@ -822,7 +817,6 @@ paths:
                   description: 予約開始日
                 equipment:
                   type: string
-                  description: 設備
                 open_flg:
                   type: boolean
                   description: 非開放か
@@ -854,6 +848,7 @@ paths:
                 - id
                 - hotel_id
                 - name
+                - type
                 - capacity
                 - expiration_in
                 - expiration_out
@@ -971,7 +966,7 @@ paths:
                   order_number:
                     type: number
                     description: 表示順
-                  image_url:
+                  equipment_tags:
                     type: string
                     description: 画像URL
                 required:
@@ -1174,6 +1169,7 @@ paths:
           in: path
           required: true
           description: 開放日(YYYYMMdd)
+    parameters: []
   '/facilities/{id}/reservation_days':
     parameters:
       - schema:
@@ -1452,6 +1448,10 @@ paths:
                         all_day_price:
                           type: number
                           description: 終日料金
+                        facility_name:
+                          type: string
+                  hotel_total_amount:
+                    type: integer
           description: OK
       operationId: get-histories
       description: 実績一覧取得API
@@ -1575,6 +1575,22 @@ paths:
                   mail_address:
                     type: string
                     description: メールアドレス
+                  hash:
+                    type: string
+                  kgy_upper_limit:
+                    type: integer
+                  kgy_upper_limit_threshold:
+                    type: integer
+                  grp_upper_limit:
+                    type: integer
+                  grp_upper_limit_threshold:
+                    type: integer
+                  usr_upper_limit:
+                    type: integer
+                  usr_upper_limit_threshold:
+                    type: integer
+                  enable:
+                    type: boolean
               examples:
                 example:
                   value:
@@ -1657,6 +1673,18 @@ paths:
                     グループ入力タイプ
                     0:不要、1:任意、2:必須
                   type: integer
+                kgy_upper_limit:
+                  type: integer
+                kgy_upper_limit_threshold:
+                  type: integer
+                grp_upper_limit:
+                  type: integer
+                grp_upper_limit_shold:
+                  type: integer
+                usr_upper_limit:
+                  type: integer
+                usr_upper_limit_threshold:
+                  type: integer
         description: ''
     parameters:
       - schema:
@@ -1714,6 +1742,18 @@ paths:
                         authenticated:
                           type: boolean
                           description: ユーザーが認証のプロセス終わったかどうか
+                        kgy_upper_limit_flg:
+                          type:
+                            - integer
+                            - 'null'
+                        grp_upper_limit_flg:
+                          type:
+                            - integer
+                            - 'null'
+                        usr_upper_limit_flg:
+                          type:
+                            - integer
+                            - 'null'
               examples:
                 example:
                   value:
@@ -2111,6 +2151,19 @@ paths:
                 notice_mail:
                   type: string
                   description: 通知先メールアドレス
+                status:
+                  type: string
+                contract_number:
+                  type: string
+              required:
+                - name
+                - name_kana
+                - zip
+                - address
+                - tel
+                - area_id
+                - login_id
+                - password
   '/management/hotels/{id}':
     get:
       summary: ホテル情報(管理者専用)
@@ -2128,8 +2181,8 @@ paths:
                     type: number
                     description: ホテルID
                   login_id:
-                    type: number
                     description: ホテルID
+                    type: string
                   name:
                     type: string
                     description: ホテル名
@@ -2317,6 +2370,16 @@ paths:
                 notice_mail:
                   type: string
                   description: 通知先メールアドレス
+                contract_number:
+                  type: string
+              required:
+                - name
+                - name_kana
+                - zip
+                - address
+                - tel
+                - area_id
+                - status
     parameters:
       - schema:
           type: string
@@ -2459,6 +2522,18 @@ paths:
                 group_type:
                   type: integer
                   description: クループ
+                kgy_upper_limit:
+                  type: integer
+                kgy_upper_limit_threshold:
+                  type: integer
+                grp_upper_limit:
+                  type: integer
+                grp_upper_limit_threshold:
+                  type: integer
+                usr_upper_limit:
+                  type: integer
+                usr_upper_limit_threshold:
+                  type: integer
               required:
                 - login_id
                 - password
@@ -2522,18 +2597,27 @@ paths:
                 zip:
                   type: string
                   description: 郵便番号
-                upper_price:
-                  type: integer
-                  description: 上限単価
                 all_day_upper_price:
                   type: integer
                   description: 終日上限単価
-                employee_id_type:
+                kgy_upper_limit:
                   type: integer
-                  description: 社員コード
-                group_type:
+                kgy_upper_limit_threshold:
                   type: integer
-                  description: クループ
+                grp_upper_limit:
+                  type: integer
+                grp_upper_limit_threshold:
+                  type: integer
+                usr_upper_limit:
+                  type: integer
+                usr_upper_limit_threshold:
+                  type: integer
+              required:
+                - name
+                - name_kana
+                - address
+                - tel
+                - zip
     parameters:
       - schema:
           type: string
@@ -2586,9 +2670,6 @@ paths:
                   zip:
                     type: string
                     description: 郵便番号
-                  upper_price:
-                    type: integer
-                    description: 上限単価
                   all_day_upper_price:
                     type: integer
                     description: 終日上限単価
@@ -2598,6 +2679,18 @@ paths:
                   group_type:
                     type: integer
                     description: クループ
+                  kgy_upper_limit:
+                    type: integer
+                  kgy_upper_limit_threshold:
+                    type: integer
+                  grp_upper_limit:
+                    type: integer
+                  grp_upper_limit_threshold:
+                    type: integer
+                  usr_upper_limit:
+                    type: integer
+                  usr_upper_limit_thresold:
+                    type: integer
               examples:
                 example:
                   value:
@@ -2941,6 +3034,308 @@ paths:
           description: 年月
           required: true
       description: 実績CSVダウンロード(企業)API
+  '/companies/{id}/informations':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 企業ID
+    get:
+      summary: インフォメーション
+      tags:
+        - インフォメーション
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+      operationId: get-companies-id-informations
+    post:
+      summary: インフォメーション
+      operationId: post-companies-id-informations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                - content
+      tags:
+        - インフォメーション
+  '/companies/{id}/refresh_register_url':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 企業ID
+    post:
+      summary: ''
+      operationId: post-companies-id-refresh_register_url
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hash:
+                    type: string
+      description: ''
+      tags:
+        - 企業
+  '/companies/{id}/enable_register_url':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: 企業ID
+    post:
+      summary: ''
+      operationId: post-companies-id-enable_register_url
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enable:
+                  type: boolean
+              required:
+                - enable
+      tags:
+        - 企業
+  '/facilities/open_fays/{date}':
+    parameters:
+      - schema:
+          type: string
+        name: date
+        in: path
+        required: true
+        description: 年月
+    get:
+      summary: 施設開放日一覧
+      tags:
+        - 施設
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  date:
+                    type: string
+                  facilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        facility_id:
+                          type: integer
+                        facility_name:
+                          type: string
+                        open_days:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              day:
+                                type: string
+                              is_open:
+                                type: boolean
+      operationId: get-facilities-open_fays-date
+  '/hotels/{id}/history_facilities':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ホテルID
+    get:
+      summary: 施設履歴一覧
+      tags:
+        - 実績
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  facilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        capacity:
+                          type: integer
+                        price:
+                          type: integer
+                        all_day_price:
+                          type: integer
+                        type:
+                          type: integer
+                        start_time:
+                          type: string
+                        end_time:
+                          type: string
+                        available_day_of_week:
+                          type: object
+                          properties:
+                            monday:
+                              type: boolean
+                            tuesday:
+                              type: boolean
+                            wednesday:
+                              type: boolean
+                            thursday:
+                              type: boolean
+                            friday:
+                              type: boolean
+                            saturday:
+                              type: boolean
+                            sunday:
+                              type: boolean
+                        open_flg:
+                          type: boolean
+                        status:
+                          type: integer
+                        order_number:
+                          type: integer
+      operationId: get-hotels-id-history_facilities
+  '/hotels/{id}/histories/csv':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ホテルID
+    get:
+      summary: ホテル履歴CSV
+      tags:
+        - 実績
+      responses:
+        '200':
+          description: OK
+      operationId: get-hotels-id-histories-csv
+      description: ホテル履歴CSV
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: date
+          description: 年月
+          required: true
+  /informations:
+    get:
+      summary: インフォメーション
+      tags:
+        - インフォメーション
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+      operationId: get-informations
+      description: インフォメーション
+  /management/information:
+    get:
+      summary: インフォメーション
+      tags:
+        - インフォメーション
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+      operationId: get-management-information
+    post:
+      summary: インフォメーション登録
+      operationId: post-management-information
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                - content
+        description: ''
+      tags:
+        - インフォメーション
 tags:
   - name: 共通
     description: 共通処理

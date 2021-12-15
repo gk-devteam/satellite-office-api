@@ -24,21 +24,24 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                type: array
                 description: エリア一覧
-                properties:
-                  areas:
-                    type: array
-                    description: エリアリスト
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: string
-                          description: エリアID
-                        name:
-                          type: string
-                          description: エリア名
+                items:
+                  type: object
+                  properties:
+                    pref_id:
+                      type: integer
+                    pref_name:
+                      type: string
+                    areas:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          area_id:
+                            type: string
+                          area_name:
+                            type: string
               examples:
                 example:
                   value:
@@ -108,6 +111,10 @@ paths:
                   employee_id:
                     type: string
                     description: 社員ID
+                  company_hash:
+                    type: string
+                  email_untrasted:
+                    type: boolean
                 required:
                   - id
                   - company_id
@@ -255,14 +262,9 @@ paths:
                   description: 社員ID
               required:
                 - user_id
-                - first_name
-                - last_name
-                - first_name_kana
-                - last_name_kana
+                - name
+                - name_kana
                 - login_id
-                - email
-                - group_name
-                - employee_id
   /users/access_token:
     get:
       summary: ユーザー認証トークン更新
@@ -418,6 +420,11 @@ paths:
                     description: |-
                       チェックイン状態
                       チェックインしていなければ、項目自体返さない
+                    required:
+                      - hotel_name
+                      - hotel_id
+                      - facility_name
+                      - facility_id
                     properties:
                       hotel_name:
                         type: string
@@ -431,11 +438,12 @@ paths:
                       facility_id:
                         type: integer
                         description: 施設ID
-                    required:
-                      - hotel_name
-                      - hotel_id
-                      - facility_name
-                      - facility_id
+                  kgy_upper_limit_flg:
+                    type: integer
+                  grp_upper_limit_flg:
+                    type: integer
+                  usr_upper_limit_flg:
+                    type: integer
                 required:
                   - id
                   - name
@@ -503,9 +511,10 @@ paths:
                       初回ログインユーザーかどうか
                       初回だった場合はパスワード変更させる
                     example: true
+                  user_name:
+                    type: string
                 required:
                   - user_id
-                  - user_name
                   - token
                   - is_unauth_user
               examples:
@@ -654,20 +663,14 @@ paths:
                   result_count:
                     type: number
                     description: 結果件数
-                  search_condition:
-                    type: string
-                    description: 検索条件
-                  date:
-                    type: string
-                    description: 利用日
                   results:
                     type: array
                     items:
                       type: object
                       properties:
                         id:
-                          type: string
                           description: ホテルID
+                          type: integer
                         name:
                           type: string
                           description: ホテル名
@@ -689,47 +692,14 @@ paths:
                         google_map_url:
                           type: string
                           description: GoogleマップURL
-                        facilities:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              id:
-                                type: number
-                                description: 施設ID
-                              name:
-                                type: string
-                                description: 施設名
-                              price:
-                                type: string
-                                description: 利用単価
-                              capacity:
-                                type: number
-                                description: 座席数
-                              availability_count:
-                                type: number
-                                description: 残席数
-                              sold_out:
-                                type: boolean
-                                description: 満席かどうか
-                              start_time:
-                                type: string
-                                description: 予約開始時間
-                              end_time:
-                                type: string
-                                description: 予約終了時間
-                              image_url:
-                                type: string
-                                description: 画像URL
-                              type:
-                                type: integer
-                                description: 部屋タイプ：0=オープンスペース、1=個室
-                        station:
+                        zip:
                           type: string
-                          description: 最寄り駅
-                        image_url:
+                          description: 郵便番号
+                        available_count:
+                          description: ''
+                          type: integer
+                        base_name:
                           type: string
-                          description: ホテル画像URL
                       required:
                         - id
                         - name
@@ -737,11 +707,8 @@ paths:
                         - tel
                         - access
                         - parking
-                        - facilities
                 required:
                   - result_count
-                  - search_condition
-                  - date
               examples:
                 example:
                   value:
@@ -830,8 +797,8 @@ paths:
                 type: object
                 properties:
                   id:
-                    type: string
                     description: ホテルID
+                    type: integer
                   name:
                     type: string
                     description: ホテル名
@@ -853,6 +820,10 @@ paths:
                   google_map_url:
                     type: string
                     description: GoogleマップURL
+                  zip:
+                    type: string
+                  business_hour:
+                    type: string
               examples:
                 example:
                   value:
@@ -911,17 +882,47 @@ paths:
                         name:
                           type: string
                           description: 施設名
-                        location:
-                          type: string
-                          description: 館内場所
                         type:
                           type: integer
                           description: 部屋タイプ：0=オープンスペース、1=個室
+                        start_time:
+                          type: string
+                        end_time:
+                          type: string
+                        capacity:
+                          type: integer
+                        price:
+                          type: integer
+                        equipment:
+                          type: string
+                        equipment_tags:
+                          type: string
+                        image_url:
+                          type: string
+                        order_number:
+                          type: integer
                       required:
                         - id
                         - name
-                        - location
                         - type
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  zip:
+                    type: string
+                  address:
+                    type: string
+                  tel:
+                    type: string
+                  url:
+                    type: string
+                  access:
+                    type: string
+                  parking:
+                    type: string
+                  base_name:
+                    type: string
                 required:
                   - facilities
               examples:
@@ -956,6 +957,22 @@ paths:
           in: query
           name: date
           description: 日付(yyyymmdd)
+        - schema:
+            type: string
+          in: query
+          name: start_time
+        - schema:
+            type: string
+          in: query
+          name: end_time
+        - schema:
+            type: string
+          in: query
+          name: keyword
+        - schema:
+            type: string
+          in: query
+          name: type
       description: 施設一覧API
     parameters:
       - schema:
@@ -964,7 +981,7 @@ paths:
         in: path
         required: true
         description: ホテルID
-  '/facility/{id}':
+  '/facilities/{id}':
     parameters:
       - schema:
           type: string
@@ -1094,6 +1111,64 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
+        '':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  price:
+                    type: integer
+                  all_day_price:
+                    type: integer
+                  type:
+                    type: integer
+                  capacity:
+                    type: integer
+                  equipment:
+                    type: string
+                  equipment_tags:
+                    type: string
+                  image_url:
+                    type: string
+                  start_time:
+                    type: string
+                  end_time:
+                    type: string
+                  hotel:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      base_name:
+                        type: string
+                      address:
+                        type: string
+                      tel:
+                        type: string
+                      access:
+                        type: string
+                      parking:
+                        type: string
+                      url:
+                        type: string
+                      google_map_url:
+                        type: string
+                  time_table:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        time:
+                          type: string
+                        availability_count:
+                          type: integer
+                        status:
+                          type: integer
       operationId: get-facility-availabilities-id
       description: 施設利用可能情報API
       security:
@@ -1270,6 +1345,13 @@ paths:
                   type: string
                 end_time:
                   type: string
+                tel:
+                  type: string
+              required:
+                - facility_id
+                - date
+                - start_time
+                - end_time
   /reservations/extend:
     post:
       summary: 延長登録
@@ -1283,8 +1365,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  reserve_id:
-                    type: number
+                  success:
+                    type: boolean
               examples:
                 example:
                   value:
@@ -1315,6 +1397,9 @@ paths:
                   type: number
                 end_time:
                   type: string
+              required:
+                - reserve_id
+                - end_time
   /reservations/check_in:
     post:
       summary: チェックイン
@@ -1481,8 +1566,8 @@ paths:
                           type: string
                           description: 施設名
                         price:
-                          type: string
                           description: 単価
+                          type: integer
                         start_time:
                           type: string
                           description: 予約開始時間
@@ -1495,20 +1580,21 @@ paths:
                         check_in_time:
                           type: string
                           description: チェックイン時間
+                        is_cancel:
+                          type: boolean
+                        check_status:
+                          type: integer
+                        sik_gaku:
+                          type: integer
                       required:
                         - id
                         - date
+                        - create_date
                         - hotel
                         - name
                         - price
                         - start_time
                         - end_time
-                        - is_extend
-                        - is_cancel
-                        - check_status
-                        - create_date
-                required:
-                  - histories
               examples:
                 example:
                   value:
@@ -1546,14 +1632,14 @@ paths:
             3: １年
           name: range
       description: 実績一覧API
-  '/company/{companyID}':
+  '/company/{companyHash}':
     parameters:
       - schema:
-          type: integer
-        name: companyID
+          type: string
+        name: companyHash
         in: path
         required: true
-        description: 企業ID
+        description: ハッシュ
     get:
       summary: 企業情報取得
       tags:
@@ -1583,7 +1669,59 @@ paths:
                     type: integer
                   group_flag:
                     type: integer
+        '':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  domain:
+                    type: string
+                  employee_flag:
+                    type: integer
+                  group_flag:
+                    type: integer
+                  enable:
+                    type: boolean
+                  is_exist:
+                    type: boolean
       description: 企業情報取得API
+  /company/informations:
+    get:
+      summary: インフォメーション
+      tags:
+        - インフォメーション
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+      operationId: get-company-informations
+  /informations:
+    get:
+      summary: インフォメーション
+      tags:
+        - インフォメーション
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+      operationId: get-informations
+      security:
+        - bearerAuth: []
 components:
   schemas: {}
   securitySchemes:
