@@ -69,9 +69,7 @@ paths:
                     description: ユーザー管理ID（UIには未使用かも...）
                     example: 100
                   user_id:
-                    type:
-                      - number
-                      - 'null'
+                    type: number
                     description: ログインしたユーザーのID（ホテルの場合ホテルIDは、企業の場合企業ID、管理者の場合NULL）
                     example: 100
                 required:
@@ -93,8 +91,6 @@ paths:
     get:
       summary: 認証トークン更新
       operationId: post-refresh-token
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -124,6 +120,8 @@ paths:
       description: トークンの有効期限が切れたらこのAPIをコールする
       tags:
         - 認証
+      security:
+        - bearerAuth: []
   /change_password:
     post:
       summary: パスワード変更
@@ -308,12 +306,16 @@ paths:
                   value:
                     id: 1
                     name: ホテルA
-                    name_kane: ホテルエー
+                    name_kana: ホテルエー
+                    base_name: ホテルエー
+                    base_kana: ホテルエー
                     address: 東京都品川区
                     tel: 03-0000-1111
+                    email: ''
+                    pref_id: ''
                     contract_number: JS-H-022790086075
                     url: 'https://xxx.com'
-                    area_id: 100
+                    area_id: '100'
                     station: 品川駅
                     access: ＪＲ線品川駅（高輪口）より徒歩２分
                     parking: '有り　1,500円（税込み）　先着順'
@@ -524,6 +526,7 @@ paths:
                           saturday: false
                           sunday: false
                         non_open: false
+                        open_flg: 1
                         status: 1
                         order_number: 1
       operationId: get-hotel-facilities
@@ -983,7 +986,7 @@ paths:
               examples:
                 example:
                   value:
-                    id: 1
+                    id: '1'
                     name: 会議室A
                     type: 1
                     location: 本館２階　フロント横
@@ -1006,6 +1009,7 @@ paths:
                     expiration_in: 2020/01/01
                     expiration_out: 2020/05/20
                     reservation_start_date: 10
+                    open_flg: 1
                     equipment: インターネット接続無料（有線・無線） / コンセント / プリンター / ロッカー / 自動販売機 / 喫煙所
       operationId: get-hotel-facilities-id
       description: |-
@@ -1249,9 +1253,9 @@ paths:
                     name: 会議室A
                     capacity: 20
                     availability_count: 10
-                    date: 201912
+                    date: '201912'
                     reservation_days:
-                      - date: 20191201
+                      - date: '20191201'
                         reservations:
                           - hour: '9:00'
                             hours:
@@ -1357,7 +1361,7 @@ paths:
                     availability_count: 10
                     date: 201912
                     reservations:
-                      - date: 20191201
+                      - date: '20191201'
                         reservations:
                           - id: 1
                             date: 20191201
@@ -1599,7 +1603,7 @@ paths:
                     name_kana: ホテルエー
                     address: 愛知県名古屋市中区
                     tel: 052-111-1111
-                    contract_number: 123456
+                    contract_number: '123456'
                     status: 1
                     is_employee_id: true
                     is_set_group: true
@@ -1743,17 +1747,11 @@ paths:
                           type: boolean
                           description: ユーザーが認証のプロセス終わったかどうか
                         kgy_upper_limit_flg:
-                          type:
-                            - integer
-                            - 'null'
+                          type: integer
                         grp_upper_limit_flg:
-                          type:
-                            - integer
-                            - 'null'
+                          type: integer
                         usr_upper_limit_flg:
-                          type:
-                            - integer
-                            - 'null'
+                          type: integer
               examples:
                 example:
                   value:
@@ -1761,7 +1759,7 @@ paths:
                       - id: 1
                         name: 鈴木一郎
                         name_kana: スズキイチロウ
-                        employee_id: 12345
+                        employee_id: '12345'
                         group_name: グループA
                         status: 1
                         login_id: test@sample.com
@@ -1952,7 +1950,7 @@ paths:
                     mail_address: test@sample.com
                     status: 1
                     group_name: グループA
-                    employee_id: 12345
+                    employee_id: '12345'
                     name_kana: スズキイチロウ
                     name: 鈴木一郎
                     id: 1
@@ -2866,11 +2864,6 @@ paths:
           name: date
           description: 年月
           required: true
-  components: null
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: Bearer
   '/companies/{id}/users/csv':
     parameters:
       - schema:
@@ -3127,14 +3120,6 @@ paths:
                 properties:
                   success:
                     type: boolean
-        '':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
       requestBody:
         content:
           application/json:
@@ -3353,3 +3338,9 @@ tags:
     description: ユーザーAPI
   - name: 実績
     description: 実績API
+components:
+  securitySchemes:
+    bearerAuth:
+      name: API Key
+      type: apiKey
+      in: header
