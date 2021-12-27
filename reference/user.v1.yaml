@@ -45,7 +45,7 @@ paths:
               examples:
                 example:
                   value:
-                    areas:
+                    - areas:
                       - id: 1
                         name: 品川
                       - id: 2
@@ -448,7 +448,6 @@ paths:
                   - id
                   - name
                   - company_name
-                  - checked_in
               examples:
                 example:
                   value:
@@ -936,6 +935,7 @@ paths:
                         availability_count: 10
                         sold_out: false
                         image_url: 'http://placehold.it/300x300'
+                        type: 1
         '400':
           description: Bad Request
           content:
@@ -1068,6 +1068,7 @@ paths:
                     capacity: 20
                     equipment: 'インターネット接続無料（有線・無線） / コンセント / プリンター '
                     image_url: 'http://placehold.it/300x300'
+                    type: 1
                     hotel:
                       id: 100
                       name: ホテルA
@@ -1111,64 +1112,6 @@ paths:
             application/json:
               schema:
                 $ref: ../models/error.v1.yaml
-        '':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                  price:
-                    type: integer
-                  all_day_price:
-                    type: integer
-                  type:
-                    type: integer
-                  capacity:
-                    type: integer
-                  equipment:
-                    type: string
-                  equipment_tags:
-                    type: string
-                  image_url:
-                    type: string
-                  start_time:
-                    type: string
-                  end_time:
-                    type: string
-                  hotel:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      name:
-                        type: string
-                      base_name:
-                        type: string
-                      address:
-                        type: string
-                      tel:
-                        type: string
-                      access:
-                        type: string
-                      parking:
-                        type: string
-                      url:
-                        type: string
-                      google_map_url:
-                        type: string
-                  time_table:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        time:
-                          type: string
-                        availability_count:
-                          type: integer
-                        status:
-                          type: integer
       operationId: get-facility-availabilities-id
       description: 施設利用可能情報API
       security:
@@ -1259,7 +1202,7 @@ paths:
                   value:
                     reservations:
                       - id: 1
-                        date: 20191212
+                        date: '20191212'
                         hotel:
                           id: 1
                           name: ホテルA
@@ -1272,13 +1215,14 @@ paths:
                         facility:
                           id: 11
                           name: 会議室A
-                          price: 300
+                          price: '300'
                           type: 1
                         start_time: '1000'
                         end_time: '1300'
                         is_cancel: false
                         is_check_in: true
                         check_status: 1
+                        create_date: ''
         '400':
           description: Bad Request
           content:
@@ -1669,24 +1613,6 @@ paths:
                     type: integer
                   group_flag:
                     type: integer
-        '':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                  domain:
-                    type: string
-                  employee_flag:
-                    type: integer
-                  group_flag:
-                    type: integer
-                  enable:
-                    type: boolean
-                  is_exist:
-                    type: boolean
       description: 企業情報取得API
   /company/informations:
     get:
