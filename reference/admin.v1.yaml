@@ -526,9 +526,10 @@ paths:
                           saturday: false
                           sunday: false
                         non_open: false
-                        open_flg: 1
+                        open_flg: true
                         status: 1
                         order_number: 1
+                        type: 1
       operationId: get-hotel-facilities
       security:
         - bearerAuth: []
@@ -630,10 +631,6 @@ paths:
                 required:
                   - in_use
                   - capacity
-              examples:
-                example:
-                  value:
-                    id: 1
       operationId: get-hotel-status
       description: |
         ホテル状況取得API
@@ -1009,7 +1006,7 @@ paths:
                     expiration_in: 2020/01/01
                     expiration_out: 2020/05/20
                     reservation_start_date: 10
-                    open_flg: 1
+                    open_flg: true
                     equipment: インターネット接続無料（有線・無線） / コンセント / プリンター / ロッカー / 自動販売機 / 喫煙所
       operationId: get-hotel-facilities-id
       description: |-
@@ -1077,16 +1074,21 @@ paths:
                 example:
                   value:
                     open_days:
-                      - date: 20191212
+                      - date: '20191212'
                         price: 200
-                      - date: 20191214
+                        editable: true
+                      - date: '20191214'
                         price: 250
-                      - date: 20191216
+                        editable: true
+                      - date: '20191216'
                         price: 300
-                      - date: 20191218
+                        editable: true
+                      - date: '20191218'
                         price: 350
-                      - date: 20191220
+                        editable: true
+                      - date: '20191220'
                         price: 400
+                        editable: true
       operationId: get-hotel-facilities-id-open_days
       description: |-
         開放日一覧取得API
